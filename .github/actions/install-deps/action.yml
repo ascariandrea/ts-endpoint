@@ -6,6 +6,8 @@ inputs:
   hash:
     required: true
     description: "The hash obtain from hashFiles('**/pnpm-lock.yaml')"
+  registry-url:
+    description: "The NPM registry URL to use"
 
 runs:
   using: "composite"
@@ -19,6 +21,7 @@ runs:
       name: Install pnpm
       with:
         run_install: false
+        registry-url: ${{ inputs.registry-url || 'https://npm.pkg.github.com' }}
 
     - name: Get pnpm store directory
       shell: bash
