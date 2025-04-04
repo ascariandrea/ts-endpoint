@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/ascariandrea/ts-endpoint/compare/ts-endpoint-browser@2.0.0...ts-endpoint-browser@2.0.1) (2025-04-04)
+
+
+### Miscellaneous Chores
+
+* bump typescript to 5.8.2 ([#171](https://github.com/ascariandrea/ts-endpoint/issues/171)) ([52fd3ea](https://github.com/ascariandrea/ts-endpoint/commit/52fd3ea54a8c3c963e985ddafe47b6dbebd612fb))
+* defined proper tsconfig.build.json files ([#174](https://github.com/ascariandrea/ts-endpoint/issues/174)) ([1d641bd](https://github.com/ascariandrea/ts-endpoint/commit/1d641bd0fc931a6f1ac89b5f768aae19d553752f))
+* packages correct main file export ([#176](https://github.com/ascariandrea/ts-endpoint/issues/176)) ([e5521c7](https://github.com/ascariandrea/ts-endpoint/commit/e5521c7470d76da5df0991d591d5ecdb09713feb))
+* **release:** publish ([1806e10](https://github.com/ascariandrea/ts-endpoint/commit/1806e105a259f24e529e3541e61eb7b0a86f5afa))
+* replaced jest with vitest ([#173](https://github.com/ascariandrea/ts-endpoint/issues/173)) ([8a6a7ca](https://github.com/ascariandrea/ts-endpoint/commit/8a6a7ca08427035b2f02e4bce38d0892cf3e0f1d))
+* replaced yarn with pnpm ([#168](https://github.com/ascariandrea/ts-endpoint/issues/168)) ([4d66064](https://github.com/ascariandrea/ts-endpoint/commit/4d66064a3bea8cf040fbdeeb62efd064e6e1cdf1))
+* setup release-please ([ff87bc4](https://github.com/ascariandrea/ts-endpoint/commit/ff87bc4490a6c6133f261714c9e8e923f3d05701))
+* upgrade yarn@^3.5.0 ([#134](https://github.com/ascariandrea/ts-endpoint/issues/134)) ([6a11038](https://github.com/ascariandrea/ts-endpoint/commit/6a11038846fa92bb3b7a81dd7c9abfe98a8bc6f8))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * ts-endpoint bumped to 2.0.1
+    * ts-io-error bumped to 2.0.1
+
 ## [2.0.1-alpha.0](https://github.com/fes300/ts-endpoint/tree/master/packages/ts-endpoint-browser/compare/ts-endpoint-browser@2.0.0...ts-endpoint-browser@2.0.1-alpha.0) (2023-01-26)
 
 **Note:** Version bump only for package ts-endpoint-browser
