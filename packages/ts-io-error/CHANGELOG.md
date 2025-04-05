@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.2](https://github.com/ascariandrea/ts-endpoint/compare/ts-io-error@2.0.1...ts-io-error@2.0.2) (2025-04-05)
+
+
+### Miscellaneous Chores
+
+* bump node to 18 ([#170](https://github.com/ascariandrea/ts-endpoint/issues/170)) ([128cdc5](https://github.com/ascariandrea/ts-endpoint/commit/128cdc5017ba5b7ac348c625ee2c04637945e31d))
+* bump node to 20 ([#175](https://github.com/ascariandrea/ts-endpoint/issues/175)) ([56137f4](https://github.com/ascariandrea/ts-endpoint/commit/56137f419ea70caaee13dc20b572d279465733fa))
+* defined proper tsconfig.build.json files ([#174](https://github.com/ascariandrea/ts-endpoint/issues/174)) ([1d641bd](https://github.com/ascariandrea/ts-endpoint/commit/1d641bd0fc931a6f1ac89b5f768aae19d553752f))
+* keep only js and d.ts for npm published files ([be9618c](https://github.com/ascariandrea/ts-endpoint/commit/be9618c2b6f042a605ad22741c6a617bf1edd8ca))
+* packages correct main file export ([#176](https://github.com/ascariandrea/ts-endpoint/issues/176)) ([e5521c7](https://github.com/ascariandrea/ts-endpoint/commit/e5521c7470d76da5df0991d591d5ecdb09713feb))
+* release 2.0.1 ([#4](https://github.com/ascariandrea/ts-endpoint/issues/4)) ([746c05f](https://github.com/ascariandrea/ts-endpoint/commit/746c05f950575d6e7e3d774b1027de7d0a1eca6c))
+* replaced jest with vitest ([#173](https://github.com/ascariandrea/ts-endpoint/issues/173)) ([8a6a7ca](https://github.com/ascariandrea/ts-endpoint/commit/8a6a7ca08427035b2f02e4bce38d0892cf3e0f1d))
+* replaced yarn with pnpm ([#168](https://github.com/ascariandrea/ts-endpoint/issues/168)) ([4d66064](https://github.com/ascariandrea/ts-endpoint/commit/4d66064a3bea8cf040fbdeeb62efd064e6e1cdf1))
+* setup release-please ([f36e9b9](https://github.com/ascariandrea/ts-endpoint/commit/f36e9b94233465ee48365f0fab8c5b90d19dfeea))
+* upgrade docusaurus@^2 ([#146](https://github.com/ascariandrea/ts-endpoint/issues/146)) ([2d8a126](https://github.com/ascariandrea/ts-endpoint/commit/2d8a126749daab59234ea2fc3fd54f91c1e3a48e))
+
 ## [2.0.1](https://github.com/ascariandrea/ts-endpoint/compare/ts-io-error@2.0.0...ts-io-error@2.0.1) (2025-04-05)
 
 
