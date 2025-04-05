@@ -4,7 +4,7 @@
 
 GITHUB_TOKEN=$(cat ./gh-token.txt)
 
-export GITHUB_TOKEN
+echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
 
 pnpm publish -r \
   --no-git-checks \
