@@ -21,8 +21,6 @@
     "build:packages": "pnpm --filter 'ts-*' run build",
     "release": "pnpm publish -r",
     "release:dry-run": "pnpm release --dry-run",
-    "release:alpha": "pnpm publish -r --tag alpha",
-    "postversion": "pnpm -r run postversion",
     "test:spec": "vitest spec",
     "test:typecheck": "vitest --typecheck.enabled=true",
     "test": "vitest"
