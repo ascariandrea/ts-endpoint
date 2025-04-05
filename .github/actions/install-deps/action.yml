@@ -6,6 +6,10 @@ inputs:
   hash:
     required: true
     description: "The hash obtain from hashFiles('**/pnpm-lock.yaml')"
+  registry-url:
+    description: "The NPM registry URL to use"
+  github-token:
+    description: "GitHub OAuth Token"
 
 runs:
   using: "composite"
@@ -14,6 +18,9 @@ runs:
     - uses: actions/setup-node@v4
       with:
         node-version: 20
+        registry-url: "https://npm.pkg.github.com"
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.github-token }}
 
     - uses: pnpm/action-setup@v4
       name: Install pnpm

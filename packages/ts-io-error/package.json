@@ -13,7 +13,8 @@
     "access": "public"
   },
   "files": [
-    "lib"
+    "lib/**/*.js",
+    "lib/**/*.d.ts"
   ],
   "scripts": {
     "clean": "rm -rf lib/*",
@@ -22,7 +23,7 @@
     "type-test": "vitest --typecheck.enabled=true",
     "runtime-test": "vitest",
     "test": "pnpm runtime-test --passWithNoTests && pnpm type-test --passWithNoTests",
-    "prepublish": "pnpm build"
+    "prepublish": "pnpm clean && pnpm build"
   },
   "devDependencies": {
     "@types/node": "^20",

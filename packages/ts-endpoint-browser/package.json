@@ -13,7 +13,8 @@
     "access": "public"
   },
   "files": [
-    "lib"
+    "lib/**/*.js",
+    "lib/**/*.d.ts"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
