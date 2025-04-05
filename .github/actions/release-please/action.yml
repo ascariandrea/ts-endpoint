@@ -41,8 +41,6 @@ runs:
     - name: "Run release-please"
       uses: googleapis/release-please-action@v4
       id: release
-      with:
-        path: ""
 
     - name: "Generate output"
       id: create_output

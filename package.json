@@ -3,7 +3,8 @@
   "version": "2.0.0",
   "private": true,
   "repository": {
-    "url": "https://github.com/fes300/ts-endpoint"
+    "type": "git",
+    "url": "https://github.com/ascariandrea/ts-endpoint"
   },
   "workspaces": [
     "packages/*",
@@ -19,7 +20,7 @@
     "typecheck": "pnpm -r run typecheck",
     "build": "pnpm -r run build",
     "build:packages": "pnpm --filter 'ts-*' run build",
-    "release": "pnpm publish -r --access restricted",
+    "release": "pnpm publish -r --no-git-checks",
     "release:dry-run": "pnpm release --dry-run",
     "test:spec": "vitest spec",
     "test:typecheck": "vitest --typecheck.enabled=true",
