@@ -4,5 +4,4 @@
 
 pnpm publish -r \
   --no-git-checks \
-  --tag alpha \
   --dry-run

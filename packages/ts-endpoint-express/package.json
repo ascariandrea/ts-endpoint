@@ -13,8 +13,8 @@
     "access": "public"
   },
   "files": [
-    "lib",
-    "README.md"
+    "lib/**/*.js",
+    "lib/**/*.d.ts"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
