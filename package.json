@@ -19,7 +19,7 @@
     "typecheck": "pnpm -r run typecheck",
     "build": "pnpm -r run build",
     "build:packages": "pnpm --filter 'ts-*' run build",
-    "release": "pnpm publish -r",
+    "release": "pnpm publish -r --access restricted",
     "release:dry-run": "pnpm release --dry-run",
     "test:spec": "vitest spec",
     "test:typecheck": "vitest --typecheck.enabled=true",

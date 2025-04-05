@@ -13,7 +13,7 @@ inputs:
     description: "Pre release version"
   node-version:
     description: "The version of node to use"
-    default: "18"
+    default: "20"
   path:
     description: "Create a release from a path other than the repository's root"
     default: "."
@@ -66,4 +66,4 @@ runs:
       shell: bash
       run: pnpm release
       env:
-        NPM_TOKEN: ${{ inputs.npm-registry-token }}
+        NODE_AUTH_TOKEN: ${{ inputs.github-token }}
