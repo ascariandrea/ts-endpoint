@@ -9,9 +9,6 @@ inputs:
   manifest:
     description: "The manifest file to use"
     default: "release-please-config.json"
-  npm-registry-token:
-    description: ""
-    required: false
   github-token:
     description: "GitHub OAuth Token"
     required: false
@@ -61,6 +58,16 @@ runs:
       run: |
         echo "releases_created=$(echo ${{ steps.release.outputs.releases_created }})" >> $GITHUB_OUTPUT
         echo "pr=$(echo ${{ steps.release.outputs.pr }})" >> $GITHUB_OUTPUT
+
+    - name: "Setup npm registry with github token"
+      uses: actions/setup-node@v4
+      if: ${{ steps.release.outputs.releases_created == 'true' }}
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: pnpm
+        registry-url: "https://npm.pkg.github.com"
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.github-token }}
 
     - name: "Publish npm packages"
       if: ${{ steps.release.outputs.releases_created == 'true' }}

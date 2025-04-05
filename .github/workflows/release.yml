@@ -17,7 +17,6 @@ jobs:
       - uses: ./.github/actions/release-please
         id: release
         with:
-          npm-registry-token: ${{ secrets.GITHUB_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          node-version: 22
+          node-version: 20
           path: .
