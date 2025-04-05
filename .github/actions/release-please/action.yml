@@ -6,9 +6,6 @@ inputs:
   build-path:
     description: "Build a release from a path other than the repository's root"
     default: "."
-  manifest:
-    description: "The manifest file to use"
-    default: "release-please-config.json"
   github-token:
     description: "GitHub OAuth Token"
     required: false
@@ -46,7 +43,7 @@ runs:
       id: release
       with:
         release-type: 'node'
-        manifest-file: ${{ inputs.manifest }}
+        path: ""
 
     - name: "Generate output"
       id: create_output
