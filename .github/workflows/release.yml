@@ -9,10 +9,15 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: "Checkout ${{ github.repository }}"
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
       - uses: ./.github/actions/release-please
         id: release
         with:
-          npm-registry-token: ${{ secrets.NPM_REGISTRY_TOKEN }}
+          npm-registry-token: ${{ secrets.GITHUB_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           node-version: 22
           path: .
