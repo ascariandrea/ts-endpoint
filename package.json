@@ -39,5 +39,8 @@
   "packageManager": "pnpm@10.6.4",
   "engines": {
     "node": ">=20"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }
