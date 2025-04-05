@@ -46,11 +46,7 @@ runs:
       id: release
       with:
         release-type: 'node'
-        path: ./
-        skip-github-release: true
-        target-branch: ${{ github.ref_name }}
-        prerelease: ${{ inputs.prerelease }}
-        manifest: ${{ inputs.manifest }}
+        manifest-file: ${{ inputs.manifest }}
 
     - name: "Generate output"
       id: create_output
