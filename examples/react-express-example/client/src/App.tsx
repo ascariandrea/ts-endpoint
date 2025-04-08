@@ -1,9 +1,9 @@
-import * as React from "react";
-import { apiClient } from "./api";
+import { InferFetchResult } from "@ts-endpoint/http-client";
 import * as E from "fp-ts/Either";
-import { InferFetchResult } from "ts-endpoint-browser";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/pipeable";
+import * as React from "react";
+import { apiClient } from "./api";
 
 type APIResult = InferFetchResult<typeof apiClient.getUser>;
 
@@ -68,7 +68,6 @@ const App: React.FC = () => {
                     apiClient
                       .getUser({ Params: { id: ID } })()
                       .then((response) => {
-                        console.log(111, response);
 
                         setResponse(O.some(response));
                         setLoading(false);

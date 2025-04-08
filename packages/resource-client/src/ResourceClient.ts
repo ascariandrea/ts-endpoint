@@ -78,7 +78,6 @@ export const toEndpointRequest =
 
       return pipe(
         liftFetch<serializedType<E['Output']>, runtimeType<E['Output']>>(() => {
-          console.log(b);
           return client.request<
             TypeOfEndpointInstanceInput<E>,
             AxiosResponse<serializedType<E['Output']>>

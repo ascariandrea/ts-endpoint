@@ -11,11 +11,10 @@
     "website"
   ],
   "scripts": {
-    "ts-endpoint": "pnpm --filter ts-endpoint",
-    "ts-io-error": "pnpm --filter ts-io-error",
-    "ts-endpoint-browser": "pnpm --filter ts-endpoint-browser",
+    "core": "pnpm --filter @ts-endpoint/core",
+    "http-client": "pnpm --filter @ts-endpoint/http-client",
     "express": "pnpm --filter @ts-endpoint/express",
-    "ts-endpoint-react-admin": "pnpm --filter ts-endpoint-react-admin",
+    "react-admin": "pnpm --filter @ts-endpoint/react-admin",
     "website": "pnpm --filter @ts-endpoint/docs",
     "prepare": "husky install",
     "typecheck": "pnpm -r run typecheck",

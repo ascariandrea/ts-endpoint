@@ -179,7 +179,7 @@ const restFromResourceEndpoints = <
             ...(p?.Headers ? { Headers: p.Headers } : {}),
             ...(p?.Body ? { Body: p.Body } : {}),
           };
-          // console.log("payload", payload);
+
           return pipe(fetch(payload));
         };
 
