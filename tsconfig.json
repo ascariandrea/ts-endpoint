@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "module": "es6",
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "declaration": true,
-    "target": "es6",
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -13,7 +14,6 @@
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
-    "moduleResolution": "Node",
     "typeRoots": ["node_modules/@types", "node_modules/vitest/globals"]
   },
   "exclude": ["node_modules", "**/.stories.tsx", "vitest.config.mjs", "vitest.workspace.mts"],

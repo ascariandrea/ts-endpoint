@@ -7,7 +7,7 @@ const config = defineConfig({
     coverage: {
       exclude: [
         ...coverageConfigDefaults.exclude,
-        "commitlint.config.js",
+        "commitlint.config.cjs",
         "**/lib/**",
         "**/coverage/**",
         "**/vite.*.{mjs,ts,mts}",

@@ -1,4 +1,5 @@
 import { Endpoint, IOError, type IOTSCodec } from '@ts-endpoint/core';
+import { decodeIOTS } from '@ts-endpoint/test';
 import * as express from 'express';
 import * as E from 'fp-ts/lib/Either.js';
 import { left, right } from 'fp-ts/lib/Either.js';
@@ -41,17 +42,10 @@ const postEndpointWithErrors = Endpoint({
 });
 
 const router = express.Router();
+
 const registerRouter = GetEndpointSubscriber({
   buildDecodeError: buildIOError,
-  decode: (schema) => (input: unknown) => {
-    return pipe(
-      input,
-      (schema as IOTSCodec<any, any>).decode,
-      E.mapLeft((errors) => {
-        return new IOError('error', { kind: 'DecodingError', errors });
-      })
-    );
-  },
+  decode: decodeIOTS,
 });
 const AddEndpoint = registerRouter(router);
 
@@ -154,10 +148,10 @@ test('Should work with Option kind', () => {
   const maybeRouter = express.Router();
   const registerMaybeRouter = GetEndpointSubscriber<'Option'>({
     buildDecodeError: buildMaybeError,
-    decode: (schema) => (input: unknown) => {
+    decode: (schema: IOTSCodec<any, any>) => (input: unknown) => {
       return pipe(
         input,
-        (schema as IOTSCodec<any, any>).decode,
+        schema.decode,
         E.mapLeft((errors) => {
           return O.some(new IOError('error', { kind: 'DecodingError', errors }));
         })

@@ -1,6 +1,6 @@
-import { Endpoint, IOError, type IOTSCodec } from '@ts-endpoint/core';
-import { mapLeft, right } from 'fp-ts/lib/Either.js';
-import { pipe } from 'fp-ts/lib/function.js';
+import { Endpoint } from '@ts-endpoint/core';
+import { decodeIOTS } from '@ts-endpoint/test';
+import { right } from 'fp-ts/lib/Either.js';
 import * as t from 'io-ts';
 import { assertType, describe, expectTypeOf, it } from 'vitest';
 import { type HTTPClientConfig } from '../config.js';
@@ -53,13 +53,7 @@ const endpoints = {
 
 const fetchClient = GetFetchHTTPClient(options, endpoints, {
   handleError: (err) => err,
-  decode: (schema) => (input) =>
-    pipe(
-      (schema as IOTSCodec<any, any>).decode(input),
-      mapLeft(
-        (e) => new IOError(e.map((v) => v.message).join(', '), { kind: 'DecodingError', errors: e })
-      )
-    ),
+  decode: decodeIOTS,
 });
 
 describe('FetchClient', () => {

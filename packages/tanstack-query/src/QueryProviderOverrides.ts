@@ -8,7 +8,7 @@ import {
   type MinimalEndpointInstance,
   type PartialSerializedType,
 } from '@ts-endpoint/core';
-import { type EndpointsRESTClient, type GetListFnParamsE } from '@ts-endpoint/react-admin';
+import { type GetListFnParamsE } from '@ts-endpoint/react-admin';
 import { type API } from '@ts-endpoint/resource-client';
 import * as Rec from 'fp-ts/lib/Record.js';
 import { type TaskEither } from 'fp-ts/lib/TaskEither.js';
@@ -23,7 +23,7 @@ export interface GetQueryOverride<P, Q = undefined> {
 }
 
 export type CustomQueryOverride<ES extends EndpointsMapType, P, Q, O> = (
-  q: EndpointsRESTClient<ES>['Endpoints']
+  q: API<ES>
 ) => (p: P, q: Q) => TaskEither<IOError, O>;
 
 export interface ResourceEndpointsQueriesOverride<ES extends EndpointsMapType, G, L, CC> {

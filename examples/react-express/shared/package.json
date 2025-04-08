@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "private": true,
   "author": "Federico Sordillo <federicosordillo@gmail.com>",
   "type": "module",
   "license": "MIT",

@@ -1,9 +1,11 @@
 import {
+  IOError,
   type Codec,
+  type DecodeCodecFn,
+  type EndpointDecodeFn,
+  type EndpointInstance,
   type EndpointOutputType,
   type EndpointsMapType,
-  IOError,
-  type EndpointInstance,
   type InferEndpointInstanceParams,
   type InferEndpointParams,
   type MinimalEndpoint,
@@ -82,6 +84,8 @@ const restFromResourceEndpoints = <
   >,
   decode: FromEndpointsOptions['decode']
 ): ResourceEndpointREST<G, L, C, E, D, CC> => {
+  const decodeAsCodecDecodeFn = decode as DecodeCodecFn<any>;
+
   return {
     get: (params, query) => {
       const url = e.Get.getPath(params);
@@ -94,7 +98,7 @@ const restFromResourceEndpoints = <
                 id: string;
               }
             >(url, getParams),
-          decode(e.Get.Output)
+          decodeAsCodecDecodeFn(e.Get.Output)
         ),
         TE.map((r) => r.data)
       );
@@ -106,7 +110,7 @@ const restFromResourceEndpoints = <
             apiClient.getList<{
               id: string;
             }>(e.List.getPath(params), params),
-          decode(e.List.Output)
+          decodeAsCodecDecodeFn(e.List.Output satisfies Codec<any, any>)
         )
       );
     },
@@ -119,7 +123,7 @@ const restFromResourceEndpoints = <
                 id: string;
               }
             >(e.Create.getPath(params), { data: params } as CreateParams),
-          decode(e.Create.Output)
+          decodeAsCodecDecodeFn(e.Create.Output)
         ),
         TE.map((r) => r.data)
       );
@@ -132,7 +136,7 @@ const restFromResourceEndpoints = <
               e.Edit.getPath(params),
               params
             ),
-          decode(e.Edit.Output)
+          decodeAsCodecDecodeFn(e.Edit.Output)
         ),
         TE.map((r) => r.data)
       );
@@ -141,7 +145,7 @@ const restFromResourceEndpoints = <
       return pipe(
         dataProviderRequestLift(
           () => apiClient.delete(e.Delete.getPath(params), params),
-          decode(e.Delete.Output)
+          decodeAsCodecDecodeFn(e.Delete.Output satisfies Codec<any, any>)
         )
       );
     },
@@ -151,7 +155,7 @@ const restFromResourceEndpoints = <
         const fetch = (
           params: TypeOfEndpointInstance<typeof ee>['Input']
         ): TE.TaskEither<IOError, EndpointOutputType<typeof ee>> => {
-          const url = ee.getPath((params as any).Params);
+          const url = ee.getPath((params as any)?.Params);
 
           return dataProviderRequestLift(
             () =>
@@ -166,7 +170,7 @@ const restFromResourceEndpoints = <
                   ...params?.Headers,
                 },
               }),
-            decode(ee.Output)
+            decodeAsCodecDecodeFn(ee.Output)
           );
         };
 
@@ -188,10 +192,7 @@ const restFromResourceEndpoints = <
 };
 
 interface FromEndpointsOptions {
-  decode: <A, I, C = unknown>(
-    schema: Codec<A, I, C>,
-    parseOptions?: any
-  ) => (e: unknown, overrideOptions?: any) => E.Either<IOError, I>;
+  decode: EndpointDecodeFn<IOError>;
 }
 
 const RAEndpointsClient =

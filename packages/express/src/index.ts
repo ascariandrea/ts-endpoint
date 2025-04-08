@@ -1,5 +1,8 @@
 import {
   type Codec,
+  type DecodeCodecFn,
+  type DecodeRecordCodecFn,
+  type EndpointDecodeFn,
   type InferEndpointInstanceParams,
   IOError,
   type MinimalEndpoint,
@@ -76,10 +79,7 @@ export const buildIOError = (errors: unknown) => {
 };
 
 interface GetEndpointSubscriberOptions<M extends URIS = 'IOError'> {
-  decode: <A, I, E = unknown>(
-    c: Codec<A, I, E>,
-    parseOptions?: any
-  ) => (e: unknown, overrideOptions?: any) => E.Either<Kind<M, unknown>, I>;
+  decode: EndpointDecodeFn<Kind<M, unknown>>;
   buildDecodeError: (e: unknown) => Kind<M, unknown>;
 }
 
@@ -96,12 +96,21 @@ export const GetEndpointSubscriber =
     const matcher = getRouterMatcher(router, e);
     const path = e.getStaticPath((param: string) => `:${param}`);
 
+    const decodeAsDecodeRecord = decode as DecodeRecordCodecFn<Kind<M, unknown>>;
+    const decodeAsDecodeCodec = decode as DecodeCodecFn<Kind<M, unknown>>;
+
     matcher.bind(router)(path, ...(m ?? []), (req, res, next) => {
       const args = sequenceS(E.Applicative)({
-        params: !e.Input?.Params ? E.right(undefined) : decode(e.Input.Params)(req.params),
-        headers: !e.Input?.Headers ? E.right(undefined) : decode(e.Input.Headers)(req.headers),
-        query: !e.Input?.Query ? E.right(undefined) : decode(e.Input.Query)(req.query),
-        body: !e.Input?.Body ? E.right(undefined) : decode(e.Input.Body)(req.body),
+        params: !e.Input?.Params
+          ? E.right(undefined)
+          : decodeAsDecodeRecord(e.Input.Params)(req.params),
+        headers: !e.Input?.Headers
+          ? E.right(undefined)
+          : decodeAsDecodeRecord(e.Input.Headers)(req.headers),
+        query: !e.Input?.Query
+          ? E.right(undefined)
+          : decodeAsDecodeRecord(e.Input.Query)(req.query),
+        body: !e.Input?.Body ? E.right(undefined) : decodeAsDecodeCodec(e.Input.Body)(req.body),
       });
 
       const taskRunner = pipe(

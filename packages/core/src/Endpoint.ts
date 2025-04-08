@@ -1,8 +1,14 @@
+import { type Either } from 'fp-ts/lib/Either.js';
 import * as R from 'fp-ts/lib/Record.js';
 import { pipe } from 'fp-ts/lib/function.js';
 import { type RequiredKeys } from 'typelevel-ts';
 import {
   type Codec,
+  type EffectCodec,
+  type EffectRecordCodec,
+  type EncodedType,
+  type IOTSCodec,
+  type IOTSRecordCodec,
   type RecordCodec,
   type RecordCodecEncoded,
   type RecordCodecSerialized,
@@ -271,3 +277,43 @@ export type EndpointParamsType<G> = G extends MinimalEndpointInstance
     ? undefined
     : serializedType<InferEndpointInstanceParams<G>['params']>
   : never;
+
+type DecodeUnknown<C, E> = (e: unknown, overrideOptions?: any) => Either<E, EncodedType<C>>;
+
+export type DecodeEffectCodec<E> = <C extends EffectCodec<any, any>>(
+  c: C,
+  parseOptions?: any
+) => DecodeUnknown<C, E>;
+
+export type DecodeIOTSCodec<E> = <C extends IOTSCodec<any, any>>(
+  c: C,
+  parseOptions?: any
+) => DecodeUnknown<C, E>;
+
+export type DecodeIOTSRecordCodec<E> = <C extends IOTSRecordCodec<any>>(
+  c: C,
+  parseOptions?: any
+) => DecodeUnknown<C, E>;
+
+export type DecodeEffectRecordCodecFn<E> = <C extends EffectRecordCodec<any>>(
+  c: C,
+  parseOptions?: any
+) => DecodeUnknown<C, E>;
+
+export type DecodeRecordCodecFn<E> = <C extends RecordCodec<any>>(
+  c: C,
+  parseOptions?: any
+) => DecodeUnknown<C, E>;
+
+export type DecodeCodecFn<E> = <C extends Codec<any, any>>(
+  c: C,
+  parseOptions?: any
+) => DecodeUnknown<C, E>;
+
+export type EndpointDecodeFn<E> =
+  | DecodeIOTSRecordCodec<E>
+  | DecodeEffectRecordCodecFn<E>
+  | DecodeIOTSCodec<E>
+  | DecodeEffectCodec<E>
+  | DecodeRecordCodecFn<E>
+  | DecodeCodecFn<E>;
