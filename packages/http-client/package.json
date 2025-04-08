@@ -9,7 +9,7 @@
   "bugs": {
     "url": "https://github.com/ascariandrea/ts-endpoint/issues?q=project%3Afes300%2Fhttp-client%2F6"
   },
-  "author": "Federico Sordillo <federicosordillo@gmail.com>",
+  "author": "Ascari Andrea <dev.ascariandrea@gmail.com>",
   "license": "ISC",
   "publishConfig": {
     "access": "public"
@@ -29,6 +29,7 @@
     "prepublishOnly": "pnpm clean && pnpm build"
   },
   "devDependencies": {
+    "@ts-endpoint/test": "workspace:*",
     "@types/qs": "^6.9.7",
     "effect": "^3.14.8",
     "io-ts": "^2.2.22",

@@ -2,8 +2,8 @@
   "name": "client",
   "version": "0.1.0",
   "description": "simple client",
-  "private": "true",
-  "author": "Federico Sordillo",
+  "private": true,
+  "author": "Federico Sordillo <federicosordillo@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "vite build",

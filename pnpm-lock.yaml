@@ -178,6 +178,9 @@ importers:
         specifier: ^4.21.2
         version: 4.21.2
     devDependencies:
+      '@ts-endpoint/test':
+        specifier: workspace:*
+        version: link:../test
       '@types/express':
         specifier: ^4.17.17
         version: 4.17.21
@@ -200,6 +203,9 @@ importers:
         specifier: workspace:*
         version: link:../core
     devDependencies:
+      '@ts-endpoint/test':
+        specifier: workspace:*
+        version: link:../test
       '@types/qs':
         specifier: ^6.9.7
         version: 6.9.18
@@ -6170,16 +6176,6 @@ packages:
       react-dom:
         optional: true
 
-  react-router@7.5.1:
-    resolution: {integrity: sha512-/jjU3fcYNd2bwz9Q0xt5TwyiyoO8XjSEFXJY4O/lMAlkGTHWuHRAbR9Etik+lSDqMC7A7mz3UlXzgYT6Vl58sA==}
-    engines: {node: '>=20.0.0'}
-    peerDependencies:
-      react: '>=18'
-      react-dom: '>=18'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
-
   react-transition-group@4.4.5:
     resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
     peerDependencies:
@@ -6651,8 +6647,8 @@ packages:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
     engines: {node: '>= 0.8'}
 
-  std-env@3.8.1:
-    resolution: {integrity: sha512-vj5lIj3Mwf9D79hBkltk5qmkFI+biIKWS2IBxEyEU3AX1tUf7AoL8nSazCOiiqQsGKIq01SClsKEzweu34uwvA==}
+  std-env@3.9.0:
+    resolution: {integrity: sha512-UGvjygr6F6tpH7o2qyqR6QYpwraIjKSdtzyBdyytFOHmPZY917kwdwLG0RbOjWOnKmnm3PeHjaoLLMie7kPLQw==}
 
   strict-uri-encode@2.0.0:
     resolution: {integrity: sha512-QwiXZgpRcKkhTj2Scnn++4PKtWsH0kpzZ62L2R6c/LUVYv7hVnZqcg2+sMuT6R7Jusu1vviK/MFsu6kNJfWlEQ==}
@@ -10438,7 +10434,7 @@ snapshots:
       istanbul-reports: 3.1.7
       magic-string: 0.30.17
       magicast: 0.3.5
-      std-env: 3.8.1
+      std-env: 3.9.0
       test-exclude: 7.0.1
       tinyrainbow: 2.0.0
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.1)(jiti@2.4.2)(jsdom@26.1.0)(terser@5.39.0)
@@ -14577,7 +14573,7 @@ snapshots:
 
   quick-lru@5.1.1: {}
 
-  ra-core@5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
+  ra-core@5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
     dependencies:
       '@tanstack/react-query': 5.74.4(react@19.1.0)
       clsx: 2.1.1
@@ -14592,13 +14588,13 @@ snapshots:
       react-error-boundary: 4.1.2(react@19.1.0)
       react-hook-form: 7.55.0(react@19.1.0)
       react-is: 19.1.0
-      react-router: 7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react-router: 7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-router-dom: 7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
 
-  ra-i18n-polyglot@5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
+  ra-i18n-polyglot@5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
     dependencies:
       node-polyglot: 2.6.0
-      ra-core: 5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+      ra-core: 5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
     transitivePeerDependencies:
       - react
       - react-dom
@@ -14606,9 +14602,9 @@ snapshots:
       - react-router
       - react-router-dom
 
-  ra-language-english@5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
+  ra-language-english@5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0):
     dependencies:
-      ra-core: 5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+      ra-core: 5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
     transitivePeerDependencies:
       - react
       - react-dom
@@ -14616,7 +14612,7 @@ snapshots:
       - react-router
       - react-router-dom
 
-  ra-ui-materialui@5.7.3(1d2935b182e76348b5879c2581065640):
+  ra-ui-materialui@5.7.3(c3825bfcf53a37cf7fbad8ca26e2d2ec):
     dependencies:
       '@mui/icons-material': 6.4.11(@mui/material@6.4.11(@emotion/react@11.14.0(@types/react@19.1.0)(react@19.1.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.1.0)(react@19.1.0))(@types/react@19.1.0)(react@19.1.0))(@types/react@19.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@types/react@19.1.0)(react@19.1.0)
       '@mui/material': 6.4.11(@emotion/react@11.14.0(@types/react@19.1.0)(react@19.1.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.1.0)(react@19.1.0))(@types/react@19.1.0)(react@19.1.0))(@types/react@19.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -14631,14 +14627,14 @@ snapshots:
       jsonexport: 3.2.0
       lodash: 4.17.21
       query-string: 7.1.3
-      ra-core: 5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+      ra-core: 5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
       react-dropzone: 14.3.8(react@19.1.0)
       react-error-boundary: 4.1.2(react@19.1.0)
       react-hook-form: 7.55.0(react@19.1.0)
       react-is: 19.1.0
-      react-router: 7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react-router: 7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-router-dom: 7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-transition-group: 4.4.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
 
@@ -14670,14 +14666,14 @@ snapshots:
       '@emotion/styled': 11.14.0(@emotion/react@11.14.0(@types/react@19.1.0)(react@19.1.0))(@types/react@19.1.0)(react@19.1.0)
       '@mui/icons-material': 6.4.11(@mui/material@6.4.11(@emotion/react@11.14.0(@types/react@19.1.0)(react@19.1.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.1.0)(react@19.1.0))(@types/react@19.1.0)(react@19.1.0))(@types/react@19.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@types/react@19.1.0)(react@19.1.0)
       '@mui/material': 6.4.11(@emotion/react@11.14.0(@types/react@19.1.0)(react@19.1.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.1.0)(react@19.1.0))(@types/react@19.1.0)(react@19.1.0))(@types/react@19.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      ra-core: 5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
-      ra-i18n-polyglot: 5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
-      ra-language-english: 5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
-      ra-ui-materialui: 5.7.3(1d2935b182e76348b5879c2581065640)
+      ra-core: 5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+      ra-i18n-polyglot: 5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+      ra-language-english: 5.7.3(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.55.0(react@19.1.0))(react-router-dom@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+      ra-ui-materialui: 5.7.3(c3825bfcf53a37cf7fbad8ca26e2d2ec)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
       react-hook-form: 7.55.0(react@19.1.0)
-      react-router: 7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react-router: 7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-router-dom: 7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     transitivePeerDependencies:
       - '@mui/material-pigment-css'
@@ -14815,15 +14811,6 @@ snapshots:
   react-router@7.5.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       '@types/cookie': 0.6.0
-      cookie: 1.0.2
-      react: 19.1.0
-      set-cookie-parser: 2.7.1
-      turbo-stream: 2.4.0
-    optionalDependencies:
-      react-dom: 19.1.0(react@19.1.0)
-
-  react-router@7.5.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
-    dependencies:
       cookie: 1.0.2
       react: 19.1.0
       set-cookie-parser: 2.7.1
@@ -15457,7 +15444,7 @@ snapshots:
 
   statuses@2.0.1: {}
 
-  std-env@3.8.1: {}
+  std-env@3.9.0: {}
 
   strict-uri-encode@2.0.0: {}
 
@@ -15973,7 +15960,7 @@ snapshots:
       expect-type: 1.2.1
       magic-string: 0.30.17
       pathe: 2.0.3
-      std-env: 3.8.1
+      std-env: 3.9.0
       tinybench: 2.9.0
       tinyexec: 0.3.2
       tinypool: 1.0.2
@@ -16141,7 +16128,7 @@ snapshots:
       figures: 3.2.0
       markdown-table: 2.0.0
       pretty-time: 1.1.0
-      std-env: 3.8.1
+      std-env: 3.9.0
       webpack: 5.99.6
       wrap-ansi: 7.0.0
 
