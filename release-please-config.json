@@ -18,6 +18,7 @@
       "component": "ts-endpoint-browser"
     }
   },
+  "versioning": "prerelease",
   "tag-separator": "@",
   "include-v-in-tag": false,
   "group-pull-request-title-pattern": "chore: release ${version}",
