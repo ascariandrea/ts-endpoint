@@ -143,10 +143,10 @@ test('AddEndpoint', () => {
 });
 
 test('Should work with Option kind', () => {
-  const buildMaybeError = (errors: unknown[]) => {
+  const buildMaybeError = (errors: unknown) => {
     return O.some({
       kind: 'DecodingError',
-      errors,
+      errors: [errors],
     });
   };
 
