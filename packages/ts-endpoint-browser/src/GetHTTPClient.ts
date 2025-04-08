@@ -4,7 +4,7 @@ import { ReaderTaskEither } from 'fp-ts/ReaderTaskEither';
 import * as R from 'fp-ts/Record';
 import { TaskEither } from 'fp-ts/TaskEither';
 import { MinimalEndpointInstance, TypeOfEndpointInstance } from 'ts-endpoint';
-import { Codec, IOError, runtimeType } from 'ts-io-error';
+import { Codec, EitherDecoder, IOError, runtimeType } from 'ts-io-error';
 import { HTTPClientConfig } from './config';
 import { Kind, URIS } from './HKT';
 
@@ -61,9 +61,7 @@ export type GetHTTPClientOptions = {
    * Used to map the response JSON before parsing it with the Endpoint codecs.
    * N.B. This is a last resource and you should avoid it since it holds no static guarantee
    */
-  decode: <A, I, C = never>(
-    schema: Codec<A, I, C>,
-  ) => (input: unknown) => Either<IOError, I>;
+  decode: EitherDecoder;
 };
 
 export const GetHTTPClient = <A extends { [key: string]: MinimalEndpointInstance }, M extends URIS>(

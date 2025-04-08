@@ -15,6 +15,9 @@
     },
     "packages/ts-endpoint-browser": {
       "component": "ts-endpoint-browser"
+    },
+    "packages/resource-client": {
+      "component": "@ts-endpoint/resource-client"
     }
   },
   "versioning": "prerelease",

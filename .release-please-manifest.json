@@ -3,5 +3,6 @@
   "packages/ts-io-error": "2.0.0",
   "packages/ts-endpoint": "2.0.0",
   "packages/ts-endpoint-express": "2.0.0",
-  "packages/ts-endpoint-browser": "2.0.0"
+  "packages/ts-endpoint-browser": "2.0.0",
+  "packages/resource-client": "2.0.0"
 }
