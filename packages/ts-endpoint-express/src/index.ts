@@ -1,3 +1,4 @@
+import { ParseError } from 'effect/ParseResult';
 import * as express from 'express';
 import { sequenceS } from 'fp-ts/Apply';
 import * as E from 'fp-ts/Either';
@@ -59,10 +60,11 @@ export type AddEndpoint2<M extends URIS = 'IOError'> = (
   endpoint: E
 ) => (controller: EndpointController<E, M>) => void;
 
-export const buildIOError = (errors: unknown[]) => {
+export const buildIOError = (errors: unknown) => {
+  const parseError = errors as ParseError;
   return new IOError('error decoding args', {
     kind: 'DecodingError',
-    errors,
+    errors: [parseError.message],
   });
 };
 
@@ -71,7 +73,7 @@ interface GetEndpointSubscriberOptions<M extends URIS = 'IOError'> {
     c: Codec<A, I, E>,
     parseOptions?: any
   ) => (e: unknown, overrideOptions?: any) => E.Either<Kind<M, unknown>, I>;
-  buildDecodeError: (e: unknown[]) => Kind<M, unknown>;
+  buildDecodeError: (e: unknown) => Kind<M, unknown>;
 }
 
 /**
@@ -97,7 +99,7 @@ export const GetEndpointSubscriber =
 
       const taskRunner = pipe(
         args,
-        E.mapLeft((error) => buildDecodeError([error]) as Kind<M, NonNullable<E['Errors']>>),
+        E.mapLeft((error) => buildDecodeError(error) as Kind<M, NonNullable<E['Errors']>>),
         TA.fromEither,
         TA.chain((args) => controller(args as any, req, res)),
         TA.bimap(
@@ -117,4 +119,3 @@ export const GetEndpointSubscriber =
       return taskRunner();
     });
   };
-
