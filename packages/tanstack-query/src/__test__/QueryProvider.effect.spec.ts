@@ -1,12 +1,9 @@
-import { IOError } from '@ts-endpoint/core';
 import { GetResourceClient } from '@ts-endpoint/resource-client';
-import { TestEndpoints } from '@ts-endpoint/test';
+import { Actor, decodeEffect, TestEndpoints } from '@ts-endpoint/test';
 import type { AxiosInstance } from 'axios';
-import { parseISO, subYears } from 'date-fns';
-import { Schema } from 'effect';
-import fc from 'fast-check';
-import * as E from 'fp-ts/lib/Either.js';
-import { pipe } from 'fp-ts/lib/function.js';
+import { parseISO } from 'date-fns';
+import { Arbitrary } from 'effect';
+import * as fc from 'fast-check';
 import { afterEach, describe, expect, it } from 'vitest';
 import { mock } from 'vitest-mock-extended';
 import { CreateQueryProvider } from '../QueryProvider.js';
@@ -14,41 +11,23 @@ import { CreateQueryProvider } from '../QueryProvider.js';
 describe('QueryProvider', () => {
   const axiosMock = mock<AxiosInstance>();
   const resourceClient = GetResourceClient(axiosMock, TestEndpoints, {
-    decode: (schema) => (data: unknown) => {
-      return pipe(
-        data,
-        Schema.decodeUnknownEither(schema as Schema.Schema<any>),
-        E.mapLeft((e) => {
-          return new IOError('DecodeError', { kind: 'DecodingError', errors: [e] });
-        })
-      );
-    },
+    decode: decodeEffect,
   });
   const Q = CreateQueryProvider(resourceClient);
 
-  const actorData = fc.sample(
-    fc.record({
-      id: fc.uuid(),
-      name: fc.string(),
-      avatar: fc.record({
-        id: fc.uuid(),
-        url: fc.string(),
-        createdAt: fc.date().map((d) => d.toISOString()),
-        updatedAt: fc.date().map((d) => d.toISOString()),
-      }),
-      bornOn: fc.option(
-        fc.date().map((d) => d.toISOString()),
-        { nil: null }
-      ),
-      diedOn: fc.option(
-        fc.date({ min: subYears(new Date(), 200) }).map((d) => d.toISOString()),
-        { nil: null }
-      ),
-      createdAt: fc.date().map((d) => d.toISOString()),
-      updatedAt: fc.date().map((d) => d.toISOString()),
-    }),
-    10
-  );
+  const actorArbitrary = Arbitrary.make(Actor).map((a) => ({
+    ...a,
+    avatar: {
+      ...a.avatar,
+      createdAt: a.avatar.createdAt.toISOString(),
+      updatedAt: a.avatar.updatedAt.toISOString(),
+    },
+    bornOn: a.bornOn ? a.bornOn.toISOString() : null,
+    diedOn: a.diedOn ? a.diedOn.toISOString() : null,
+    createdAt: a.createdAt.toISOString(),
+    updatedAt: a.updatedAt.toISOString(),
+  }));
+  const actorData = fc.sample(actorArbitrary, 10);
 
   const toExpectedActor = (a: any) => ({
     ...a,
@@ -136,6 +115,7 @@ describe('QueryProvider', () => {
       data: undefined,
       responseType: 'json',
     });
+
     expect(actor).toMatchObject({
       data: actorList.map(toExpectedActor),
       total: 2,
@@ -147,7 +127,7 @@ describe('QueryProvider', () => {
 
     axiosMock.request.mockResolvedValue({ data: { data } });
 
-    expect(Q.Actor.Custom).toBeDefined();
+    expect(Q.Actor.Custom.GetSiblings).toBeDefined();
 
     const actorParams = { id: '1' };
     const actorKey = Q.Actor.Custom.GetSiblings.getKey(actorParams);

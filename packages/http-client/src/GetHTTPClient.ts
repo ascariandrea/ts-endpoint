@@ -1,6 +1,6 @@
 import {
   type Codec,
-  type EitherDecoder,
+  type EndpointDecodeFn,
   type IOError,
   type MinimalEndpointInstance,
   type runtimeType,
@@ -68,7 +68,7 @@ export type GetHTTPClientOptions = {
    * Used to map the response JSON before parsing it with the Endpoint codecs.
    * N.B. This is a last resource and you should avoid it since it holds no static guarantee
    */
-  decode: EitherDecoder;
+  decode: EndpointDecodeFn<IOError<any>>;
 };
 
 export const GetHTTPClient = <A extends { [key: string]: MinimalEndpointInstance }, M extends URIS>(
