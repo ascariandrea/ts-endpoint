@@ -1,6 +1,6 @@
 {
   "name": "ts-io-error",
-  "version": "3.0.0",
+  "version": "2.0.0",
   "description": "defines errors incurring in client-server communication.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
