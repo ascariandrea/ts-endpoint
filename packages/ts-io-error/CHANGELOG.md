@@ -1,5 +1,33 @@
 # Changelog
 
+## [2.1.0-alpha](https://github.com/ascariandrea/ts-endpoint/compare/ts-io-error@2.0.0...ts-io-error@2.1.0-alpha) (2025-04-10)
+
+
+### Miscellaneous Chores
+
+* bump deps ([b7588d5](https://github.com/ascariandrea/ts-endpoint/commit/b7588d5aeac93f6feb11305f8efe510949c0ef1a))
+* bump node to 18 ([#170](https://github.com/ascariandrea/ts-endpoint/issues/170)) ([128cdc5](https://github.com/ascariandrea/ts-endpoint/commit/128cdc5017ba5b7ac348c625ee2c04637945e31d))
+* bump node to 20 ([#175](https://github.com/ascariandrea/ts-endpoint/issues/175)) ([56137f4](https://github.com/ascariandrea/ts-endpoint/commit/56137f419ea70caaee13dc20b572d279465733fa))
+* defined proper tsconfig.build.json files ([#174](https://github.com/ascariandrea/ts-endpoint/issues/174)) ([1d641bd](https://github.com/ascariandrea/ts-endpoint/commit/1d641bd0fc931a6f1ac89b5f768aae19d553752f))
+* packages correct main file export ([#176](https://github.com/ascariandrea/ts-endpoint/issues/176)) ([e5521c7](https://github.com/ascariandrea/ts-endpoint/commit/e5521c7470d76da5df0991d591d5ecdb09713feb))
+* replaced jest with vitest ([#173](https://github.com/ascariandrea/ts-endpoint/issues/173)) ([8a6a7ca](https://github.com/ascariandrea/ts-endpoint/commit/8a6a7ca08427035b2f02e4bce38d0892cf3e0f1d))
+* replaced yarn with pnpm ([#168](https://github.com/ascariandrea/ts-endpoint/issues/168)) ([4d66064](https://github.com/ascariandrea/ts-endpoint/commit/4d66064a3bea8cf040fbdeeb62efd064e6e1cdf1))
+* setup release-please ([029c5ef](https://github.com/ascariandrea/ts-endpoint/commit/029c5efe0bdee24fc634f44f92a8031c17b7c674))
+* **ts-io-error:** set package version to 2.0.0 ([847d63f](https://github.com/ascariandrea/ts-endpoint/commit/847d63fb47c830593b92cf59f029468213990bda))
+* upgrade docusaurus@^2 ([#146](https://github.com/ascariandrea/ts-endpoint/issues/146)) ([2d8a126](https://github.com/ascariandrea/ts-endpoint/commit/2d8a126749daab59234ea2fc3fd54f91c1e3a48e))
+* upgrade yarn@^3.5.0 ([#134](https://github.com/ascariandrea/ts-endpoint/issues/134)) ([6a11038](https://github.com/ascariandrea/ts-endpoint/commit/6a11038846fa92bb3b7a81dd7c9abfe98a8bc6f8))
+
+
+### Features
+
+* defined @ts-endpoint/resource-client package ([#20](https://github.com/ascariandrea/ts-endpoint/issues/20)) ([24be0d8](https://github.com/ascariandrea/ts-endpoint/commit/24be0d87759f0f09c0b492fd16dc393086f8eaca))
+* support both io-ts and effect ([#16](https://github.com/ascariandrea/ts-endpoint/issues/16)) ([42e06f7](https://github.com/ascariandrea/ts-endpoint/commit/42e06f78b8f6841908b4f8a73babe9610ef22f54))
+
+
+### Bug Fixes
+
+* bump deps ([a41a6f4](https://github.com/ascariandrea/ts-endpoint/commit/a41a6f449bf8e6debc6e229d9ee7665f8d7b26e6))
+
 ## [2.0.1](https://github.com/ascariandrea/ts-endpoint/compare/ts-io-error@2.0.0...ts-io-error@2.0.1) (2025-04-05)
 
 

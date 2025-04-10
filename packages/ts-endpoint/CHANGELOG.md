@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0-alpha](https://github.com/ascariandrea/ts-endpoint/compare/ts-endpoint@2.0.0...ts-endpoint@2.1.0-alpha) (2025-04-10)
+
+
+### Miscellaneous Chores
+
+* bump deps ([b7588d5](https://github.com/ascariandrea/ts-endpoint/commit/b7588d5aeac93f6feb11305f8efe510949c0ef1a))
+* bump typescript to 5.8.2 ([#171](https://github.com/ascariandrea/ts-endpoint/issues/171)) ([52fd3ea](https://github.com/ascariandrea/ts-endpoint/commit/52fd3ea54a8c3c963e985ddafe47b6dbebd612fb))
+* defined proper tsconfig.build.json files ([#174](https://github.com/ascariandrea/ts-endpoint/issues/174)) ([1d641bd](https://github.com/ascariandrea/ts-endpoint/commit/1d641bd0fc931a6f1ac89b5f768aae19d553752f))
+* packages correct main file export ([#176](https://github.com/ascariandrea/ts-endpoint/issues/176)) ([e5521c7](https://github.com/ascariandrea/ts-endpoint/commit/e5521c7470d76da5df0991d591d5ecdb09713feb))
+* **release:** publish ([1806e10](https://github.com/ascariandrea/ts-endpoint/commit/1806e105a259f24e529e3541e61eb7b0a86f5afa))
+* replaced jest with vitest ([#173](https://github.com/ascariandrea/ts-endpoint/issues/173)) ([8a6a7ca](https://github.com/ascariandrea/ts-endpoint/commit/8a6a7ca08427035b2f02e4bce38d0892cf3e0f1d))
+* replaced yarn with pnpm ([#168](https://github.com/ascariandrea/ts-endpoint/issues/168)) ([4d66064](https://github.com/ascariandrea/ts-endpoint/commit/4d66064a3bea8cf040fbdeeb62efd064e6e1cdf1))
+* setup release-please ([029c5ef](https://github.com/ascariandrea/ts-endpoint/commit/029c5efe0bdee24fc634f44f92a8031c17b7c674))
+* upgrade yarn@^3.5.0 ([#134](https://github.com/ascariandrea/ts-endpoint/issues/134)) ([6a11038](https://github.com/ascariandrea/ts-endpoint/commit/6a11038846fa92bb3b7a81dd7c9abfe98a8bc6f8))
+
+
+### Features
+
+* support both io-ts and effect ([#16](https://github.com/ascariandrea/ts-endpoint/issues/16)) ([42e06f7](https://github.com/ascariandrea/ts-endpoint/commit/42e06f78b8f6841908b4f8a73babe9610ef22f54))
+
+
+### Bug Fixes
+
+* accept body also for endpoint with 'DELETE' method ([#139](https://github.com/ascariandrea/ts-endpoint/issues/139)) ([6c83305](https://github.com/ascariandrea/ts-endpoint/commit/6c833050ccab10f68390f45793ff2f6471f9d91b))
+* bump deps ([a41a6f4](https://github.com/ascariandrea/ts-endpoint/commit/a41a6f449bf8e6debc6e229d9ee7665f8d7b26e6))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * ts-io-error bumped to 2.1.0-alpha
+
 ## [2.0.1](https://github.com/ascariandrea/ts-endpoint/compare/ts-endpoint@2.0.0...ts-endpoint@2.0.1) (2025-04-05)
 
 
