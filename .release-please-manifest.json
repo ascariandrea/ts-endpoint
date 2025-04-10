@@ -1,7 +1,8 @@
 {
-  ".": "2.0.0",
-  "packages/ts-io-error": "2.0.0",
-  "packages/ts-endpoint": "2.0.0",
-  "packages/ts-endpoint-express": "2.0.0",
-  "packages/ts-endpoint-browser": "2.0.0"
+  ".": "3.0.0-alpha",
+  "packages/ts-io-error": "2.1.0-alpha",
+  "packages/ts-endpoint": "2.1.0-alpha",
+  "packages/ts-endpoint-express": "2.1.0-alpha",
+  "packages/ts-endpoint-browser": "2.1.0-alpha",
+  "packages/resource-client": "2.0.0"
 }
