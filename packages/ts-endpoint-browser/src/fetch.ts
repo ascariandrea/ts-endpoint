@@ -1,7 +1,7 @@
 import { findFirst } from 'fp-ts/Array';
+import { pipe } from 'fp-ts/function';
 import { toArray } from 'fp-ts/lib/Record';
 import * as O from 'fp-ts/Option';
-import { pipe } from 'fp-ts/pipeable';
 import * as TA from 'fp-ts/TaskEither';
 import qs from 'qs';
 import { EndpointErrors, MinimalEndpointInstance } from 'ts-endpoint';

@@ -2,6 +2,8 @@
 // fp-ts data structures
 // -------------------------------------------------------------------------------------
 
+import { IOError } from './DecodingError';
+
 interface Left<E> {
   readonly _tag: 'Left';
   readonly left: E;
@@ -30,10 +32,13 @@ export interface ValidationError {
 // Codec
 // -------------------------------------------------------------------------------------
 
-export interface EffectCodec<A, B = A, R = never> {
+export type EffectCodec<A, B = A, R = never> ={
   Type: A;
   Encoded: B;
   Context: R;
+  pipe: any;
+  ast: any;
+  annotations: any;
 }
 
 export interface IOTSCodec<A, B> {
@@ -167,3 +172,7 @@ export type UndefinedOrType<N> = N extends IOTSRecordCodec<any, any>
   : N extends EffectRecordCodec<any>
   ? RecordCodecSerialized<N>
   : undefined;
+
+export type EitherDecode<I, E = IOError> = (input: unknown) => Either<E, I>;
+
+export type EitherDecoder = <A, I, C = never>(schema: Codec<A, I, C>) => EitherDecode<I, IOError>;
