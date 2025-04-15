@@ -4,21 +4,27 @@
     ".": {
       "exclude-paths": ["packages", "website"]
     },
-    "packages/ts-io-error": {
-      "component": "ts-io-error"
+    "packages/core": {
+      "component": "@ts-endpoint/core"
     },
-    "packages/ts-endpoint": {
-      "component": "ts-endpoint"
+    "packages/http-client": {
+      "component": "@ts-endpoint/http-client"
+    },
+    "packages/resource-client": {
+      "component": "@ts-endpoint/resource-client"
+    },
+    "packages/react-admin": {
+      "component": "@ts-endpoint/react-admin"
+    },
+    "packages/tanstack-query": {
+      "component": "@ts-endpoint/tanstack-query"
     },
     "packages/@ts-endpoint/express": {
       "component": "@ts-endpoint/express"
-    },
-    "packages/ts-endpoint-browser": {
-      "component": "ts-endpoint-browser"
     }
   },
   "versioning": "prerelease",
-  "prerelease-type": "alpha",
+  "initial-version": "0.1.0",
   "tag-separator": "@",
   "include-v-in-tag": false,
   "group-pull-request-title-pattern": "chore: release ${version}",
