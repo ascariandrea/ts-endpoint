@@ -1,0 +1,48 @@
+{
+  "name": "@ts-endpoint/core",
+  "version": "0.1.0",
+  "description": "Simple endpoint definition for fullstack safety.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "type": "module",
+  "repository": "https://github.com/fes300/ts-endpoint/tree/master/packages/ts-endpoint",
+  "bugs": {
+    "url": "https://github.com/fes300/ts-endpoint/issues?q=is%3Aopen+is%3Aissue+project%3Afes300%2Fts-endpoint%2F3"
+  },
+  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
+  "maintainers": [
+    {
+      "name": "Andrea Ascari",
+      "email": "dev.ascariandrea@gmail.com"
+    }
+  ],
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "lib/**/*.js",
+    "lib/**/*.d.ts"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -b tsconfig.build.json",
+    "type-test": "vitest --typecheck.enabled=true",
+    "runtime-test": "vitest",
+    "test": "pnpm type-test && pnpm runtime-test",
+    "clean": "rm -rf lib/*",
+    "prepublishOnly": "pnpm clean && pnpm build"
+  },
+  "devDependencies": {
+    "effect": "^3.14.8",
+    "io-ts": "^2.2.22",
+    "io-ts-types": "^0.5.19",
+    "fp-ts": "^2.16.9"
+  },
+  "dependencies": {
+    "typelevel-ts": "^0.4.0"
+  },
+  "peerDependencies": {
+    "fp-ts": "^2"
+  }
+}
