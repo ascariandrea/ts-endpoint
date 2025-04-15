@@ -1,12 +1,11 @@
-import { Either } from 'fp-ts/Either';
-import { pipe } from 'fp-ts/function';
-import { ReaderTaskEither } from 'fp-ts/ReaderTaskEither';
-import * as R from 'fp-ts/Record';
-import { TaskEither } from 'fp-ts/TaskEither';
-import { MinimalEndpointInstance, TypeOfEndpointInstance } from 'ts-endpoint';
-import { Codec, IOError, runtimeType } from 'ts-io-error';
-import { HTTPClientConfig } from './config';
-import { Kind, URIS } from './HKT';
+import { Codec, EitherDecoder, IOError, MinimalEndpointInstance, runtimeType, TypeOfEndpointInstance } from '@ts-endpoint/core';
+import { Either } from 'fp-ts/lib/Either.js';
+import { pipe } from 'fp-ts/lib/function.js';
+import { ReaderTaskEither } from 'fp-ts/lib/ReaderTaskEither.js';
+import * as R from 'fp-ts/lib/Record.js';
+import { TaskEither } from 'fp-ts/lib/TaskEither.js';
+import { HTTPClientConfig } from './config.js';
+import { Kind, URIS } from './HKT.js';
 
 export declare type RequiredKeys<T> = {
   [K in keyof T]: {} extends Pick<T, K> ? never : K;
@@ -61,9 +60,7 @@ export type GetHTTPClientOptions = {
    * Used to map the response JSON before parsing it with the Endpoint codecs.
    * N.B. This is a last resource and you should avoid it since it holds no static guarantee
    */
-  decode: <A, I, C = never>(
-    schema: Codec<A, I, C>,
-  ) => (input: unknown) => Either<IOError, I>;
+  decode: EitherDecoder;
 };
 
 export const GetHTTPClient = <A extends { [key: string]: MinimalEndpointInstance }, M extends URIS>(

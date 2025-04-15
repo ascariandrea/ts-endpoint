@@ -5,9 +5,9 @@ export default mergeConfig(
   vitestBaseConfig,
   defineProject({
     test: {
-      name: 'ts-endpoint-browser',
-      typecheck: { enabled: true },
+      name: '@ts-endpoint/http-client',
       environment: 'jsdom',
+      typecheck: { enabled: true },
     },
   })
 );

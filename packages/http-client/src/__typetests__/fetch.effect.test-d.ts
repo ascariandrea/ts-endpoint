@@ -1,12 +1,11 @@
+import { Endpoint, IOError } from '@ts-endpoint/core';
 import { Schema } from 'effect';
-import { mapLeft, right } from 'fp-ts/Either';
-import { pipe } from 'fp-ts/function';
-import { Endpoint } from 'ts-endpoint';
-import { IOError } from 'ts-io-error';
+import { mapLeft, right } from 'fp-ts/lib/Either.js';
+import { pipe } from 'fp-ts/lib/function.js';
 import { assertType, describe, expectTypeOf, it } from 'vitest';
-import { HTTPClientConfig } from '../config';
-import { GetFetchHTTPClient } from '../fetch';
-import { InferFetchResult } from '../index';
+import { HTTPClientConfig } from '../config.js';
+import { GetFetchHTTPClient } from '../fetch.js';
+import { InferFetchResult } from '../index.js';
 
 const options: HTTPClientConfig = {
   protocol: 'http',
