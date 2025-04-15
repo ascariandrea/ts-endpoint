@@ -165,6 +165,34 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0(typescript@5.8.2)(vitest@3.1.1(@types/node@22.13.10)(jsdom@26.0.0)(yaml@2.7.1))
 
+  packages/tanstack-query:
+    dependencies:
+      '@ts-endpoint/core':
+        specifier: workspace:*
+        version: link:../core
+      '@ts-endpoint/react-admin':
+        specifier: workspace:*
+        version: link:../react-admin
+      '@ts-endpoint/resource-client':
+        specifier: workspace:*
+        version: link:../resource-client
+    devDependencies:
+      '@ts-endpoint/test':
+        specifier: workspace:*
+        version: link:../test
+      date-fns:
+        specifier: ^2.30.0
+        version: 2.30.0
+      effect:
+        specifier: ^3.14.8
+        version: 3.14.8
+      fp-ts:
+        specifier: ^2.16.9
+        version: 2.16.9
+      io-ts:
+        specifier: ^2.2.22
+        version: 2.2.22(fp-ts@2.16.9)
+
   packages/test:
     dependencies:
       '@ts-endpoint/core':
@@ -1167,6 +1195,10 @@ packages:
   data-urls@5.0.0:
     resolution: {integrity: sha512-ZYP5VBHshaDAiVZxjbRVcFJpc+4xGgT0bK3vzy1HLN8jTO975HEbuYzZJcHoQEY5K1a0z8YayJkyVETa08eNTg==}
     engines: {node: '>=18'}
+
+  date-fns@2.30.0:
+    resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
+    engines: {node: '>=0.11'}
 
   date-fns@3.6.0:
     resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
@@ -3451,6 +3483,10 @@ snapshots:
     dependencies:
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.2.0
+
+  date-fns@2.30.0:
+    dependencies:
+      '@babel/runtime': 7.27.0
 
   date-fns@3.6.0: {}
 

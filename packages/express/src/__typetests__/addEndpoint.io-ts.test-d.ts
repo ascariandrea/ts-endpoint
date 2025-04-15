@@ -69,7 +69,7 @@ test('AddEndpoint', () => {
   assertType(
     // @ts-expect-error crayons is not a string
     AddEndpoint(getEndpoint, ({ params: { id } }) => () => {
-      console.log(id);
+      assertType<string>(id);
       return Promise.resolve(right({ body: { crayons: [22] }, statusCode: 200 }));
     })
   );
@@ -77,7 +77,8 @@ test('AddEndpoint', () => {
   assertType(
     // @ts-expect-error params bar doesn't exists
     AddEndpoint(getEndpoint, ({ params: { id, bar } }) => () => {
-      console.log(bar, id);
+      assertType<string>(id);
+      assertType<string>(bar);
       return Promise.resolve(right({ body: { crayons: ['brown'] }, statusCode: 200 }));
     })
   );
@@ -85,7 +86,8 @@ test('AddEndpoint', () => {
   assertType(
     // @ts-expect-error body doesn't exists
     AddEndpoint(getEndpoint, ({ params: { id }, body: { foo } }) => () => {
-      console.log(id, foo);
+      assertType<string>(id)
+      assertType<string>(foo);
       return Promise.resolve(right({ body: { crayons: ['brown'] }, statusCode: 200 }));
     })
   );
@@ -101,14 +103,14 @@ test('AddEndpoint', () => {
   assertType(
     // @ts-expect-error post endpoint doesn't have params
     AddEndpoint(postEndpoint, ({ params: { id } }) => () => {
-      console.log(id);
+      assertType<string>(id);
       return Promise.resolve(right({ body: { crayons: ['brown'] }, statusCode: 201 }));
     })
   );
 
   assertType(
     AddEndpoint(postEndpoint, ({ body: { content } }) => () => {
-      console.log(content);
+      assertType<string>(content);
       return Promise.resolve(right({ body: { crayons: ['brown'] }, statusCode: 201 }));
     })
   );
@@ -116,14 +118,14 @@ test('AddEndpoint', () => {
   assertType(
     // @ts-expect-error error not conforming to the schema
     AddEndpoint(postEndpointWithErrors, ({ body: { content } }) => () => {
-      console.log(content);
+      assertType<string>(content);
       return Promise.resolve(left({ foo: 'baz' }));
     })
   );
 
   assertType(
     AddEndpoint(postEndpointWithErrors, ({ body: { content } }) => () => {
-      console.log(content);
+      assertType<string>(content);
 
       // @ts-expect-error error kind not conforming to the schema
       return Promise.resolve(left(new IOError('error', { kind: 'KnownError', error: 'foo' })));
@@ -132,7 +134,7 @@ test('AddEndpoint', () => {
 
   assertType(
     AddEndpoint(postEndpointWithErrors, ({ body: { content } }) => () => {
-      console.log(content);
+      assertType<string>(content);
       return Promise.resolve(
         // @ts-expect-error error kind and status not conforming to the schema
         left(new IOError('error', { kind: 'KnownError', status: 401, body: { error: 'foo' } }))
@@ -167,7 +169,7 @@ test('Should work with Option kind', () => {
   assertType(
     // @ts-expect-error you cannot return a badly formatted error with a different error builder
     AddMaybeEndpoint(postEndpointWithErrors, ({ body: { content } }) => () => {
-      console.log(content);
+      assertType<string>(content);
 
       return Promise.resolve(
         left(O.some({ kind: 'KnownError', status: 401, body: { error: 'foo' } }))
