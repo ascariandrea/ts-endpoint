@@ -3,7 +3,7 @@
 this is a sample repository to illustrate how ts-endpoint works, it is composed of two small applicatives and a shared library where our endpoint definitions live:
 
 - `client`: (very) simple client app using `ts-endpoint`
-- `server`: (very) simple server app using `ts-endpoint` and `ts-endpoint-express`
+- `server`: (very) simple server app using `ts-endpoint` and `@ts-endpoint/express`
 - `shared`: (very) simple library containing our endpoints and `io-ts` models
 
 ## start the project

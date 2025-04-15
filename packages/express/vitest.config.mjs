@@ -5,7 +5,7 @@ export default mergeConfig(
   vitestBaseConfig,
   defineProject({
     test: {
-      name: 'ts-endpoint-express',
+      name: '@ts-endpoint/express',
       typecheck: { enabled: true }
     },
   })

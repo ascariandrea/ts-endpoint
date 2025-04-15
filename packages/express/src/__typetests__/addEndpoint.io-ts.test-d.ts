@@ -1,13 +1,12 @@
+import { Endpoint, IOError, IOTSCodec } from '@ts-endpoint/core';
 import * as express from 'express';
-import { left, right } from 'fp-ts/Either';
-import * as E from 'fp-ts/lib/Either';
-import { pipe } from 'fp-ts/lib/function';
-import * as O from 'fp-ts/Option';
+import * as E from 'fp-ts/lib/Either.js';
+import { left, right } from 'fp-ts/lib/Either.js';
+import { pipe } from 'fp-ts/lib/function.js';
+import * as O from 'fp-ts/lib/Option.js';
 import * as t from 'io-ts';
-import { Endpoint } from 'ts-endpoint';
-import { IOError, IOTSCodec } from 'ts-io-error';
 import { assertType, expectTypeOf, test } from 'vitest';
-import { buildIOError, GetEndpointSubscriber } from '../index';
+import { buildIOError, GetEndpointSubscriber } from '../index.js';
 
 const getEndpoint = Endpoint({
   Input: {
@@ -56,7 +55,7 @@ const registerRouter = GetEndpointSubscriber({
 });
 const AddEndpoint = registerRouter(router);
 
-declare module '../HKT' {
+declare module '../HKT.js' {
   interface URItoKind<A> {
     Option: O.Option<A>;
   }

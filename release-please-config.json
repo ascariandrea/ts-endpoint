@@ -10,8 +10,8 @@
     "packages/ts-endpoint": {
       "component": "ts-endpoint"
     },
-    "packages/ts-endpoint-express": {
-      "component": "ts-endpoint-express"
+    "packages/@ts-endpoint/express": {
+      "component": "@ts-endpoint/express"
     },
     "packages/ts-endpoint-browser": {
       "component": "ts-endpoint-browser"

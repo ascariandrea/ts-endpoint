@@ -1,9 +1,9 @@
-import { getUser } from 'shared';
-import { GetEndpointSubscriber } from 'ts-endpoint-express';
+import { GetEndpointSubscriber } from '@ts-endpoint/express';
 import express from 'express';
-import * as TA from 'fp-ts/TaskEither';
 import * as E from 'fp-ts/Either';
 import { pipe } from 'fp-ts/pipeable';
+import * as TA from 'fp-ts/TaskEither';
+import { getUser } from 'shared';
 import { IOError } from 'ts-io-error';
 
 const database = [

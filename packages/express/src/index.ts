@@ -1,13 +1,12 @@
+import { Codec, InferEndpointInstanceParams, IOError, MinimalEndpoint, MinimalEndpointInstance, runtimeType, UndefinedOrRuntime } from '@ts-endpoint/core';
 import { ParseError } from 'effect/ParseResult';
 import * as express from 'express';
-import { sequenceS } from 'fp-ts/Apply';
-import * as E from 'fp-ts/Either';
-import { pipe } from 'fp-ts/function';
-import * as TA from 'fp-ts/TaskEither';
-import { InferEndpointInstanceParams, MinimalEndpoint, MinimalEndpointInstance } from 'ts-endpoint';
-import { Codec, IOError, runtimeType, UndefinedOrRuntime } from 'ts-io-error';
-import { Controller } from './Controller';
-import { Kind, URIS } from './HKT';
+import { sequenceS } from 'fp-ts/lib/Apply.js';
+import * as E from 'fp-ts/lib/Either.js';
+import { pipe } from 'fp-ts/lib/function.js';
+import * as TA from 'fp-ts/lib/TaskEither.js';
+import { Controller } from './Controller.js';
+import { Kind, URIS } from './HKT.js';
 
 const getRouterMatcher = <E extends MinimalEndpoint>(
   router: express.Router,
@@ -33,7 +32,7 @@ export type ErrorMeta<E> = {
   errors?: E;
 };
 
-declare module './HKT' {
+declare module './HKT.js' {
   interface URItoKind<A> {
     IOError: [A] extends [Record<string, Codec<any, any>>] ? IOError<A> : IOError<never>;
   }
