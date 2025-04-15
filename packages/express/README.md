@@ -1,8 +1,8 @@
-# ts-endpoint-express
+# @ts-endpoint/express
 
 ### description
 
-`ts-endpoint-express` uses endpoints created with `ts-endpoint` to add routes to an `express` router in a typesafe manner.
+`@ts-endpoint/express` uses endpoints created with `ts-endpoint` to add routes to an `express` router in a typesafe manner.
 
 ### docs
 documentation of every package can be found [here](https://ts-endpoint.federicosordillo.com)

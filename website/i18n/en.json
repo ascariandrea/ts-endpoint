@@ -13,12 +13,12 @@
         "title": "simple-guide to start with `ts-endpoint-browser`",
         "sidebar_label": "using `ts-endpoint` in your browser"
       },
-      "ts-endpoint-express/intro": {
+      "@ts-endpoint/express/intro": {
         "title": "setup",
-        "sidebar_label": "setting up `ts-endpoint-express`"
+        "sidebar_label": "setting up `@ts-endpoint/express`"
       },
-      "ts-endpoint-express/simple-guide": {
-        "title": "simple-guide to start with `ts-endpoint-express`",
+      "@ts-endpoint/express/simple-guide": {
+        "title": "simple-guide to start with `@ts-endpoint/express`",
         "sidebar_label": "using `ts-endpoint` with an `express` app."
       },
       "ts-endpoint/intro": {
@@ -31,7 +31,7 @@
     },
     "links": {
       "ts-endpoint": "ts-endpoint",
-      "ts-endpoint-express": "ts-endpoint-express",
+      "@ts-endpoint/express": "@ts-endpoint/express",
       "ts-endpoint-browser": "ts-endpoint-browser"
     },
     "categories": {

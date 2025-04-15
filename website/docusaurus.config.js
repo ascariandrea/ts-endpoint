@@ -46,8 +46,8 @@ module.exports = {
           position: 'left',
         },
         {
-          to: 'docs/ts-endpoint-express/intro',
-          label: 'ts-endpoint-express',
+          to: 'docs/@ts-endpoint/express/intro',
+          label: '@ts-endpoint/express',
           position: 'left',
         },
         {

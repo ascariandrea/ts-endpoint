@@ -16,7 +16,7 @@
     "express": "^4.17.3",
     "fp-ts": "^2.8.2",
     "ts-endpoint": "workspace:*",
-    "ts-endpoint-express": "workspace:*",
+    "@ts-endpoint/express": "workspace:*",
     "ts-io-error": "workspace:*"
   }
 }

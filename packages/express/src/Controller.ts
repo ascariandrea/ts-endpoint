@@ -1,5 +1,5 @@
-import { TaskEither } from 'fp-ts/TaskEither';
-import { HTTPResponse } from './HTTPResponse';
+import { TaskEither } from 'fp-ts/lib/TaskEither.js';
+import { HTTPResponse } from './HTTPResponse.js';
 
 export type Controller<E, P, H, Q, B, R> = (
   args: { params: P; headers: H; query: Q; body: B },

@@ -1,20 +1,20 @@
 {
   "docs": {
-    "setup": ["ts-endpoint/intro"],
+    "setup": ["@ts-endpoint/intro"],
     "simple guide": [
-      "ts-endpoint/simple-guide"
+      "@ts-endpoint/simple-guide"
     ]
   },
-  "ts-endpoint-express": {
-    "setup": ["ts-endpoint-express/intro"],
+  "@ts-endpoint/express": {
+    "setup": ["@ts-endpoint/express/intro"],
     "simple guide": [
-      "ts-endpoint-express/simple-guide"
+      "@ts-endpoint/express/simple-guide"
     ]
   },
-  "ts-endpoint-browser": {
-    "setup": ["ts-endpoint-browser/intro"],
+  "@ts-endpoint/http-client": {
+    "setup": ["@ts-endpoint/http-client/intro"],
     "simple guide": [
-      "ts-endpoint-browser/simple-guide"
+      "@ts-endpoint/http-client/simple-guide"
     ]
   }
 }

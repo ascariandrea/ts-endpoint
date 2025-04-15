@@ -1,13 +1,11 @@
+import { Codec, Endpoint, IOError } from '@ts-endpoint/core';
 import { Schema } from 'effect';
 import * as express from 'express';
-import { left, right } from 'fp-ts/Either';
-import { pipe } from 'fp-ts/function';
-import * as E from 'fp-ts/lib/Either';
-import * as O from 'fp-ts/Option';
-import { Endpoint } from 'ts-endpoint';
-import { Codec, IOError } from 'ts-io-error';
+import * as E from 'fp-ts/lib/Either.js';
+import { pipe } from 'fp-ts/lib/function.js';
+import * as O from 'fp-ts/lib/Option.js';
 import { assertType, describe, expectTypeOf, test } from 'vitest';
-import { buildIOError, GetEndpointSubscriber } from '../index';
+import { buildIOError, GetEndpointSubscriber } from '../index.js';
 
 const getEndpoint = Endpoint({
   Input: {
@@ -77,7 +75,7 @@ const decodeOption =
 const registerRouter = GetEndpointSubscriber({ buildDecodeError: buildIOError, decode });
 const AddEndpoint = registerRouter(router);
 
-declare module '../HKT' {
+declare module '../HKT.js' {
   interface URItoKind<A> {
     Option: O.Option<A>;
   }
@@ -92,7 +90,7 @@ describe('AddEndpoint', () => {
       // @ts-expect-error crayons is not a string
       AddEndpoint(getEndpoint, ({ params: { id } }) => () => {
         console.log(id);
-        return Promise.resolve(right({ body: { crayons: [22] }, statusCode: 200 }));
+        return Promise.resolve(E.right({ body: { crayons: [22] }, statusCode: 200 }));
       })
     );
 
@@ -100,7 +98,7 @@ describe('AddEndpoint', () => {
       // @ts-expect-error params bar doesn't exists
       AddEndpoint(getEndpoint, ({ params: { id, bar } }) => () => {
         console.log(bar, id);
-        return Promise.resolve(right({ body: { crayons: ['brown'] }, statusCode: 200 }));
+        return Promise.resolve(E.right({ body: { crayons: ['brown'] }, statusCode: 200 }));
       })
     );
 
@@ -108,14 +106,14 @@ describe('AddEndpoint', () => {
       // @ts-expect-error body doesn't exists
       AddEndpoint(getEndpoint, ({ params: { id }, body: { foo } }) => () => {
         console.log(id, foo);
-        return Promise.resolve(right({ body: { crayons: ['brown'] }, statusCode: 200 }));
+        return Promise.resolve(E.right({ body: { crayons: ['brown'] }, statusCode: 200 }));
       })
     );
 
     assertType<void>(
       AddEndpoint(getEndpoint, ({ params: { id } }) => () => {
         console.log(id);
-        return Promise.resolve(right({ body: { crayons: ['brown'] }, statusCode: 200 }));
+        return Promise.resolve(E.right({ body: { crayons: ['brown'] }, statusCode: 200 }));
       })
     );
 
@@ -124,7 +122,7 @@ describe('AddEndpoint', () => {
         assertType<string>(id);
         assertType<O.Option<string>>(foo);
 
-        return Promise.resolve(right({ body: { crayons: ['brown'] }, statusCode: 200 }));
+        return Promise.resolve(E.right({ body: { crayons: ['brown'] }, statusCode: 200 }));
       })
     );
 
@@ -132,14 +130,14 @@ describe('AddEndpoint', () => {
       // @ts-expect-error post endpoint doesn't have params
       AddEndpoint(postEndpoint, ({ params: { id } }) => () => {
         console.log(id);
-        return Promise.resolve(right({ body: { crayons: ['brown'] }, statusCode: 201 }));
+        return Promise.resolve(E.right({ body: { crayons: ['brown'] }, statusCode: 201 }));
       })
     );
 
     assertType(
       AddEndpoint(postEndpoint, ({ body: { content } }) => () => {
         console.log(content);
-        return Promise.resolve(right({ body: { crayons: ['brown'] }, statusCode: 201 }));
+        return Promise.resolve(E.right({ body: { crayons: ['brown'] }, statusCode: 201 }));
       })
     );
 
@@ -147,7 +145,7 @@ describe('AddEndpoint', () => {
       AddEndpoint(putEndpoint, ({ params: { id }, body: { content } }) => () => {
         assertType<string>(id);
         assertType<string>(content);
-        return Promise.resolve(right({ body: { crayons: ['brown'] }, statusCode: 201 }));
+        return Promise.resolve(E.right({ body: { crayons: ['brown'] }, statusCode: 201 }));
       })
     );
 
@@ -155,13 +153,13 @@ describe('AddEndpoint', () => {
       // @ts-expect-error error not conforming to the schema
       AddEndpoint(postEndpointWithErrors, ({ body: { content } }) => () => {
         console.log(content);
-        return Promise.resolve(left({ foo: 'baz' }));
+        return Promise.resolve(E.left({ foo: 'baz' }));
       })
     );
 
     assertType(
       AddEndpoint(postEndpointWithErrors, ({ body: { content } }) => () => {
-        console.log(content);
+        assertType<string>(content);
 
         // @ts-expect-error error kind not conforming to the schema
         return Promise.resolve(left(new IOError('error', { kind: 'KnownError', error: 'foo' })));
@@ -170,7 +168,8 @@ describe('AddEndpoint', () => {
 
     assertType(
       AddEndpoint(postEndpointWithErrors, ({ body: { content } }) => () => {
-        console.log(content);
+        assertType<string>(content);
+
         return Promise.resolve(
           // @ts-expect-error error kind and status not conforming to the schema
           left(new IOError('error', { kind: 'KnownError', status: 401, body: { error: 'foo' } }))
@@ -199,7 +198,7 @@ describe('AddEndpoint', () => {
           console.log(content);
 
           return Promise.resolve(
-            left(O.some({ kind: 'KnownError', status: 401, body: { error: 'foo' } }))
+            E.left(O.some({ kind: 'KnownError', status: 401, body: { error: 'foo' } }))
           );
         })
       );
