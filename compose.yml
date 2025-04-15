@@ -17,3 +17,26 @@ services:
       - ./website/sidebars.json:/app/website/sidebars.json
       - ./website/siteConfig.js:/app/website/siteConfig.js
     working_dir: /app/website
+
+  verdaccio:
+    image: verdaccio/verdaccio:latest
+    volumes:
+      # - ./verdaccio/storage:/verdaccio/storage:cached
+      - './verdaccio/conf:/verdaccio/conf'
+    ports:
+      - "4873:4873"
+    environment:
+      - VERDACCIO_PUBLIC_URL=http://npm.local.dev:4873/
+      - VIRTUAL_HOST=npm.local.dev
+      - VIRTUAL_PORT=4873
+      - VERDACCIO_USER_UID=1000
+    networks:
+      - reverseproxy
+
+# volumes:
+#   verdaccio:
+#     driver: local
+
+networks:
+  reverseproxy:
+    external: true
