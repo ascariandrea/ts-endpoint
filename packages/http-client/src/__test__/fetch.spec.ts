@@ -1,13 +1,12 @@
+import { Codec, DecodeErrorStatus, Endpoint, IOError, NetworkErrorStatus } from '@ts-endpoint/core';
 import { Schema } from 'effect';
-import { isLeft } from 'fp-ts/Either';
-import * as E from 'fp-ts/lib/Either';
-import { pipe } from 'fp-ts/lib/function';
+import * as E from 'fp-ts/lib/Either.js';
+import { isLeft } from 'fp-ts/lib/Either.js';
+import { pipe } from 'fp-ts/lib/function.js';
 import 'isomorphic-fetch';
-import { Endpoint } from 'ts-endpoint';
-import { Codec, DecodeErrorStatus, IOError, NetworkErrorStatus } from 'ts-io-error';
 import { describe, expect, it, vi } from 'vitest';
-import { HTTPClientConfig } from '../config';
-import { GetFetchHTTPClient } from '../fetch';
+import { HTTPClientConfig } from '../config.js';
+import { GetFetchHTTPClient } from '../fetch.js';
 
 const errorMock = vi.spyOn(globalThis.console, 'error').mockImplementation(() => {});
 

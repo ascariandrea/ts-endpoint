@@ -1,15 +1,14 @@
-import { findFirst } from 'fp-ts/Array';
-import { toArray } from 'fp-ts/lib/Record';
-import * as O from 'fp-ts/Option';
-import { pipe } from 'fp-ts/pipeable';
-import * as TA from 'fp-ts/TaskEither';
+import { Codec, EndpointErrors, IOError, MinimalEndpointInstance, NetworkErrorStatus } from '@ts-endpoint/core';
+import { findFirst } from 'fp-ts/lib/Array.js';
+import { pipe } from 'fp-ts/lib/function.js';
+import * as O from 'fp-ts/lib/Option.js';
+import * as TA from 'fp-ts/lib/TaskEither.js';
+import { toArray } from 'fp-ts/Record';
 import qs from 'qs';
-import { EndpointErrors, MinimalEndpointInstance } from 'ts-endpoint';
-import { Codec, IOError, NetworkErrorStatus } from 'ts-io-error';
-import { HTTPClientConfig } from './config';
-import { FetchClient, GetHTTPClient, GetHTTPClientOptions } from './GetHTTPClient';
+import { HTTPClientConfig } from './config.js';
+import { FetchClient, GetHTTPClient, GetHTTPClientOptions } from './GetHTTPClient.js';
 
-declare module './HKT' {
+declare module './HKT.js' {
   interface URItoKind<A> {
     IOError: A extends Record<string, Codec<any, any, never>> ? IOError<A> : never;
   }
