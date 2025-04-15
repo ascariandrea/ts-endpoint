@@ -15,6 +15,7 @@
     "ts-io-error": "pnpm --filter ts-io-error",
     "ts-endpoint-browser": "pnpm --filter ts-endpoint-browser",
     "ts-endpoint-express": "pnpm --filter ts-endpoint-express",
+    "ts-endpoint-react-admin": "pnpm --filter ts-endpoint-react-admin",
     "website": "pnpm --filter @ts-endpoint/docs",
     "prepare": "husky install",
     "typecheck": "pnpm -r run typecheck",
