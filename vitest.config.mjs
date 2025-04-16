@@ -13,8 +13,12 @@ const config = defineConfig({
         "**/vite.*.{mjs,ts,mts}",
         "**/vitest.*.{mjs,ts,mts}",
         "**/eslint.config.{mjs,ts,mts}",
+        '**/__tests__/**',
+        '**/__test__/**',
         "examples/**",
         "website/**",
+        "test/**",
+        "**/src/index.ts"
       ],
       thresholds: {
         lines: 80,

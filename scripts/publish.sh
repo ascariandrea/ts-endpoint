@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 
-# set -e -x
-
-GITHUB_TOKEN=$(cat ./gh-token.txt)
-
-echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
+set -e
 
 pnpm publish -r \
   --no-git-checks \
