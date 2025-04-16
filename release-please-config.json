@@ -19,7 +19,7 @@
     "packages/tanstack-query": {
       "component": "@ts-endpoint/tanstack-query"
     },
-    "packages/@ts-endpoint/express": {
+    "packages/express": {
       "component": "@ts-endpoint/express"
     }
   },
