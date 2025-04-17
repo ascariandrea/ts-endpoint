@@ -1,6 +1,6 @@
 import { Schema } from 'effect';
 import { assertType, expectTypeOf, test } from 'vitest';
-import { Endpoint, EndpointInstanceEncodedParams } from '../Endpoint.js';
+import { Endpoint, type EndpointInstanceEncodedParams } from '../Endpoint.js';
 
 const endpointInstance = Endpoint({
   Input: {
@@ -70,7 +70,6 @@ test('Should match the types', () => {
   expectTypeOf(endpointWithoutParam.getPath).toEqualTypeOf<(args?: undefined) => string>();
   expectTypeOf(endpointInstance.Input.Body).toEqualTypeOf<undefined>();
 
-  // @dts-jest:pass:snap resulting EndpointInstances typings are correct
   expectTypeOf(endpointInstance.Output.fields.crayons).toEqualTypeOf<
     Schema.Array$<typeof Schema.String>
   >();
@@ -85,11 +84,11 @@ test('Should match the types', () => {
 
   expectTypeOf(endpointWithParam.getPath).not.toEqualTypeOf<(i?: undefined) => string>();
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   expectTypeOf(endpointWithParam.getPath).not.toEqualTypeOf<(i?: {}) => string>();
 
   expectTypeOf(endpointWithParam.getStaticPath).not.toEqualTypeOf<() => string>();
 
-  // @dts-jest:pass:snap getStaticPath requires a mapping function if some Params are defined in the endpoint
   expectTypeOf(endpointWithParam.getStaticPath((param) => `:${param}`)).toEqualTypeOf<string>();
 
   expectTypeOf(endpointWithoutParam.getStaticPath()).toEqualTypeOf<string>();
@@ -108,7 +107,7 @@ test('Should match the types', () => {
     Schema.Struct<{ id: typeof Schema.Number }>
   >();
 
-  assertType<EndpointInstanceEncodedParams<typeof endpointWithBody>["Input"]['Body']>({
+  assertType<EndpointInstanceEncodedParams<typeof endpointWithBody>['Input']['Body']>({
     id: 1,
   });
 });

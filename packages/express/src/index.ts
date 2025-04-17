@@ -1,12 +1,20 @@
-import { Codec, InferEndpointInstanceParams, IOError, MinimalEndpoint, MinimalEndpointInstance, runtimeType, UndefinedOrRuntime } from '@ts-endpoint/core';
-import { ParseError } from 'effect/ParseResult';
-import * as express from 'express';
+import {
+  type Codec,
+  type InferEndpointInstanceParams,
+  IOError,
+  type MinimalEndpoint,
+  type MinimalEndpointInstance,
+  type runtimeType,
+  type UndefinedOrRuntime,
+} from '@ts-endpoint/core';
+import { type ParseError } from 'effect/ParseResult';
+import type * as express from 'express';
 import { sequenceS } from 'fp-ts/lib/Apply.js';
 import * as E from 'fp-ts/lib/Either.js';
-import { pipe } from 'fp-ts/lib/function.js';
 import * as TA from 'fp-ts/lib/TaskEither.js';
-import { Controller } from './Controller.js';
-import { Kind, URIS } from './HKT.js';
+import { pipe } from 'fp-ts/lib/function.js';
+import { type Controller } from './Controller.js';
+import { type Kind, type URIS } from './HKT.js';
 
 const getRouterMatcher = <E extends MinimalEndpoint>(
   router: express.Router,
@@ -88,7 +96,7 @@ export const GetEndpointSubscriber =
     const matcher = getRouterMatcher(router, e);
     const path = e.getStaticPath((param: string) => `:${param}`);
 
-    matcher.bind(router)(path, ...(m ?? []), async (req, res, next) => {
+    matcher.bind(router)(path, ...(m ?? []), (req, res, next) => {
       const args = sequenceS(E.Applicative)({
         params: !e.Input?.Params ? E.right(undefined) : decode(e.Input.Params)(req.params),
         headers: !e.Input?.Headers ? E.right(undefined) : decode(e.Input.Headers)(req.headers),
@@ -115,6 +123,6 @@ export const GetEndpointSubscriber =
         )
       );
 
-      return taskRunner();
+      void taskRunner();
     });
   };

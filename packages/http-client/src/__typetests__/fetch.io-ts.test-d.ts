@@ -1,11 +1,11 @@
-import { Endpoint, IOError, IOTSCodec } from '@ts-endpoint/core';
+import { Endpoint, IOError, type IOTSCodec } from '@ts-endpoint/core';
 import { mapLeft, right } from 'fp-ts/lib/Either.js';
 import { pipe } from 'fp-ts/lib/function.js';
 import * as t from 'io-ts';
 import { assertType, describe, expectTypeOf, it } from 'vitest';
-import { HTTPClientConfig } from '../config.js';
+import { type HTTPClientConfig } from '../config.js';
 import { GetFetchHTTPClient } from '../fetch.js';
-import { InferFetchResult } from '../index.js';
+import { type InferFetchResult } from '../index.js';
 
 const options: HTTPClientConfig = {
   protocol: 'http',
@@ -56,7 +56,9 @@ const fetchClient = GetFetchHTTPClient(options, endpoints, {
   decode: (schema) => (input) =>
     pipe(
       (schema as IOTSCodec<any, any>).decode(input),
-      mapLeft((e) => new IOError(e.join(', '), { kind: "DecodingError", errors: e }))
+      mapLeft(
+        (e) => new IOError(e.map((v) => v.message).join(', '), { kind: 'DecodingError', errors: e })
+      )
     ),
 });
 
@@ -83,19 +85,16 @@ describe('FetchClient', () => {
       prova: (args: { Params: { id: string } }) => any;
     }>();
 
-    // @ts-expect-error
-    expectTypeOf(fetchClient.prova).not.toMatchObjectType({
-      Params: { id: '123', foo: 'baz' },
-      Query: { color: 'marrone' },
-    });
+    expectTypeOf(fetchClient.prova).not.toMatchObjectType<{
+      Params: { id: string; foo: string };
+      Query: { color: string };
+    }>();
 
-    // @ts-expect-error
-    expectTypeOf(fetchClient).not.toMatchObjectType({
-      Params: { id: '123' },
-      Query: { color: 'marrone' },
-      // @dts-jest:fail:snap should not allow to add Body when not declared in the endpoint
-      Body: { foo: 'baz' },
-    });
+    expectTypeOf(fetchClient).not.toMatchObjectType<{
+      Params: { id: string };
+      Query: { color: string };
+      Body: { foo: string };
+    }>();
 
     expectTypeOf(right({})).not.toEqualTypeOf<InferFetchResult<typeof fetchClient.prova>>();
 

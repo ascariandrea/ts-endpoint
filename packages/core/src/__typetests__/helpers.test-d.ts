@@ -1,7 +1,7 @@
 import * as t from 'io-ts';
-import { RequiredKeys } from 'typelevel-ts';
+import { type RequiredKeys } from 'typelevel-ts';
 import { assertType, test } from 'vitest';
-import { Endpoint, TypeOfEndpointInstance } from '../Endpoint.js';
+import { Endpoint, type TypeOfEndpointInstance } from '../Endpoint.js';
 
 const endpointWithParam = Endpoint({
   Input: {
@@ -149,10 +149,9 @@ test('Endpoint helpers typings', () => {
 
   assertType<TypeOfEndpointInstance<typeof endpointWithErrors>['getStaticPath']>((fn) => fn('id'));
 
-  assertType<RequiredKeys<TypeOfEndpointInstance<typeof endpointWithErrors>>>("Errors");
+  assertType<RequiredKeys<TypeOfEndpointInstance<typeof endpointWithErrors>>>('Errors');
 
   assertType<RequiredKeys<TypeOfEndpointInstance<typeof endpointWithErrors>['Input']>>('Params');
 
   assertType<RequiredKeys<TypeOfEndpointInstance<typeof endpointWithErrors>['Input']>>('Query');
 });
-

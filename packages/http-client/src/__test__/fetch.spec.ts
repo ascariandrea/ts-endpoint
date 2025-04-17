@@ -1,11 +1,17 @@
-import { Codec, DecodeErrorStatus, Endpoint, IOError, NetworkErrorStatus } from '@ts-endpoint/core';
+import {
+  type Codec,
+  DecodeErrorStatus,
+  Endpoint,
+  IOError,
+  NetworkErrorStatus,
+} from '@ts-endpoint/core';
 import { Schema } from 'effect';
 import * as E from 'fp-ts/lib/Either.js';
 import { isLeft } from 'fp-ts/lib/Either.js';
 import { pipe } from 'fp-ts/lib/function.js';
 import 'isomorphic-fetch';
 import { describe, expect, it, vi } from 'vitest';
-import { HTTPClientConfig } from '../config.js';
+import { type HTTPClientConfig } from '../config.js';
 import { GetFetchHTTPClient } from '../fetch.js';
 
 const errorMock = vi.spyOn(globalThis.console, 'error').mockImplementation(() => {});
@@ -137,14 +143,12 @@ const decode =
     return pipe(
       input,
       Schema.decodeUnknownEither(s as Schema.Schema<any>),
-      E.mapLeft(
-        (err) => {
-         return new IOError('Parse error', {
-            kind: 'DecodingError',
-            errors: [err],
-          })
-        }
-      )
+      E.mapLeft((err) => {
+        return new IOError('Parse error', {
+          kind: 'DecodingError',
+          errors: [err],
+        });
+      })
     );
   };
 
@@ -205,7 +209,7 @@ const lazyClientErrorResponse = () =>
   Promise.resolve(
     new Response(JSON.stringify({ foo: 'baz' }), { status: 404, statusText: 'client error' })
   );
-const lazyNetworkErrorRequest = () => Promise.reject('fail');
+const lazyNetworkErrorRequest = () => Promise.reject(new Error('fail'));
 
 describe('GetFetchHTTPClient', () => {
   it('implements all the endpoint definitions', () => {

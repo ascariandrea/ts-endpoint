@@ -1,7 +1,7 @@
 import { Schema } from 'effect';
 import * as O from 'effect/Option';
 import { assertType, describe, expectTypeOf, it } from 'vitest';
-import { Endpoint, EndpointInstanceEncodedInputs } from '../Endpoint.js';
+import { Endpoint, type EndpointInstanceEncodedInputs } from '../Endpoint.js';
 
 const endpointInstance = Endpoint({
   Input: {
@@ -55,43 +55,42 @@ describe('EndpointInstance', () => {
     expectTypeOf(endpointInstance.Input.Params.fields.id).toEqualTypeOf<typeof Schema.String>();
     expectTypeOf(endpointInstance.Input.Query.fields.color).toEqualTypeOf<typeof Schema.String>();
 
-    // @dts-jest:pass:snap resulting EndpointInstances typings are correct
-    endpointInstance.getStaticPath;
+    expectTypeOf(endpointInstance.getStaticPath).toEqualTypeOf<
+      (param: (paramName: keyof typeof endpointInstance.Input.Params.Type) => string) => string
+    >();
 
     expectTypeOf(endpointInstance.Input.Body).not.toMatchObjectType<{ prova: true }>();
 
-    expectTypeOf(endpointInstance.Output.fields).not.toMatchObjectType<{ fakeOutput: any }>;
+    expectTypeOf(endpointInstance.Output.fields).not.toMatchObjectType<{ fakeOutput: never }>();
 
     assertType<readonly string[]>(endpointInstance.Output.fields.crayons.Type);
 
-    // @dts-jest:pass:snap Errors are well formatted
-    endpointWithErrors.Errors;
+    expectTypeOf(endpointWithErrors.Errors).toEqualTypeOf<{
+      401: typeof Schema.Undefined;
+      404: Schema.Struct<{ message: typeof Schema.String }>;
+      500: Schema.Struct<{ foo: typeof Schema.Number }>;
+    }>();
 
-    // @ts-expect-error my error
-    endpointWithParam.getPath();
+    expectTypeOf(endpointWithParam.getPath).parameter(0).not.toEqualTypeOf<null>();
 
-    expectTypeOf(endpointWithParam.getPath).not.toEqualTypeOf(({}));
-
-    // @ts-expect-error my error
-    expectTypeOf(endpointWithParam.getPath).not.toMatchObjectType({ foo: '' });
+    expectTypeOf(endpointWithParam.getPath).not.toEqualTypeOf({});
 
     expectTypeOf(endpointWithParam.getPath).not.toEqualTypeOf({ id: '' });
-    // @dts-jest:pass:snap getPath args must have the same type as the Params defined in the endpoint
-    endpointWithParam.getPath({ id: 2 });
+
+    expectTypeOf(endpointWithParam.getPath)
+      .parameter(0)
+      .toMatchObjectType<{ readonly id: number }>();
 
     expectTypeOf(endpointWithParam.getStaticPath).not.toEqualTypeOf<() => string>();
 
-    // @dts-jest:pass:snap getStaticPath requires a mapping function if some Params are defined in the endpoint
-    endpointWithParam.getStaticPath((param) => `:${param}`);
+    expectTypeOf(endpointWithParam.getStaticPath((param) => `:${param}`)).toEqualTypeOf<string>();
 
-    // @dts-jest:pass:snap getStaticPath requires no args if no Params are defined
-    endpointWithoutParam.getStaticPath();
+    expectTypeOf(endpointWithoutParam.getStaticPath()).toEqualTypeOf<string>();
 
-    // @dts-jest:pass:snap getPath can be called with no args if no Params are defined in the endpoint
     expectTypeOf(endpointWithoutParam.getPath).toEqualTypeOf<(i?: undefined) => string>();
     expectTypeOf(endpointWithoutParam.getPath()).toEqualTypeOf<string>();
 
-    expectTypeOf(endpointWithParam.Input.Query).not.toMatchObjectType<any>();
+    expectTypeOf(endpointWithParam.Input.Query).not.toMatchObjectType<never>();
     expectTypeOf(endpointWithParam.Input.Query).not.toEqualTypeOf<{
       color: string;
       status?: string;
@@ -99,7 +98,7 @@ describe('EndpointInstance', () => {
 
     assertType<EndpointInstanceEncodedInputs<typeof endpointWithParam>['Query']>({
       color: 'red',
-      status: O.none<string>()
+      status: O.none<string>(),
     });
   });
 });

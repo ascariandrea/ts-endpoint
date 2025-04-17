@@ -1,12 +1,18 @@
-import { Codec, EndpointErrors, IOError, MinimalEndpointInstance, NetworkErrorStatus } from '@ts-endpoint/core';
+import {
+  type Codec,
+  type EndpointErrors,
+  IOError,
+  type MinimalEndpointInstance,
+  NetworkErrorStatus,
+} from '@ts-endpoint/core';
+import { toArray } from 'fp-ts/Record';
 import { findFirst } from 'fp-ts/lib/Array.js';
-import { pipe } from 'fp-ts/lib/function.js';
 import * as O from 'fp-ts/lib/Option.js';
 import * as TA from 'fp-ts/lib/TaskEither.js';
-import { toArray } from 'fp-ts/Record';
+import { pipe } from 'fp-ts/lib/function.js';
 import qs from 'qs';
-import { HTTPClientConfig } from './config.js';
-import { FetchClient, GetHTTPClient, GetHTTPClientOptions } from './GetHTTPClient.js';
+import { type FetchClient, GetHTTPClient, type GetHTTPClientOptions } from './GetHTTPClient.js';
+import { type HTTPClientConfig } from './config.js';
 
 declare module './HKT.js' {
   interface URItoKind<A> {
@@ -161,7 +167,7 @@ export const useBrowserFetch = <E extends MinimalEndpointInstance>(
             return pipe(
               options?.mapInput ? options.mapInput(json) : json,
               options.decode(e.Output),
-              TA.fromEither,
+              TA.fromEither
             );
           })
         );

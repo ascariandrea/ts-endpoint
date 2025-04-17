@@ -1,7 +1,7 @@
 import {
-  Codec,
-  EndpointOutputType,
-  EndpointsMapType,
+  type Codec,
+  type EndpointOutputType,
+  type EndpointsMapType,
   IOError,
   type EndpointInstance,
   type InferEndpointInstanceParams,
@@ -9,12 +9,13 @@ import {
   type MinimalEndpoint,
   type MinimalEndpointInstance,
   type ResourceEndpoints,
-  type runtimeType, type serializedType,
-  type TypeOfEndpointInstance
+  type runtimeType,
+  type serializedType,
+  type TypeOfEndpointInstance,
 } from '@ts-endpoint/core';
 import { isAxiosError } from 'axios';
 import * as A from 'fp-ts/lib/Array.js';
-import * as E from 'fp-ts/lib/Either.js';
+import type * as E from 'fp-ts/lib/Either.js';
 import * as R from 'fp-ts/lib/Record.js';
 import * as TE from 'fp-ts/lib/TaskEither.js';
 import { pipe } from 'fp-ts/lib/function.js';
@@ -59,10 +60,7 @@ export const dataProviderRequestLift = <B extends { data: any }, E>(
   lp: () => Promise<GetOneResult<any>> | Promise<GetListResult<any>>,
   decode: <A>(a: A) => E.Either<E, B>
 ): TE.TaskEither<E | IOError, B> => {
-  return pipe(
-    TE.tryCatch(lp, toError),
-    TE.chainEitherKW(decode)
-  );
+  return pipe(TE.tryCatch(lp, toError), TE.chainEitherKW(decode));
 };
 
 const restFromResourceEndpoints = <
@@ -71,7 +69,7 @@ const restFromResourceEndpoints = <
   C extends MinimalEndpoint,
   E extends MinimalEndpoint,
   D extends MinimalEndpoint,
-  CC extends Record<string, MinimalEndpointInstance>
+  CC extends Record<string, MinimalEndpointInstance>,
 >(
   apiClient: APIRESTClient,
   e: ResourceEndpoints<

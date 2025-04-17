@@ -1,22 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
 import {
-  EndpointInstance,
-  EndpointOutputType,
-  EndpointParamsType,
-  EndpointsMapType,
-  IOError,
-  MinimalEndpoint,
-  PartialSerializedType,
+  type EndpointInstance,
+  type EndpointOutputType,
+  type EndpointParamsType,
+  type EndpointsMapType,
+  type IOError,
+  type MinimalEndpoint,
+  type PartialSerializedType,
   type EndpointQueryType,
   type InferEndpointParams,
   type MinimalEndpointInstance,
 } from '@ts-endpoint/core';
-import { GetListFnParamsE } from '@ts-endpoint/react-admin';
-import { EndpointRequest, type EndpointREST } from '@ts-endpoint/resource-client';
-import { pipe } from 'fp-ts/lib/function.js';
+import { type GetListFnParamsE } from '@ts-endpoint/react-admin';
+import { type EndpointRequest, type EndpointREST } from '@ts-endpoint/resource-client';
 import * as R from 'fp-ts/lib/Record.js';
 import * as Rec from 'fp-ts/lib/Record.js';
 import { type TaskEither } from 'fp-ts/lib/TaskEither.js';
+import { pipe } from 'fp-ts/lib/function.js';
 import {
   type GetQueryOverride,
   type ResourceEndpointsQueriesOverride,
@@ -41,8 +41,12 @@ export const throwTE = async <E, A>(te: TaskEither<E, A>): Promise<A> => {
 
 export const getDefaultKey =
   (key: string) =>
-  <P, Q>(p: P, q?: Q, d?: boolean, prefix?: string): QueryFnKey<P, Q> =>
-    [`${prefix ? `${prefix}-` : ''}${key}`, p, q ?? undefined, d ?? false];
+  <P, Q>(p: P, q?: Q, d?: boolean, prefix?: string): QueryFnKey<P, Q> => [
+    `${prefix ? `${prefix}-` : ''}${key}`,
+    p,
+    q ?? undefined,
+    d ?? false,
+  ];
 
 export const emptyQuery = (): Promise<any> =>
   Promise.resolve({
@@ -136,7 +140,7 @@ export const toQueries = <
   ES extends EndpointsMapType,
   G extends MinimalEndpointInstance,
   L extends MinimalEndpointInstance,
-  CC extends Record<string, MinimalEndpointInstance>
+  CC extends Record<string, MinimalEndpointInstance>,
 >(
   key: string,
   e: EndpointREST<G, L, any, any, any, CC>,

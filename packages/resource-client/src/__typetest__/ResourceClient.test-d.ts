@@ -4,7 +4,7 @@ import { Schema } from 'effect';
 import * as E from 'fp-ts/lib/Either.js';
 import { pipe } from 'fp-ts/lib/function.js';
 import { assertType, describe, expectTypeOf, test } from 'vitest';
-import { EndpointRequest, GetResourceClient, toEndpointRequest } from '../ResourceClient.js';
+import { type EndpointRequest, GetResourceClient, toEndpointRequest } from '../ResourceClient.js';
 
 describe(GetResourceClient.name, () => {
   const resourceClient = GetResourceClient({} as any, TestEndpoints, {

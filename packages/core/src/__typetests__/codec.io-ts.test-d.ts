@@ -2,7 +2,14 @@ import * as E from 'fp-ts/lib/Either.js';
 import * as t from 'io-ts';
 import { NumberFromString } from 'io-ts-types/lib/NumberFromString.js';
 import { assertType, test } from 'vitest';
-import { decodeType, InferCodec, InferRecordCodec, RecordCodecSerialized, runtimeType, serializedType } from '../Codec.js';
+import {
+  type decodeType,
+  type InferCodec,
+  type InferRecordCodec,
+  type RecordCodecSerialized,
+  type runtimeType,
+  type serializedType,
+} from '../Codec.js';
 
 test('Codec', () => {
   const codec = t.strict({ id: NumberFromString });
@@ -31,5 +38,5 @@ test('Codec', () => {
 
   assertType<runtimeType<RECORD_CODEC>>({ superId: { id: 1 } });
 
-  assertType<RecordCodecSerialized<RECORD_CODEC>>({ superId: { id: "1" } });
+  assertType<RecordCodecSerialized<RECORD_CODEC>>({ superId: { id: '1' } });
 });

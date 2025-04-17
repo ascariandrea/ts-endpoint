@@ -1,7 +1,7 @@
 import { Schema } from 'effect';
-import { RequiredKeys } from 'typelevel-ts';
+import { type RequiredKeys } from 'typelevel-ts';
 import { assertType, describe, it } from 'vitest';
-import { Endpoint, TypeOfEndpointInstance } from '../Endpoint.js';
+import { Endpoint, type TypeOfEndpointInstance } from '../Endpoint.js';
 
 const endpointWithParam = Endpoint({
   Input: {
@@ -153,7 +153,6 @@ describe('helpers', () => {
     );
 
     assertType<RequiredKeys<TypeOfEndpointInstance<typeof endpointWithErrors>>>('Errors');
-    // @dts-jest:pass:snap resulting TypeOfEndpointInstance typings are correct
     assertType<RequiredKeys<TypeOfEndpointInstance<typeof endpointWithErrors>['Input']>>('Params');
   });
 });

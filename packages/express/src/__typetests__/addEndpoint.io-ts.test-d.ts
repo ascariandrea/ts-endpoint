@@ -1,9 +1,9 @@
-import { Endpoint, IOError, IOTSCodec } from '@ts-endpoint/core';
+import { Endpoint, IOError, type IOTSCodec } from '@ts-endpoint/core';
 import * as express from 'express';
 import * as E from 'fp-ts/lib/Either.js';
 import { left, right } from 'fp-ts/lib/Either.js';
-import { pipe } from 'fp-ts/lib/function.js';
 import * as O from 'fp-ts/lib/Option.js';
+import { pipe } from 'fp-ts/lib/function.js';
 import * as t from 'io-ts';
 import { assertType, expectTypeOf, test } from 'vitest';
 import { buildIOError, GetEndpointSubscriber } from '../index.js';
@@ -36,7 +36,7 @@ const postEndpointWithErrors = Endpoint({
   Output: t.type({ crayons: t.array(t.string) }),
   Errors: {
     404: t.type({ error: t.string }),
-    401: t.type({ baz: t.string })
+    401: t.type({ baz: t.string }),
   },
 });
 
@@ -62,7 +62,7 @@ declare module '../HKT.js' {
 }
 
 test('AddEndpoint', () => {
-  expectTypeOf(AddEndpoint).parameter(0).not.toMatchObjectType<undefined>;
+  expectTypeOf(AddEndpoint).parameter(0).not.toMatchObjectType<undefined>();
 
   expectTypeOf(AddEndpoint).not.toEqualTypeOf<() => void>();
 
@@ -86,7 +86,7 @@ test('AddEndpoint', () => {
   assertType(
     // @ts-expect-error body doesn't exists
     AddEndpoint(getEndpoint, ({ params: { id }, body: { foo } }) => () => {
-      assertType<string>(id)
+      assertType<string>(id);
       assertType<string>(foo);
       return Promise.resolve(right({ body: { crayons: ['brown'] }, statusCode: 200 }));
     })

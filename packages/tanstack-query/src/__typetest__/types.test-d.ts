@@ -1,6 +1,6 @@
-import { TestEndpoints } from '@ts-endpoint/test';
+import { type TestEndpoints } from '@ts-endpoint/test';
 import { describe, expectTypeOf, test } from 'vitest';
-import { QueryProvider, ResourceQueries, ResourceQuery } from '../types.js';
+import { type QueryProvider, type ResourceQueries, type ResourceQuery } from '../types.js';
 
 describe('types', () => {
   test('ResourceQuery', () => {
@@ -22,7 +22,7 @@ describe('types', () => {
       { id: string }
     >;
 
-    expectTypeOf<RQ['getKey']>().parameter(0).toEqualTypeOf<{ id: string }>;
+    expectTypeOf<RQ['getKey']>().parameter(0).toEqualTypeOf<{ id: string }>();
     expectTypeOf<RQ['getKey']>().parameter(1).toEqualTypeOf<
       | {
           filter: { id: string };
@@ -30,7 +30,7 @@ describe('types', () => {
           sort: { field: string; order: 'asc' | 'desc' };
         }
       | undefined
-    >;
+    >();
   });
   test('ResourceQueries', () => {
     type RR = ResourceQueries<
@@ -38,23 +38,14 @@ describe('types', () => {
       (typeof TestEndpoints)['Actor']['List'],
       (typeof TestEndpoints)['Actor']['Custom']
     >;
-    expectTypeOf<RR['get']['getKey']>().parameter(0).toEqualTypeOf<{ id: string }>;
-    // expectTypeOf<RR['list']['fetch']>().parameters.toEqualTypeOf<{
-    //   0: {
-    //     filter: {};
-    //   };
-    //   1: {};
-    //   2: boolean | undefined;
-    // }>;
+    expectTypeOf<RR['get']['getKey']>().parameter(0).toEqualTypeOf<{ readonly id: string }>();
   });
 
   test('QueryProvider', () => {
     type EndpointsQueryProvider = QueryProvider<TestEndpoints>;
-    expectTypeOf<EndpointsQueryProvider['Actor']['get']['getKey']>().parameters.toEqualTypeOf<{
-      0: { id: string };
-      1: undefined;
-      2: boolean | undefined;
-      3: string | undefined;
-    }>;
+
+    type ActorGet = EndpointsQueryProvider['Actor']['get'];
+
+    expectTypeOf<ActorGet['getKey']>().parameter(0).toEqualTypeOf<{ readonly id: string }>();
   });
 });

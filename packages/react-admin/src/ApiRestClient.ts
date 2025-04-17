@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-imports */
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
 import * as E from 'fp-ts/lib/Either.js';
 import * as Task from 'fp-ts/lib/Task.js';

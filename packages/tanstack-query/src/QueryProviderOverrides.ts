@@ -1,15 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import {
-  EndpointParamsType,
-  EndpointQueryType,
-  EndpointsMapType,
-  IOError,
+  type EndpointParamsType,
+  type EndpointQueryType,
+  type EndpointsMapType,
+  type IOError,
   type InferEndpointInstanceParams,
   type MinimalEndpointInstance,
   type PartialSerializedType,
 } from '@ts-endpoint/core';
 import { type EndpointsRESTClient, type GetListFnParamsE } from '@ts-endpoint/react-admin';
-import { API } from '@ts-endpoint/resource-client';
+import { type API } from '@ts-endpoint/resource-client';
 import * as Rec from 'fp-ts/lib/Record.js';
 import { type TaskEither } from 'fp-ts/lib/TaskEither.js';
 import { pipe } from 'fp-ts/lib/function.js';
@@ -53,7 +53,7 @@ export const toOverrideQueries = <
   ES extends EndpointsMapType,
   G extends MinimalEndpointInstance,
   L extends MinimalEndpointInstance,
-  CC extends Record<string, any>
+  CC extends Record<string, any>,
 >(
   QP: API<ES>,
   namespace: string,
