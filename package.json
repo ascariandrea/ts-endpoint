@@ -16,7 +16,6 @@
     "express": "pnpm --filter @ts-endpoint/express",
     "react-admin": "pnpm --filter @ts-endpoint/react-admin",
     "website": "pnpm --filter @ts-endpoint/docs",
-    "prepare": "husky install",
     "typecheck": "pnpm -r run typecheck",
     "build": "pnpm -r run build",
     "build:packages": "pnpm --filter '@ts-endpoint/*' run build",
@@ -31,10 +30,10 @@
     "io-ts": "^2.2.22"
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.0.0",
-    "@commitlint/config-conventional": "^12.0.0",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
     "@vitest/coverage-v8": "^2.1.8",
-    "husky": "^8.0.3",
+    "husky": "^9.1.7",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9"
   },
