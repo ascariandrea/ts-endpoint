@@ -1,17 +1,22 @@
 {
   "name": "shared",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Federico Sordillo <federicosordillo@gmail.com>",
+  "type": "module",
   "license": "MIT",
-  "devDependencies": {
-    "typescript": "^4.1.1-rc"
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist"
   },
   "dependencies": {
     "fp-ts": "^2.8.2",
     "io-ts": "^2.2.22",
     "io-ts-types": "^0.5.10",
-    "ts-endpoint": "workspace:*"
+    "@ts-endpoint/core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
   }
 }

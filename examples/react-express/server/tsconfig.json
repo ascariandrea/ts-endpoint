@@ -3,9 +3,11 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
     "lib": [],
     "skipLibCheck": true
   },
-  "include": ["src"],
-  "references": [{ "path": "../shared" }]
+  "include": ["src"]
 }

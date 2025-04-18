@@ -1,10 +1,10 @@
+import { IOError, IOTSCodec } from '@ts-endpoint/core';
 import { GetEndpointSubscriber } from '@ts-endpoint/express';
 import express from 'express';
 import * as E from 'fp-ts/Either';
 import { pipe } from 'fp-ts/pipeable';
 import * as TA from 'fp-ts/TaskEither';
 import { getUser } from 'shared';
-import { IOError } from 'ts-io-error';
 
 const database = [
   { id: 1, name: 'John', surname: 'Doe', age: 22 },
@@ -19,11 +19,27 @@ const app = express();
 
 const router = express.Router();
 
-const registerRouter = GetEndpointSubscriber((errors) => {
-  return new IOError('error decoding args', {
-    kind: 'DecodingError',
-    errors,
-  });
+const registerRouter = GetEndpointSubscriber({
+  buildDecodeError: (errors) => {
+    return new IOError('error decoding args', {
+      kind: 'DecodingError',
+      errors: [errors],
+    });
+  },
+  decode: (type) => (input) => {
+    const typeAsCodec = type as IOTSCodec<any, any>;
+    return pipe(
+      typeAsCodec.decode(input),
+      E.mapLeft(
+        (e) =>
+          new IOError(`Failed to decode type ${typeAsCodec.name}`, {
+            kind: 'ClientError',
+            status: '400',
+            meta: e,
+          })
+      )
+    );
+  },
 });
 const AddEndpoint = registerRouter(router);
 
@@ -32,7 +48,9 @@ AddEndpoint(getUser, ({ params: { id } }) => {
 
   return pipe(
     user,
-    TA.mapLeft((e) => new IOError('user not found.', { kind: 'ClientError', status: '404' })),
+    TA.mapLeft(
+      (e) => new IOError('user not found.', { kind: 'ClientError', status: '404', meta: e })
+    ),
     TA.map((userFromDB) => ({
       body: { user: userFromDB },
       statusCode: 200,

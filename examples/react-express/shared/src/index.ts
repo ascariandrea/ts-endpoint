@@ -1,6 +1,6 @@
+import { Endpoint } from '@ts-endpoint/core';
 import * as t from 'io-ts';
-import { NumberFromString } from 'io-ts-types/lib/NumberFromString';
-import { Endpoint } from 'ts-endpoint';
+import { NumberFromString } from 'io-ts-types/lib/NumberFromString.js';
 
 const User = t.strict({
   name: t.string,
