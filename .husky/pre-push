@@ -1,2 +1,4 @@
-pnpm build
+pnpm build:packages
+pnpm build:examples
+
 pnpm test --changed=HEAD^

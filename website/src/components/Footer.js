@@ -31,7 +31,7 @@ class Footer extends React.Component {
           </a>
           <div>
             <h5>More</h5>
-            <a href="https://github.com/fes300/ts-endpoint">GitHub</a>
+            <a href="https://github.com/ascariandrea/ts-endpoint">GitHub</a>
 
             {this.props.config.twitterUsername && (
               <div className="social">

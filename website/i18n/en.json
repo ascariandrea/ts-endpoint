@@ -5,12 +5,12 @@
     "previous": "Previous",
     "tagline": "A simple solution for full stack typescript projects.",
     "docs": {
-      "ts-endpoint-browser/intro": {
+      "@ts-endpoint/http-client/intro": {
         "title": "setup",
-        "sidebar_label": "setting up `ts-endpoint-browser`"
+        "sidebar_label": "setting up `@ts-endpoint/http-client`"
       },
-      "ts-endpoint-browser/simple-guide": {
-        "title": "simple-guide to start with `ts-endpoint-browser`",
+      "@ts-endpoint/http-client/simple-guide": {
+        "title": "simple-guide to start with `@ts-endpoint/http-client`",
         "sidebar_label": "using `ts-endpoint` in your browser"
       },
       "@ts-endpoint/express/intro": {
@@ -30,9 +30,9 @@
       }
     },
     "links": {
-      "ts-endpoint": "ts-endpoint",
+      "@ts-endpoint/core": "@ts-endpoint/core",
       "@ts-endpoint/express": "@ts-endpoint/express",
-      "ts-endpoint-browser": "ts-endpoint-browser"
+      "@ts-endpoint/http-client": "@ts-endpoint/http-client"
     },
     "categories": {
       "setup": "setup",

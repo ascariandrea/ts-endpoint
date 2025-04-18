@@ -5,9 +5,9 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "type": "module",
-  "repository": "https://github.com/fes300/ts-endpoint/tree/master/packages/tantask-query",
+  "repository": "https://github.com/ascariandrea/ts-endpoint/tree/master/packages/tantask-query",
   "bugs": {
-    "url": "https://github.com/fes300/ts-endpoint/issues?q=is%3Aopen+is%3Aissue+project%3Afes300%2Ftanstack-query%2F3"
+    "url": "https://github.com/ascariandrea/ts-endpoint/issues?q=is%3Aopen+is%3Aissue+project%3Afes300%2Ftanstack-query%2F3"
   },
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "license": "ISC",

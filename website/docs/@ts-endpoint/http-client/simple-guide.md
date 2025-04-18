@@ -1,10 +1,10 @@
 ---
 id: simple-guide
-title: simple-guide to start with `ts-endpoint-browser`
+title: simple-guide to start with `@ts-endpoint/http-client`
 sidebar_label: using `ts-endpoint` in your browser
 ---
 
-Once you have defined your endpoints with `ts-endpoint`, you may want to use those definitions for something useful, that's where `ts-endpoint-browser` comes into play.
+Once you have defined your endpoints with `ts-endpoint`, you may want to use those definitions for something useful, that's where `@ts-endpoint/http-client` comes into play.
 
 If you want to derive an HTTP client with zero effort, you can use the utility `GetFetchHTTPClient` and pass your endpoints to it:
 
@@ -12,7 +12,7 @@ If you want to derive an HTTP client with zero effort, you can use the utility `
 
 ```ts
 import { getCrayons, createUser } from "./endpoints"
-import { GetFetchHTTPClient } from 'ts-endpoint-browser';
+import { GetFetchHTTPClient } from '@ts-endpoint/http-client';
 
 const fetchClient = GetFetchHTTPClient(
   { protocol: 'http', host: 'google' },
@@ -66,4 +66,3 @@ const createdUserId: TaskEither<IOError, { id: string }> = fetchClient.createUse
 - **ServerError** (in all other cases).
 
 The only difference between each error is the `kind` and the fact that if the error kind is `DecodingError` it will also expose an array of errors in its `details` object.
-

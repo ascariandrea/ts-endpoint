@@ -9,7 +9,7 @@ Once you have defined your endpoints with `ts-endpoint` you can add them to your
 ```ts
 import { GetEndpointSubscriber } from '@ts-endpoint/express';
 import * as express from 'express';
-import * as TA from 'fp-ts/TaskEither';
+import * as TA from 'fp-ts/lib/TaskEither';
 import { userService } from './services'
 
 const router = express.Router();
