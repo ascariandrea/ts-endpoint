@@ -20,8 +20,8 @@ export default {
         docs: {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          path: '../docs',
-          sidebarPath: '../website/sidebars.json',
+          path: './docs',
+          sidebarPath: './sidebars.json',
         },
         blog: {
           path: 'blog',
@@ -35,14 +35,14 @@ export default {
   plugins: [],
   themeConfig: {
     navbar: {
-      title: 'ts-endpoint',
+      title: '@ts-endpoint',
       logo: {
         src: 'img/favicon.ico',
       },
       items: [
         {
-          to: 'docs/ts-endpoint/intro',
-          label: '@ts-endpoint',
+          to: 'docs/@ts-endpoint/core/intro',
+          label: '@ts-endpoint/core',
           position: 'left',
         },
         {
@@ -51,8 +51,8 @@ export default {
           position: 'left',
         },
         {
-          to: 'docs/ts-endpoint-browser/intro',
-          label: 'ts-endpoint-browser',
+          to: 'docs/@ts-endpoint/http-client/intro',
+          label: '@ts-endpoint/http-client',
           position: 'left',
         },
       ],

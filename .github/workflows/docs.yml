@@ -9,11 +9,11 @@ on:
       - "fix/*"
       - "feat/*"
     paths:
-      - "docs/*"
+      - "website/*"
 
 
 jobs:
-  test:
+  build-docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,5 +22,5 @@ jobs:
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
-      - name: Lint
-        run: pnpm docs build
+      - name: Build Docs
+        run: pnpm website build
