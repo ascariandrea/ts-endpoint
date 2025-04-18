@@ -8,4 +8,4 @@ COPY ./website /app/website
 
 RUN pnpm install
 
-CMD ["pnpm", "start"]
+CMD ["pnpm", "website", "start"]

@@ -1,8 +1,8 @@
 {
   "docs": {
-    "setup": ["@ts-endpoint/intro"],
+    "setup": ["@ts-endpoint/core/intro"],
     "simple guide": [
-      "@ts-endpoint/simple-guide"
+      "@ts-endpoint/core/simple-guide"
     ]
   },
   "@ts-endpoint/express": {

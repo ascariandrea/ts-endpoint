@@ -1,5 +1,5 @@
 /** @type {import('@docusaurus/types').Config} */
-module.exports = {
+export default {
   title: 'ts-endpoint',
   tagline: 'A simple solution for full stack typescript projects.',
   url: 'https://ts-endpoint.federicosordillo.com/',
@@ -42,7 +42,7 @@ module.exports = {
       items: [
         {
           to: 'docs/ts-endpoint/intro',
-          label: 'ts-endpoint',
+          label: '@ts-endpoint',
           position: 'left',
         },
         {
