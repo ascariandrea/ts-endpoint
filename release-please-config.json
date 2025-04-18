@@ -24,6 +24,7 @@
     }
   },
   "versioning": "prerelease",
+  "bootstrap-sha": "2a0d464cf8a3aae27e4e0b057da04d4988018334",
   "initial-version": "0.1.0",
   "tag-separator": "@",
   "include-v-in-tag": false,
