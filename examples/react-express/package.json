@@ -1,19 +1,16 @@
 {
-  "name": "ts-endpoint-playground",
-  "version": "1.0.0",
+  "name": "ts-endpoint-example-react-express",
+  "private": true,
+  "version": "0.1.0",
   "main": "index.js",
   "author": "Federico Sordillo <federicosordillo@gmail.com>",
   "license": "MIT",
-  "private": true,
-  "workspaces": [
-    "shared",
-    "server",
-    "client"
-  ],
   "scripts": {
     "server": "pnpm --filter server",
     "client": "pnpm --filter client",
-    "shared": "pnpm --filter shared"
+    "shared": "pnpm --filter shared",
+    "build": "pnpm -r run build",
+    "clean": "rm -rf ./*/lib ./*/dist"
   },
   "packageManager": "pnpm@10.6.4"
 }

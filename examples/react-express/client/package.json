@@ -1,0 +1,29 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "description": "simple client",
+  "private": "true",
+  "author": "Federico Sordillo",
+  "license": "MIT",
+  "scripts": {
+    "build": "vite build",
+    "start": "vite",
+    "dev": "vite --watch",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ts-endpoint/core": "workspace:*",
+    "@ts-endpoint/http-client": "workspace:*",
+    "shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.49",
+    "@types/react-dom": "^16.9.8",
+    "@vitejs/plugin-react": "^4.2.1",
+    "fp-ts": "^2.8.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "typescript": "^5.8.2",
+    "vite": "^6.3.1"
+  }
+}
