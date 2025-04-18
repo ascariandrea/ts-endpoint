@@ -1,18 +1,27 @@
-import { Codec, EitherDecoder, IOError, MinimalEndpointInstance, runtimeType, TypeOfEndpointInstance } from '@ts-endpoint/core';
-import { Either } from 'fp-ts/lib/Either.js';
-import { pipe } from 'fp-ts/lib/function.js';
-import { ReaderTaskEither } from 'fp-ts/lib/ReaderTaskEither.js';
+import {
+  type Codec,
+  type EitherDecoder,
+  type IOError,
+  type MinimalEndpointInstance,
+  type runtimeType,
+  type TypeOfEndpointInstance,
+} from '@ts-endpoint/core';
+import { type Either } from 'fp-ts/lib/Either.js';
+import { type ReaderTaskEither } from 'fp-ts/lib/ReaderTaskEither.js';
 import * as R from 'fp-ts/lib/Record.js';
-import { TaskEither } from 'fp-ts/lib/TaskEither.js';
-import { HTTPClientConfig } from './config.js';
-import { Kind, URIS } from './HKT.js';
+import { type TaskEither } from 'fp-ts/lib/TaskEither.js';
+import { pipe } from 'fp-ts/lib/function.js';
+import { type Kind, type URIS } from './HKT.js';
+import { type HTTPClientConfig } from './config.js';
 
 export declare type RequiredKeys<T> = {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   [K in keyof T]: {} extends Pick<T, K> ? never : K;
 } extends {
   [_ in keyof T]: infer U;
 }
-  ? {} extends U
+  ? // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    {} extends U
     ? never
     : U
   : never;
@@ -23,9 +32,8 @@ type ExtractEither<TA> = TA extends TaskEither<infer E, infer R> ? Either<E, R> 
 
 export type InferFetchResult<FC> = ExtractEither<FunctionOutput<FC>>;
 
-type FetchClientError<E, M extends URIS> = E extends Record<number, Codec<any, any, any>>
-  ? Kind<M, E>
-  : Kind<M, never>;
+type FetchClientError<E, M extends URIS> =
+  E extends Record<number, Codec<any, any, any>> ? Kind<M, E> : Kind<M, never>;
 
 export type FetchClient<E extends MinimalEndpointInstance, M extends URIS> = ReaderTaskEither<
   'Input' extends RequiredKeys<E> ? TypeOfEndpointInstance<E>['Input'] : void,
@@ -75,14 +83,14 @@ export const GetHTTPClient = <A extends { [key: string]: MinimalEndpointInstance
 ): HTTPClient<A, M> => {
   const headersWithWhiteSpaces = pipe(
     options?.defaultHeaders ?? {},
-    R.filterWithIndex((k: string) => k.indexOf(' ') !== -1),
+    R.filterWithIndex((k: string) => k.includes(' ')),
     R.keys
   );
 
   if (headersWithWhiteSpaces.length > 0) {
+    // eslint-disable-next-line no-console
     console.error('white spaces are not allowed in defaultHeaders names:', headersWithWhiteSpaces);
   }
-;
   const baseURL = `${config.protocol}://${config.host}${
     config.port !== undefined ? `:${config.port.toString()}` : ''
   }`;

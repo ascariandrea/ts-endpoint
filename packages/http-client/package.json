@@ -21,6 +21,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsc -b tsconfig.build.json",
+    "lint": "eslint src",
     "type-test": "vitest --typecheck.enabled=true",
     "runtime-test": "vitest",
     "test": "pnpm runtime-test && pnpm type-test",

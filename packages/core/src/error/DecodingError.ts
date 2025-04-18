@@ -1,4 +1,4 @@
-import { Codec, runtimeType } from '../Codec.js';
+import { type Codec, type runtimeType } from '../Codec.js';
 import { BaseError } from './BaseError.js';
 
 export type DecodingError = 'DecodingError';
@@ -6,18 +6,24 @@ export type DecodingError = 'DecodingError';
 export type KnownError = 'KnownError';
 
 export type CommunicationError = 'ClientError' | 'ServerError' | 'NetworkError';
-type RecordValues<T extends Record<any, any>> = T extends Record<infer K, infer V> ? K extends never ? never : V : never;
+
+type RecordValues<T extends Record<any, any>> =
+  T extends Record<infer K, infer V> ? (K extends never ? never : V) : never;
 
 export type IOErrorDetails<KE extends Record<string, Codec<any, any>> = never> = [KE] extends [
-  never
-] ? { kind: DecodingError; errors: unknown[]; } |
-  { kind: CommunicationError; meta?: unknown; status: string; } : { kind: DecodingError; errors: unknown[]; } |
-  { kind: CommunicationError; meta?: unknown; status: string; } |
-  RecordValues<
-    {
-      [K in keyof KE]: KE[K] extends Codec<any, any> ? { kind: KnownError; status: K; body: runtimeType<KE[K]>; } : never;
-    }
-  >;
+  never,
+]
+  ?
+      | { kind: DecodingError; errors: unknown[] }
+      | { kind: CommunicationError; meta?: unknown; status: string }
+  :
+      | { kind: DecodingError; errors: unknown[] }
+      | { kind: CommunicationError; meta?: unknown; status: string }
+      | RecordValues<{
+          [K in keyof KE]: KE[K] extends Codec<any, any>
+            ? { kind: KnownError; status: K; body: runtimeType<KE[K]> }
+            : never;
+        }>;
 
 export const NetworkErrorStatus = '99';
 
@@ -35,18 +41,14 @@ const getDetailsStatus = (d: IOErrorDetails<Record<string, Codec<any, any>>>): s
   }
 };
 /**
- * Contructor for HTTP IO-related errors.
+ * Constructor for HTTP IO-related errors.
  */
 
-export class IOError<
-  KE extends Record<string, Codec<any, any>> | never = never
-> extends BaseError {
+export class IOError<KE extends Record<string, Codec<any, any>> = never> extends BaseError {
   details: IOErrorDetails<KE>;
 
   constructor(message: string, details: IOErrorDetails<KE>) {
-    const status = getDetailsStatus(
-      details as IOErrorDetails<Record<string, Codec<any, any>>>
-    );
+    const status = getDetailsStatus(details as IOErrorDetails<Record<string, Codec<any, any>>>);
 
     super(parseInt(status), message);
 

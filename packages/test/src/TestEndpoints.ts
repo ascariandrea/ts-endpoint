@@ -1,4 +1,4 @@
-import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Endpoint, ResourceEndpoints } from '@ts-endpoint/core';
 import { Schema } from 'effect';
 
 const Actor = Schema.Struct({
@@ -9,23 +9,23 @@ const Actor = Schema.Struct({
     url: Schema.String,
     createdAt: Schema.Date,
     updatedAt: Schema.Date,
-  }).annotations({ title: "Avatar" }),
+  }).annotations({ title: 'Avatar' }),
   bornOn: Schema.Union(Schema.Null, Schema.Date),
   diedOn: Schema.Union(Schema.Null, Schema.Date),
   createdAt: Schema.Date,
   updatedAt: Schema.Date,
-}).annotations({ title: "Actor" });
+}).annotations({ title: 'Actor' });
 
 const TestEndpoints = {
   Actor: ResourceEndpoints({
     Get: Endpoint({
-      Method: "GET",
+      Method: 'GET',
       getPath: ({ id }) => `/actors/${id}`,
       Input: { Params: Schema.Struct({ id: Schema.String }), Query: undefined },
       Output: Schema.Struct({ data: Actor }),
     }),
     List: Endpoint({
-      Method: "GET",
+      Method: 'GET',
       getPath: () => `/actors`,
       Input: {
         Query: Schema.Struct({
@@ -37,13 +37,13 @@ const TestEndpoints = {
       Output: Schema.Struct({ data: Schema.Array(Actor), total: Schema.Number }),
     }),
     Create: Endpoint({
-      Method: "POST",
+      Method: 'POST',
       getPath: () => `/actors`,
       Input: { Body: Actor },
       Output: Schema.Struct({ data: Actor }),
     }),
     Edit: Endpoint({
-      Method: "PUT",
+      Method: 'PUT',
       getPath: ({ id }) => `/actors/${id}`,
       Input: {
         Params: Schema.Struct({ id: Schema.String }),
@@ -52,14 +52,14 @@ const TestEndpoints = {
       Output: Schema.Struct({ data: Actor }),
     }),
     Delete: Endpoint({
-      Method: "DELETE",
+      Method: 'DELETE',
       getPath: ({ id }) => `/actors/${id}`,
       Input: { Params: Schema.Struct({ id: Schema.String }) },
       Output: Schema.Boolean,
     }),
     Custom: {
       GetSiblings: Endpoint({
-        Method: "GET",
+        Method: 'GET',
         getPath: ({ id }) => `/actors/${id}/siblings`,
         Input: { Params: Schema.Struct({ id: Schema.String }) },
         Output: Schema.Struct({ data: Schema.Array(Actor) }),

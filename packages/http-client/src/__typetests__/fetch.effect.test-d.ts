@@ -3,9 +3,9 @@ import { Schema } from 'effect';
 import { mapLeft, right } from 'fp-ts/lib/Either.js';
 import { pipe } from 'fp-ts/lib/function.js';
 import { assertType, describe, expectTypeOf, it } from 'vitest';
-import { HTTPClientConfig } from '../config.js';
+import { type HTTPClientConfig } from '../config.js';
 import { GetFetchHTTPClient } from '../fetch.js';
-import { InferFetchResult } from '../index.js';
+import { type InferFetchResult } from '../index.js';
 
 const options: HTTPClientConfig = {
   protocol: 'http',
@@ -90,19 +90,17 @@ describe('FetchClient', () => {
       prova: (args: { Params: { id: string } }) => any;
     }>();
 
-    // @ts-expect-error
-    expectTypeOf(fetchClient.prova).not.toMatchObjectType({
-      Params: { id: '123', foo: 'baz' },
-      Query: { color: 'marrone' },
-    });
+    expectTypeOf(fetchClient.prova).not.toMatchObjectType<{
+      Params: { id: string; foo: string };
+      Query: { color: string };
+    }>();
 
-    // @ts-expect-error
-    expectTypeOf(fetchClient).not.toMatchObjectType({
-      Params: { id: '123' },
-      Query: { color: 'marrone' },
+    expectTypeOf(fetchClient).not.toMatchObjectType<{
+      Params: { id: string };
+      Query: { color: string };
       // @dts-jest:fail:snap should not allow to add Body when not declared in the endpoint
-      Body: { foo: 'baz' },
-    });
+      Body: { foo: string };
+    }>();
 
     expectTypeOf(right({})).not.toEqualTypeOf<InferFetchResult<typeof fetchClient.prova>>();
 
@@ -116,10 +114,8 @@ describe('FetchClient', () => {
     //   TA.mapLeft((err) => {
     //     if (err.details.kind === 'KnownError') {
     //       if (err.details.status === 401) {
-    //         // @dts-jest:pass:snap you can access KnownErrors with the correct typeguard
     //         err.details.body.foo;
 
-    //         // @dts-jest:fail:snap you cannot access KnownErrors without the correct typeguard
     //         err.details.body.baz;
     //       }
     //     }

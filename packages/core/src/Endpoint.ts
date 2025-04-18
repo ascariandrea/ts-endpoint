@@ -1,14 +1,14 @@
-import { pipe } from 'fp-ts/lib/function.js';
 import * as R from 'fp-ts/lib/Record.js';
-import { RequiredKeys } from 'typelevel-ts';
+import { pipe } from 'fp-ts/lib/function.js';
+import { type RequiredKeys } from 'typelevel-ts';
 import {
-  Codec,
-  RecordCodec,
-  RecordCodecEncoded,
-  RecordCodecSerialized,
-  runtimeType,
-  serializedType,
-  UndefinedsToPartial,
+  type Codec,
+  type RecordCodec,
+  type RecordCodecEncoded,
+  type RecordCodecSerialized,
+  type runtimeType,
+  type serializedType,
+  type UndefinedsToPartial,
 } from './Codec.js';
 import { addSlash } from './helpers.js';
 
@@ -26,7 +26,7 @@ export interface Endpoint<
   Q extends RecordCodec<any> | undefined,
   B extends Codec<any, any> | undefined,
   P extends RecordCodec<any> | undefined,
-  E extends EndpointErrors<never, Codec<any, any>> | undefined
+  E extends EndpointErrors<never, Codec<any, any>> | undefined,
 > {
   /* utils to get the full path given a set of query params */
   getPath: [P] extends [undefined] ? (i?: undefined) => string : (args: runtimeType<P>) => string;
@@ -56,25 +56,18 @@ export type MinimalEndpoint = Omit<
   'getPath'
 > & { getPath: (i?: any) => string };
 
-export type InferEndpointParams<E> = E extends Endpoint<
-  infer M,
-  infer O,
-  infer H,
-  infer Q,
-  infer B,
-  infer P,
-  infer E
->
-  ? {
-      method: M;
-      headers: H;
-      params: P;
-      query: Q;
-      body: B;
-      output: O;
-      errors: E;
-    }
-  : never;
+export type InferEndpointParams<E> =
+  E extends Endpoint<infer M, infer O, infer H, infer Q, infer B, infer P, infer E>
+    ? {
+        method: M;
+        headers: H;
+        params: P;
+        query: Q;
+        body: B;
+        output: O;
+        errors: E;
+      }
+    : never;
 
 /**
  * Data type representing an endpoint instance.
@@ -125,10 +118,12 @@ export type EndpointInstance<E extends MinimalEndpoint> = {
    * ```
    */
   getStaticPath: [E['Input']] extends [undefined]
-    ? (i?: {}) => string
+    ? // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+      (i?: {}) => string
     : [InferEndpointParams<E>['params']] extends [undefined]
-    ? (i?: {}) => string
-    : (f: (paramName: keyof runtimeType<InferEndpointParams<E>['params']>) => string) => string;
+      ? // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+        (i?: {}) => string
+      : (f: (paramName: keyof runtimeType<InferEndpointParams<E>['params']>) => string) => string;
   Method: E['Method'];
   Output: E['Output'];
 } & (E['Input'] extends undefined
@@ -162,7 +157,7 @@ export function Endpoint<
   H extends RecordCodec<any> | undefined = undefined,
   B extends Codec<any, any> | undefined = undefined,
   P extends RecordCodec<any> | undefined = undefined,
-  E extends EndpointErrors<never, Codec<any, any>> | undefined = undefined
+  E extends EndpointErrors<never, Codec<any, any>> | undefined = undefined,
 >(e: Endpoint<M, O, H, Q, B, P, E>): EndpointInstance<Endpoint<M, O, H, Q, B, P, E>> {
   // TODO: check if the headers are valid?
   // const headersWithWhiteSpaces = pipe(
@@ -213,7 +208,7 @@ export type MinimalEndpointInstance = MinimalEndpoint & {
 };
 
 export type TypeOfEndpointInstanceInput<E extends MinimalEndpointInstance> = [
-  RequiredKeys<E['Input']>
+  RequiredKeys<E['Input']>,
 ] extends [never]
   ? void
   : {
@@ -232,13 +227,13 @@ export type TypeOfEndpointInstance<E extends MinimalEndpointInstance> = {
     [K in keyof NonNullable<E['Errors']>]: NonNullable<E['Errors']>[K] extends RecordCodec<any>
       ? RecordCodecSerialized<NonNullable<E['Errors']>[K]>
       : NonNullable<E['Errors']>[K] extends Codec<any, any>
-      ? serializedType<NonNullable<E['Errors']>[K]>
-      : never;
+        ? serializedType<NonNullable<E['Errors']>[K]>
+        : never;
   };
 };
 
 export type EndpointInstanceEncodedInputs<E extends MinimalEndpointInstance> = [
-  RequiredKeys<E['Input']>
+  RequiredKeys<E['Input']>,
 ] extends [never]
   ? void
   : {
@@ -260,17 +255,16 @@ export type EndpointInstanceEncodedParams<E extends MinimalEndpointInstance> = {
   };
 };
 
-export type InferEndpointInstanceParams<EI> = EI extends EndpointInstance<infer E>
-  ? InferEndpointParams<E>
-  : never;
+export type InferEndpointInstanceParams<EI> =
+  EI extends EndpointInstance<infer E> ? InferEndpointParams<E> : never;
 
 export type EndpointOutputType<L> = runtimeType<InferEndpointInstanceParams<L>['output']>;
 
 export type EndpointQueryType<G> = InferEndpointInstanceParams<G>['query'] extends undefined
   ? undefined
   : G extends MinimalEndpointInstance
-  ? serializedType<InferEndpointInstanceParams<G>['query']>
-  : serializedType<InferEndpointParams<G>['query']>;
+    ? serializedType<InferEndpointInstanceParams<G>['query']>
+    : serializedType<InferEndpointParams<G>['query']>;
 
 export type EndpointParamsType<G> = G extends MinimalEndpointInstance
   ? InferEndpointInstanceParams<G>['params'] extends undefined

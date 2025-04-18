@@ -1,9 +1,9 @@
 import {
-  EndpointOutputType,
-  EndpointParamsType,
-  EndpointQueryType,
-  EndpointsMapType,
-  IOError,
+  type EndpointOutputType,
+  type EndpointParamsType,
+  type EndpointQueryType,
+  type EndpointsMapType,
+  type IOError,
   type Codec,
   type EndpointInstance,
   type InferEndpointInstanceParams,
@@ -16,7 +16,7 @@ import {
 } from '@ts-endpoint/core';
 import type * as TE from 'fp-ts/lib/TaskEither.js';
 import type { DeleteParams, GetListParams } from 'react-admin';
-import { APIRESTClient } from './ApiRestClient.js';
+import { type APIRESTClient } from './ApiRestClient.js';
 
 export type GetListFnParamsE<L> = Partial<Omit<GetListParams, 'filter'>> & {
   filter?: Partial<
@@ -42,10 +42,10 @@ export type EndpointDataOutputType<L> = L extends MinimalEndpointInstance
       : runtimeType<InferEndpointInstanceParams<L>['output']>['data']
     : never
   : InferEndpointParams<L>['output'] extends Codec<any, any>
-  ? runtimeType<InferEndpointParams<L>['output']>['data'] extends unknown[]
-    ? runtimeType<InferEndpointParams<L>['output']>
-    : runtimeType<InferEndpointParams<L>['output']>['data']
-  : never;
+    ? runtimeType<InferEndpointParams<L>['output']>['data'] extends unknown[]
+      ? runtimeType<InferEndpointParams<L>['output']>
+      : runtimeType<InferEndpointParams<L>['output']>['data']
+    : never;
 
 export type GetFn<G> = (
   params: EndpointParamsType<G>,
@@ -82,11 +82,12 @@ export type CustomEndpointFn<C extends MinimalEndpointInstance> = (
   q?: any
 ) => TE.TaskEither<IOError, runtimeType<InferEndpointInstanceParams<C>['output']>>;
 
-export type CustomEndpointsRecord<CC> = CC extends Record<string, MinimalEndpointInstance>
-  ? {
-      [K in keyof CC]: CustomEndpointFn<CC[K]>;
-    }
-  : never;
+export type CustomEndpointsRecord<CC> =
+  CC extends Record<string, MinimalEndpointInstance>
+    ? {
+        [K in keyof CC]: CustomEndpointFn<CC[K]>;
+      }
+    : never;
 
 export interface ResourceEndpointREST<G, L, C, E, D, CC> {
   get: GetFn<G>;
@@ -97,23 +98,24 @@ export interface ResourceEndpointREST<G, L, C, E, D, CC> {
   Custom: CustomEndpointsRecord<CC>;
 }
 
-export type ResourceRESTEndpoints<E> = E extends ResourceEndpoints<
-  EndpointInstance<infer G>,
-  EndpointInstance<infer L>,
-  EndpointInstance<infer C>,
-  EndpointInstance<infer E>,
-  EndpointInstance<infer D>,
-  infer CC extends Record<string, MinimalEndpointInstance>
->
-  ? ResourceEndpointREST<
-      EndpointInstance<G>,
-      EndpointInstance<L>,
-      EndpointInstance<C>,
-      EndpointInstance<E>,
-      EndpointInstance<D>,
-      CC
-    >
-  : never;
+export type ResourceRESTEndpoints<E> =
+  E extends ResourceEndpoints<
+    EndpointInstance<infer G>,
+    EndpointInstance<infer L>,
+    EndpointInstance<infer C>,
+    EndpointInstance<infer E>,
+    EndpointInstance<infer D>,
+    infer CC extends Record<string, MinimalEndpointInstance>
+  >
+    ? ResourceEndpointREST<
+        EndpointInstance<G>,
+        EndpointInstance<L>,
+        EndpointInstance<C>,
+        EndpointInstance<E>,
+        EndpointInstance<D>,
+        CC
+      >
+    : never;
 
 export interface EndpointsRESTClient<ES extends EndpointsMapType> {
   Endpoints: {

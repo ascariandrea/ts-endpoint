@@ -1,9 +1,9 @@
-import { Codec, Endpoint, IOError } from '@ts-endpoint/core';
+import { type Codec, Endpoint, IOError } from '@ts-endpoint/core';
 import { Schema } from 'effect';
 import * as express from 'express';
 import * as E from 'fp-ts/lib/Either.js';
-import { pipe } from 'fp-ts/lib/function.js';
 import * as O from 'fp-ts/lib/Option.js';
+import { pipe } from 'fp-ts/lib/function.js';
 import { assertType, describe, expectTypeOf, test } from 'vitest';
 import { buildIOError, GetEndpointSubscriber } from '../index.js';
 

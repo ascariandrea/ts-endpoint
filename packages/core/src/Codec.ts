@@ -1,8 +1,8 @@
+import { type IOError } from './error/DecodingError.js';
+
 //-------------------------------------------------------------------------------------
 // fp-ts data structures
 // -------------------------------------------------------------------------------------
-
-import { IOError } from './error/DecodingError.js';
 
 interface Left<E> {
   readonly _tag: 'Left';
@@ -32,14 +32,14 @@ export interface ValidationError {
 // Codec
 // -------------------------------------------------------------------------------------
 
-export type EffectCodec<A, B = A, R = never> ={
+export type EffectCodec<A, B = A, R = never> = {
   Type: A;
   Encoded: B;
   Context: R;
   pipe: any;
   ast: any;
   annotations: any;
-}
+};
 
 export interface IOTSCodec<A, B> {
   encode: (b: B) => A;
@@ -48,15 +48,16 @@ export interface IOTSCodec<A, B> {
 
 export type Codec<A, B = A, R = never> = EffectCodec<A, B, R> | IOTSCodec<A, B>;
 
-export type InferCodec<C> = C extends IOTSRecordCodec<infer A, infer B>
-  ? IOTSRecordCodec<A, B>
-  : C extends EffectRecordCodec<infer A>
-  ? EffectRecordCodec<A>
-  : C extends IOTSCodec<infer A, infer B>
-  ? IOTSCodec<A, B>
-  : C extends EffectCodec<infer A, infer B, infer R>
-  ? EffectCodec<A, B, R>
-  : never;
+export type InferCodec<C> =
+  C extends IOTSRecordCodec<infer A, infer B>
+    ? IOTSRecordCodec<A, B>
+    : C extends EffectRecordCodec<infer A>
+      ? EffectRecordCodec<A>
+      : C extends IOTSCodec<infer A, infer B>
+        ? IOTSCodec<A, B>
+        : C extends EffectCodec<infer A, infer B, infer R>
+          ? EffectCodec<A, B, R>
+          : never;
 
 // type AnyOrRuntime<N> = [N] extends [never]
 //   ? any
@@ -64,61 +65,65 @@ export type InferCodec<C> = C extends IOTSRecordCodec<infer A, infer B>
 //   ? { [K in keyof N]: runtimeType<N[K]> }
 //   : never;
 
-export type UndefinedsToPartial<R> = R extends Record<string, any>
-  ? { [K in keyof R as undefined extends R[K] ? K : never]?: R[K] } & {
-      [K in keyof R as undefined extends R[K] ? never : K]: R[K];
-    }
-  : R;
+export type UndefinedsToPartial<R> =
+  R extends Record<string, any>
+    ? { [K in keyof R as undefined extends R[K] ? K : never]?: R[K] } & {
+        [K in keyof R as undefined extends R[K] ? never : K]: R[K];
+      }
+    : R;
 
 // serialized
-export type serializedType<C> = C extends IOTSRecordCodec<any, infer B>
-  ? { [K in keyof B]: serializedType<B[K]> }
-  : C extends EffectCodec<any, infer A>
-  ? A
-  : C extends IOTSCodec<infer A, any>
-  ? A
-  : never;
+export type serializedType<C> =
+  C extends IOTSRecordCodec<any, infer B>
+    ? { [K in keyof B]: serializedType<B[K]> }
+    : C extends EffectCodec<any, infer A>
+      ? A
+      : C extends IOTSCodec<infer A, any>
+        ? A
+        : never;
 
-export type RecordSerialized<N> = N extends Record<string, Codec<any>>
-  ? { [K in keyof N]: serializedType<N[K]> }
-  : never;
+export type RecordSerialized<N> =
+  N extends Record<string, Codec<any>> ? { [K in keyof N]: serializedType<N[K]> } : never;
 
-export type RecordCodecSerialized<N> = N extends IOTSRecordCodec<any, any>
-  ? IOTSRecordSerialized<N>
-  : N extends EffectRecordCodec<infer A>
-  ? RecordSerialized<A>
-  : never;
+export type RecordCodecSerialized<N> =
+  N extends IOTSRecordCodec<any, any>
+    ? IOTSRecordSerialized<N>
+    : N extends EffectRecordCodec<infer A>
+      ? RecordSerialized<A>
+      : never;
 
-export type SerializedType<N> = N extends RecordCodec<infer A>
-  ? RecordCodecSerialized<A>
-  : N extends Codec<any, any>
-  ? serializedType<N>
-  : N extends Record<string, Codec<any>>
-  ? RecordSerialized<N>
-  : unknown;
+export type SerializedType<N> =
+  N extends RecordCodec<infer A>
+    ? RecordCodecSerialized<A>
+    : N extends Codec<any, any>
+      ? serializedType<N>
+      : N extends Record<string, Codec<any>>
+        ? RecordSerialized<N>
+        : unknown;
 
 // encoded
-export type runtimeType<C> = C extends IOTSRecordCodec<any, any>
-  ? IOTSRecordEncoded<C>
-  : C extends IOTSCodec<any, infer B>
-  ? B
-  : C extends IOTSRecordCodec<any, infer B>
-  ? B
-  : C extends EffectCodec<infer B, any>
-  ? B
-  : never;
+export type runtimeType<C> =
+  C extends IOTSRecordCodec<any, any>
+    ? IOTSRecordEncoded<C>
+    : C extends IOTSCodec<any, infer B>
+      ? B
+      : C extends IOTSRecordCodec<any, infer B>
+        ? B
+        : C extends EffectCodec<infer B, any>
+          ? B
+          : never;
 
-export type RecordEncoded<N> = N extends Record<string, Codec<any>>
-  ? { [K in keyof N]: runtimeType<N[K]> }
-  : never;
+export type RecordEncoded<N> =
+  N extends Record<string, Codec<any>> ? { [K in keyof N]: runtimeType<N[K]> } : never;
 
-export type EncodedType<N> = N extends Codec<any, any>
-  ? runtimeType<N>
-  : N extends RecordCodec<infer A>
-  ? RecordEncoded<A>
-  : N extends Record<string, Codec<any>>
-  ? RecordEncoded<N>
-  : unknown;
+export type EncodedType<N> =
+  N extends Codec<any, any>
+    ? runtimeType<N>
+    : N extends RecordCodec<infer A>
+      ? RecordEncoded<A>
+      : N extends Record<string, Codec<any>>
+        ? RecordEncoded<N>
+        : unknown;
 
 export type AnyOrRuntime<N> = [N] extends [never] ? { [K in keyof N]: runtimeType<N[K]> } : never;
 
@@ -135,13 +140,15 @@ export interface IOTSRecordCodec<A, B extends Record<any, Codec<any, any, any>> 
   props: RecordEncoded<B>;
 }
 
-export type IOTSRecordEncoded<N> = N extends IOTSRecordCodec<any, any>
-  ? { [K in keyof N['props']]: runtimeType<N['props'][K]> }
-  : never;
+export type IOTSRecordEncoded<N> =
+  N extends IOTSRecordCodec<any, any>
+    ? { [K in keyof N['props']]: runtimeType<N['props'][K]> }
+    : never;
 
-export type IOTSRecordSerialized<N> = N extends IOTSRecordCodec<any, any>
-  ? { [K in keyof N['props']]: serializedType<N['props'][K]> }
-  : never;
+export type IOTSRecordSerialized<N> =
+  N extends IOTSRecordCodec<any, any>
+    ? { [K in keyof N['props']]: serializedType<N['props'][K]> }
+    : never;
 
 export type RecordCodec<A extends Record<string, Codec<any>>> =
   | EffectRecordCodec<A>
@@ -150,28 +157,27 @@ export type RecordCodec<A extends Record<string, Codec<any>>> =
 export type InferRecordCodec<C> = C extends { type: { props: Record<string, Codec<any>> } }
   ? IOTSRecordCodec<RecordSerialized<C['type']['props']>, RecordEncoded<C['type']['props']>>
   : C extends IOTSRecordCodec<infer A, infer B>
-  ? IOTSRecordCodec<A, B>
-  : C extends EffectRecordCodec<infer A>
-  ? EffectRecordCodec<A>
-  : never;
+    ? IOTSRecordCodec<A, B>
+    : C extends EffectRecordCodec<infer A>
+      ? EffectRecordCodec<A>
+      : never;
 
 export type RecordCodecEncoded<N> = N extends RecordCodec<infer B> ? RecordEncoded<B> : never;
 
-export type PartialSerializedType<N> = N extends Codec<any, any>
-  ? UndefinedsToPartial<serializedType<N>>
-  : never;
+export type PartialSerializedType<N> =
+  N extends Codec<any, any> ? UndefinedsToPartial<serializedType<N>> : never;
 
-export type decodeType<C> = C extends IOTSRecordCodec<any, any>
-  ? Either<ValidationError[], IOTSRecordEncoded<C>>
-  : never;
+export type decodeType<C> =
+  C extends IOTSRecordCodec<any, any> ? Either<ValidationError[], IOTSRecordEncoded<C>> : never;
 
 export type UndefinedOrRuntime<N> = N extends undefined ? undefined : EncodedType<N>;
 
-export type UndefinedOrType<N> = N extends IOTSRecordCodec<any, any>
-  ? IOTSRecordSerialized<N>
-  : N extends EffectRecordCodec<any>
-  ? RecordCodecSerialized<N>
-  : undefined;
+export type UndefinedOrType<N> =
+  N extends IOTSRecordCodec<any, any>
+    ? IOTSRecordSerialized<N>
+    : N extends EffectRecordCodec<any>
+      ? RecordCodecSerialized<N>
+      : undefined;
 
 export type EitherDecode<I, E = IOError> = (input: unknown) => Either<E, I>;
 

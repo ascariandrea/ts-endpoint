@@ -66,42 +66,39 @@ test('Endpoint', () => {
 
   expectTypeOf(endpointWithoutParam.getPath()).toEqualTypeOf<string>();
 
-  expectTypeOf(endpointInstance.Input.Body).not.toMatchObjectType<{ prova: any }>;
+  expectTypeOf(endpointInstance.Input.Body).not.toMatchObjectType<{ prova: any }>();
 
-  expectTypeOf(endpointInstance.Output.props).not.toMatchObjectType<{ fakeOutput: any }>;
+  expectTypeOf(endpointInstance.Output.props).not.toMatchObjectType<{ fakeOutput: any }>();
 
   expectTypeOf(endpointInstance.Output.props.crayons).toEqualTypeOf<t.ArrayC<t.StringC>>();
 
   expectTypeOf(endpointWithBody.Input.Body.props.id).toEqualTypeOf<t.NumberC>();
 
-  // @dts-jest:pass:snap Errors are well formatted
-  endpointWithErrors.Errors;
   expectTypeOf(endpointInstance.Errors).toEqualTypeOf<undefined>();
-  expectTypeOf(endpointWithErrors.Errors!).toMatchObjectType<{
+  expectTypeOf(endpointWithErrors.Errors).toMatchObjectType<{
     401: t.UndefinedC;
   }>();
 
-  // @dts-jest:pass:snap endpointWithoutInput is well formatted
-  endpointWithoutInput;
-
-  expectTypeOf(endpointWithParam.getPath).parameter(0).not.toEqualTypeOf<undefined | {}>();
+  expectTypeOf(endpointWithParam.getPath).parameter(0).not.toEqualTypeOf<undefined>();
   expectTypeOf(endpointWithParam.getPath).parameter(0).not.toEqualTypeOf<{ foo: number }>();
   expectTypeOf(endpointWithParam.getPath).parameter(0).not.toEqualTypeOf<{ foo: string }>();
   expectTypeOf(endpointWithParam.getPath).parameter(0).not.toEqualTypeOf<{ id: string }>();
 
   expectTypeOf(endpointWithParam.getPath).parameter(0).toEqualTypeOf<{ id: number }>();
 
-  expectTypeOf(endpointWithParam.getStaticPath).parameter(0).not.toEqualTypeOf<undefined | {}>();
-
-  // @dts-jest:pass:snap getStaticPath requires a mapping function if some Params are defined in the endpoint
   expectTypeOf(endpointWithParam.getStaticPath)
     .parameter(0)
-    .toEqualTypeOf<(paramName: "id") => string>();
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    .not.toEqualTypeOf<undefined | {}>();
 
-  // @dts-jest:pass:snap getStaticPath requires no args if no Params are defined
+  expectTypeOf(endpointWithParam.getStaticPath)
+    .parameter(0)
+    .toEqualTypeOf<(paramName: 'id') => string>();
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   expectTypeOf(endpointWithoutParam.getStaticPath).parameter(0).toEqualTypeOf<{} | undefined>();
 
-  // @dts-jest:pass:snap getPath can be called with no args if no Params are defined in the endpoint
   expectTypeOf(endpointWithoutParam.getPath).parameter(0).toEqualTypeOf<undefined>();
-});
 
+  expectTypeOf(endpointWithoutInput.getPath).parameter(0).toEqualTypeOf<undefined>();
+});

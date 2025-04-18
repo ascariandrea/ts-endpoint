@@ -1,11 +1,10 @@
-
-export class BaseError extends Error {
+export class BaseError<D = any> extends Error {
   status: number;
   name: string;
-  details?: any;
+  details?: D;
   stack?: string | undefined;
 
-  constructor(status: number, message: string, details?: any) {
+  constructor(status: number, message: string, details?: D) {
     super(message);
     this.name = this.constructor.name;
     this.status = status;

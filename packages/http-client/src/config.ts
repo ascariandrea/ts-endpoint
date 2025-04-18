@@ -1,7 +1,5 @@
-
-
-type HTTPProtocol = "http";
-type HTTPSProtocol = "https";
+type HTTPProtocol = 'http';
+type HTTPSProtocol = 'https';
 
 export type HTTPClientProtocol = HTTPProtocol | HTTPSProtocol;
 

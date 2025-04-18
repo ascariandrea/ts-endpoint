@@ -1,16 +1,16 @@
 import {
-  EitherDecode,
-  EitherDecoder,
-  EndpointsMapType,
   IOError,
+  type EitherDecode,
+  type EitherDecoder,
   type EndpointInstance,
+  type EndpointsMapType,
   type MinimalEndpointInstance,
   type ResourceEndpoints,
   type runtimeType,
   type serializedType,
   type TypeOfEndpointInstanceInput,
 } from '@ts-endpoint/core';
-import { GetHTTPClientOptions } from '@ts-endpoint/http-client';
+import { type GetHTTPClientOptions } from '@ts-endpoint/http-client';
 import type { AxiosInstance, AxiosResponse } from 'axios';
 import * as A from 'fp-ts/lib/Array.js';
 import * as R from 'fp-ts/lib/Record.js';
@@ -27,7 +27,7 @@ export type EndpointREST<
   Create extends MinimalEndpointInstance,
   Edit extends MinimalEndpointInstance,
   Delete extends MinimalEndpointInstance,
-  Custom extends Record<string, MinimalEndpointInstance> | undefined
+  Custom extends Record<string, MinimalEndpointInstance> | undefined,
 > = {
   Get: EndpointRequest<Get>;
   List: EndpointRequest<List>;
@@ -119,7 +119,7 @@ const GetResourceClient = <ES extends EndpointsMapType>(
               ),
             })
           ),
-        } as API<ES>)
+        }) as API<ES>
     )
   );
 

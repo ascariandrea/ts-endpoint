@@ -3,6 +3,7 @@ export interface HKT<URI, A> {
   readonly _A: A;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface URItoKind<A> {}
 
 export type URIS = keyof URItoKind<any>;
