@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "packages": {
     ".": {
-      "exclude-paths": ["packages", "website"]
+      "exclude-paths": ["packages", "examples", "website"]
     },
     "packages/core": {
       "component": "@ts-endpoint/core"
