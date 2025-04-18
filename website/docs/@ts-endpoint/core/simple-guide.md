@@ -15,8 +15,9 @@ export interface Codec<E, A, B> {
 ```
 
 Fur our purposes, a `Codec` is a data structure that knows how to:
+
 - `encode` a runtime value into a valid transport layer format
--  `decode` a value coming from the transport layer into a valid runtime value (or an error in case the value is not well-formatted).
+- `decode` a value coming from the transport layer into a valid runtime value (or an error in case the value is not well-formatted).
 
 A valid Endpoint will use a specific `Codec` to parse both its Input and Output runtime values:
 
@@ -38,7 +39,7 @@ export const getUser = Endpoint({
     Params: t.type({ id: NumberFromString }),
   },
   Method: 'GET',
-  getPath: ({ id }) => `user/${id}`,
+  getPath: ({ id }) =\> `user/${id}`,
   Output: t.type({ user: User }),
 });
 
@@ -51,7 +52,7 @@ const createUser = Endpoint({
     }),
   },
   Method: 'POST',
-  getPath: () => 'users',
+  getPath: () =\> 'users',
   Output: t.strict({ id: t.string }),
 });
 ```

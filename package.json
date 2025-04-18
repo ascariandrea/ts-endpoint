@@ -16,7 +16,7 @@
     "http-client": "pnpm --filter @ts-endpoint/http-client",
     "express": "pnpm --filter @ts-endpoint/express",
     "react-admin": "pnpm --filter @ts-endpoint/react-admin",
-    "website": "pnpm --filter @ts-endpoint/docs",
+    "website": "pnpm --filter ts-endpoint-docs",
     "typecheck": "pnpm -r run typecheck",
     "build": "pnpm -r run build",
     "build:packages": "pnpm --filter '@ts-endpoint/*' run build",

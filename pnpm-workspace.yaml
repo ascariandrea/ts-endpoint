@@ -1,2 +1,13 @@
 packages:
-  - 'packages/*'
+  - packages/*
+  - website
+
+onlyBuiltDependencies:
+  - ejs
+  - esbuild
+
+hoistPattern:
+  - '*eslint*'
+  - '*vite*'
+  - '!@docusaurus/core'
+  - '!@docusaurus/preset-classic'

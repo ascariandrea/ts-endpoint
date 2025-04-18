@@ -1,5 +1,5 @@
 /** @type {import('@docusaurus/types').Config} */
-module.exports = {
+export default {
   title: 'ts-endpoint',
   tagline: 'A simple solution for full stack typescript projects.',
   url: 'https://ts-endpoint.federicosordillo.com/',
@@ -20,8 +20,8 @@ module.exports = {
         docs: {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
-          path: '../docs',
-          sidebarPath: '../website/sidebars.json',
+          path: './docs',
+          sidebarPath: './sidebars.json',
         },
         blog: {
           path: 'blog',
@@ -35,14 +35,14 @@ module.exports = {
   plugins: [],
   themeConfig: {
     navbar: {
-      title: 'ts-endpoint',
+      title: '@ts-endpoint',
       logo: {
         src: 'img/favicon.ico',
       },
       items: [
         {
-          to: 'docs/ts-endpoint/intro',
-          label: 'ts-endpoint',
+          to: 'docs/@ts-endpoint/core/intro',
+          label: '@ts-endpoint/core',
           position: 'left',
         },
         {
@@ -51,8 +51,8 @@ module.exports = {
           position: 'left',
         },
         {
-          to: 'docs/ts-endpoint-browser/intro',
-          label: 'ts-endpoint-browser',
+          to: 'docs/@ts-endpoint/http-client/intro',
+          label: '@ts-endpoint/http-client',
           position: 'left',
         },
       ],

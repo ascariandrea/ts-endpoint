@@ -61,10 +61,9 @@ const createdUserId: TaskEither<IOError, { id: string }> = fetchClient.createUse
 
 - **KnownError** when the response status coincide with one of those defined in the Endpoint definition (in this case the payload is validated against the corresponding Error Codec).
 - **NetworkError** if the request fails without info about the failure
-- **ClientError** if the response status is >= 400 and <= 451),
-- **DecodingError** if the body of the response is different from the specification in the `Endpoint` definition, or a
+- **ClientError** if the response status is within 400 and 451,
+- **DecodingError** if the body of the response is different from the specification in the `Endpoint` definition
 - **ServerError** (in all other cases).
-
 
 The only difference between each error is the `kind` and the fact that if the error kind is `DecodingError` it will also expose an array of errors in its `details` object.
 
