@@ -1,4 +1,4 @@
-name: Test
+name: Code Quality
 
 on:
   pull_request:
@@ -20,8 +20,11 @@ jobs:
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
-      - name: build
+      - name: Build
         run: pnpm build
 
-      - name: test
+      - name: Lint
+        run: pnpm lint
+
+      - name: Test
         run: pnpm test
