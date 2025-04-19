@@ -44,6 +44,7 @@ export type EffectCodec<A, B = A, R = never> = {
 export interface IOTSCodec<A, B> {
   encode: (b: B) => A;
   decode: (b: unknown) => Either<ValidationError[], B>;
+  name: string;
 }
 
 export type Codec<A, B = A, R = never> = EffectCodec<A, B, R> | IOTSCodec<A, B>;

@@ -24,6 +24,7 @@ test('Codec', () => {
   assertType<InferCodec<typeof codec>>({
     encode: ({ id }) => ({ id: id.toString() }),
     decode: (_) => E.right({ id: 1 }),
+    name: 'NumberFromString',
   });
 
   assertType<decodeType<RECORD_CODEC>>(E.right({ id: 1 }));
