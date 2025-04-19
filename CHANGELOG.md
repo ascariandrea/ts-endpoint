@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0 (2025-04-19)
+
+
+### Miscellaneous Chores
+
+* added examples to workspace ([#29](https://github.com/ascariandrea/ts-endpoint/issues/29)) ([80ff6f7](https://github.com/ascariandrea/ts-endpoint/commit/80ff6f739ec5d4fa0e3d75cb959aaa16e05c2769))
+* defined code quality workflow ([6ad992b](https://github.com/ascariandrea/ts-endpoint/commit/6ad992b7a35238dc369b5cacd84b65e45d5cac46))
+* eslint setup ([#27](https://github.com/ascariandrea/ts-endpoint/issues/27)) ([40c9bc8](https://github.com/ascariandrea/ts-endpoint/commit/40c9bc8c5b3064a934da2b2ef8997fe3a14679b6))
+* migrate to docusaurus 3 ([#28](https://github.com/ascariandrea/ts-endpoint/issues/28)) ([d21e086](https://github.com/ascariandrea/ts-endpoint/commit/d21e0868b1881d6b351878324fdabdd688591da1))
+* run only test changed since last commit on pre-push ([15ab85b](https://github.com/ascariandrea/ts-endpoint/commit/15ab85b6df2bb84e96ce59e7baac2cbadde831b6))
+* set release-please bootstrap commit sha ([ce61e1e](https://github.com/ascariandrea/ts-endpoint/commit/ce61e1e141a6bdfce96be9a08a89a8ccacb614eb))
+* update all references to old packages ([f57d3df](https://github.com/ascariandrea/ts-endpoint/commit/f57d3dfd94ace1b7748145c281f015f93eb462dd))
+* update commitlint and husky to latest versions ([4411140](https://github.com/ascariandrea/ts-endpoint/commit/4411140ca0198286467cca4c642a214af9ca8647))
+
 ## [2.0.1](https://github.com/ascariandrea/ts-endpoint/compare/root@2.0.0...root@2.0.1) (2025-04-05)
 
 

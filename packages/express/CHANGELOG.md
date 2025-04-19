@@ -1,4 +1,20 @@
-# Change Log
+# Changelog
+
+## 0.1.0 (2025-04-19)
+
+
+### Miscellaneous Chores
+
+* eslint setup ([#27](https://github.com/ascariandrea/ts-endpoint/issues/27)) ([40c9bc8](https://github.com/ascariandrea/ts-endpoint/commit/40c9bc8c5b3064a934da2b2ef8997fe3a14679b6))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @ts-endpoint/core bumped to 0.1.0
+
+## Change Log
 
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
