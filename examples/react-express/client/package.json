@@ -2,8 +2,8 @@
   "name": "client",
   "version": "0.1.0",
   "description": "simple client",
-  "private": "true",
-  "author": "Federico Sordillo",
+  "private": true,
+  "author": "Federico Sordillo <federicosordillo@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "vite build",
@@ -12,17 +12,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.29.0",
     "@ts-endpoint/core": "workspace:*",
     "@ts-endpoint/http-client": "workspace:*",
+    "@ts-endpoint/resource-client": "workspace:*",
+    "@ts-endpoint/tanstack-query": "workspace:*",
+    "@ts-endpoint/test": "workspace:*",
     "shared": "workspace:*"
   },
   "devDependencies": {
-    "@types/react": "^16.9.49",
+    "@types/react": "^18",
     "@types/react-dom": "^16.9.8",
     "@vitejs/plugin-react": "^4.2.1",
     "fp-ts": "^2.8.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^18",
+    "react-dom": "^18",
     "typescript": "^5.8.2",
     "vite": "^6.3.1"
   }

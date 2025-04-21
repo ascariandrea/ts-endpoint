@@ -1,8 +1,8 @@
-import { getUser } from 'shared';
-import { GetFetchHTTPClient } from '@ts-endpoint/http-client';
 import { IOError, IOTSCodec } from '@ts-endpoint/core';
+import { GetFetchHTTPClient } from '@ts-endpoint/http-client';
 import * as E from 'fp-ts/lib/Either';
 import { pipe } from 'fp-ts/lib/function';
+import { getUser } from 'shared';
 
 export const apiClient = GetFetchHTTPClient(
   {
@@ -13,13 +13,12 @@ export const apiClient = GetFetchHTTPClient(
   },
   { getUser },
   {
-    decode: (schema) => (input) => {
-      const s = schema as IOTSCodec<any, any>;
+    decode: (schema: IOTSCodec<any, any>) => (input: unknown) => {
       return pipe(
-        s.decode(input),
+        schema.decode(input),
         E.mapLeft(
           (error) =>
-            new IOError(`Decoding error: ${s.name}`, {
+            new IOError(`Decoding error: ${schema.name}`, {
               kind: 'DecodingError',
               errors: [error],
             })

@@ -6,7 +6,7 @@
   "author": "Federico Sordillo <federicosordillo@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "server": "pnpm --filter server",
+    "api": "pnpm --filter server",
     "client": "pnpm --filter client",
     "shared": "pnpm --filter shared",
     "build": "pnpm -r run build",

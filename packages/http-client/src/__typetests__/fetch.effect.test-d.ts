@@ -1,8 +1,8 @@
-import { Endpoint, IOError } from '@ts-endpoint/core';
+import { Endpoint } from '@ts-endpoint/core';
+import { decodeEffect } from '@ts-endpoint/test';
 import { Schema } from 'effect';
-import { mapLeft, right } from 'fp-ts/lib/Either.js';
-import { pipe } from 'fp-ts/lib/function.js';
-import { assertType, describe, expectTypeOf, it } from 'vitest';
+import { right } from 'fp-ts/lib/Either.js';
+import { assertType, describe, expectTypeOf, test } from 'vitest';
 import { type HTTPClientConfig } from '../config.js';
 import { GetFetchHTTPClient } from '../fetch.js';
 import { type InferFetchResult } from '../index.js';
@@ -52,23 +52,12 @@ const endpoints = {
 };
 
 const fetchClient = GetFetchHTTPClient(options, endpoints, {
-  decode: (schema) => (input) =>
-    pipe(
-      input,
-      Schema.decodeUnknownEither(schema as Schema.Schema<any>),
-      mapLeft(
-        (_) =>
-          new IOError('Validation error', {
-            kind: 'DecodingError',
-            errors: [],
-          })
-      )
-    ),
+  decode: decodeEffect,
   handleError: (err) => err,
 });
 
 describe('FetchClient', () => {
-  it('should allow to call the endpoint with the correct input', () => {
+  test('should allow to call the endpoint with the correct input', () => {
     expectTypeOf(fetchClient.provaWithoutInput).not.toEqualTypeOf<string>();
 
     expectTypeOf(fetchClient.provaWithoutInput).not.toEqualTypeOf<{ Body: number }>();
