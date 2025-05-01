@@ -12,11 +12,11 @@
     "lint": "eslint src"
   },
   "devDependencies": {
-    "@types/express": "^4.17.8",
+    "@types/express": "^5.0.3",
     "typescript": "^5.8.2"
   },
   "dependencies": {
-    "express": "^4.17.3",
+    "express": "^5.1.0",
     "fp-ts": "^2.8.2",
     "shared": "workspace:*",
     "@ts-endpoint/core": "workspace:*",
