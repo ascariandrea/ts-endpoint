@@ -307,9 +307,6 @@ importers:
       '@ts-endpoint/core':
         specifier: workspace:*
         version: link:../core
-      '@ts-endpoint/react-admin':
-        specifier: workspace:*
-        version: link:../react-admin
       '@ts-endpoint/resource-client':
         specifier: workspace:*
         version: link:../resource-client

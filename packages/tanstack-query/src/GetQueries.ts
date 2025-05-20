@@ -3,15 +3,15 @@ import {
   type EndpointInstance,
   type EndpointOutputType,
   type EndpointParamsType,
+  type EndpointQueryEncoded,
   type EndpointsMapType,
+  type InferEndpointParams,
   type IOError,
   type MinimalEndpoint,
-  type PartialSerializedType,
-  type EndpointQueryType,
-  type InferEndpointParams,
   type MinimalEndpointInstance,
+  type PartialSerializedType,
+  type TypeOfEndpointInstanceInput,
 } from '@ts-endpoint/core';
-import { type GetListFnParamsE } from '@ts-endpoint/react-admin';
 import { type EndpointRequest, type EndpointREST } from '@ts-endpoint/resource-client';
 import * as R from 'fp-ts/lib/Record.js';
 import * as Rec from 'fp-ts/lib/Record.js';
@@ -110,18 +110,29 @@ const toGetResourceQuery = <G extends MinimalEndpointInstance>(
 export const toGetListResourceQuery = <L extends MinimalEndpointInstance>(
   getListFn: EndpointRequest<L>,
   key: string,
-  override?: GetQueryOverride<GetListFnParamsE<L>, Partial<EndpointQueryType<L>>>
-): ResourceQuery<GetListFnParamsE<L>, Partial<EndpointQueryType<L>>, EndpointOutputType<L>> => {
-  const getKey: GetKeyFn<GetListFnParamsE<L>, Partial<EndpointQueryType<L>>> = override?.getKey ??
-  getDefaultKey(key);
+  override?: GetQueryOverride<EndpointParamsType<L>, Partial<EndpointQueryEncoded<L>>>
+): ResourceQuery<
+  EndpointParamsType<L>,
+  Partial<EndpointQueryEncoded<L>>,
+  EndpointOutputType<L>
+> => {
+  const getKey: GetKeyFn<
+    EndpointParamsType<L>,
+    Partial<EndpointQueryEncoded<L>>
+  > = override?.getKey ?? getDefaultKey(key);
 
   const fetch: QueryPromiseFunction<
-    GetListFnParamsE<L>,
-    Partial<EndpointQueryType<L>>,
+    EndpointParamsType<L>,
+    Partial<EndpointQueryEncoded<L>>,
     EndpointOutputType<L>
-  > = fetchQuery((p: any, q: any) => {
-    return getListFn({ Params: { ...p }, Query: { ...p, ...p.filter, ...q } } as any);
-  });
+  > = fetchQuery<EndpointParamsType<L>, Partial<EndpointQueryEncoded<L>>, EndpointOutputType<L>>(
+    (p, q) => {
+      return getListFn({
+        Params: p,
+        Query: q,
+      } as TypeOfEndpointInstanceInput<L>);
+    }
+  );
   return {
     getKey,
     fetch,

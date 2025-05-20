@@ -39,6 +39,14 @@ describe('types', () => {
       (typeof TestEndpoints)['Actor']['Custom']
     >;
     expectTypeOf<RR['get']['getKey']>().parameter(0).toEqualTypeOf<{ readonly id: string }>();
+    expectTypeOf<RR['list']['getKey']>().parameter(1).toEqualTypeOf<
+      | Partial<{
+          readonly _start: number;
+          readonly _end: number;
+          readonly ids: readonly string[];
+        }>
+      | undefined
+    >();
   });
 
   test('QueryProvider', () => {

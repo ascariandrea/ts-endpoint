@@ -1,14 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import {
   type EndpointParamsType,
-  type EndpointQueryType,
+  type EndpointQueryEncoded,
   type EndpointsMapType,
   type IOError,
   type InferEndpointInstanceParams,
   type MinimalEndpointInstance,
   type PartialSerializedType,
 } from '@ts-endpoint/core';
-import { type GetListFnParamsE } from '@ts-endpoint/react-admin';
 import { type API } from '@ts-endpoint/resource-client';
 import * as Rec from 'fp-ts/lib/Record.js';
 import { type TaskEither } from 'fp-ts/lib/TaskEither.js';
@@ -34,7 +33,7 @@ export interface ResourceEndpointsQueriesOverride<ES extends EndpointsMapType, G
       >
     : never;
   list?: L extends MinimalEndpointInstance
-    ? GetQueryOverride<GetListFnParamsE<L>, Partial<EndpointQueryType<L>>>
+    ? GetQueryOverride<EndpointParamsType<L>, Partial<EndpointQueryEncoded<L>>>
     : never;
   Custom?: {
     [K in keyof CC]: CC[K] extends CustomQueryOverride<ES, infer P, infer Q, infer O>
@@ -63,11 +62,11 @@ export const toOverrideQueries = <
     // get: undefined,
     // list: undefined,
     Custom: pipe(
-      e.Custom ?? {},
+      (e.Custom ?? {}) as CC,
       Rec.mapWithIndex((key, ee) => {
         const getKey = getDefaultKey(`${namespace}-${key}`);
         const fetch = fetchQuery((p, q) => {
-          return (ee as any)(QP)(p, q);
+          return ee(QP)(p, q);
         });
 
         return {
@@ -82,6 +81,6 @@ export const toOverrideQueries = <
             }),
         };
       })
-    ) as any,
+    ) as Partial<ResourceQueries<G, L, CC>>['Custom'],
   };
 };

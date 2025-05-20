@@ -278,6 +278,10 @@ export type EndpointParamsType<G> = G extends MinimalEndpointInstance
     : serializedType<InferEndpointInstanceParams<G>['params']>
   : never;
 
+export type EndpointQueryEncoded<L> = L extends MinimalEndpointInstance
+  ? runtimeType<InferEndpointInstanceParams<L>['query']>
+  : runtimeType<InferEndpointParams<L>['query']>;
+
 type DecodeUnknown<C, E> = (e: unknown, overrideOptions?: any) => Either<E, EncodedType<C>>;
 
 export type DecodeEffectCodec<E> = <C extends EffectCodec<any, any>>(
