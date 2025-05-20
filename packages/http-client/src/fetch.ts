@@ -1,5 +1,6 @@
 import {
   type Codec,
+  type DecodeCodecFn,
   type EndpointErrors,
   IOError,
   type MinimalEndpointInstance,
@@ -103,9 +104,10 @@ export const useBrowserFetch = <E extends MinimalEndpointInstance>(
             );
 
             if (O.isSome(actualKnownError)) {
+              const decodeAsDecodeRecord = options.decode as DecodeCodecFn<any>;
               const parsedKnownError = pipe(
                 responseJsonWithDefault,
-                TA.map((body) => options.decode(actualKnownError.value[1])(body)),
+                TA.map((body) => decodeAsDecodeRecord(actualKnownError.value[1])(body)),
                 TA.chain((validation) => {
                   return pipe(
                     TA.fromEither(validation),
@@ -161,12 +163,14 @@ export const useBrowserFetch = <E extends MinimalEndpointInstance>(
           }
         }
 
+        const decodeAsOutputDecoder = options.decode as DecodeCodecFn<any>;
+
         const res = pipe(
           responseJsonWithDefault,
           TA.chain((json) => {
             return pipe(
               options?.mapInput ? options.mapInput(json) : json,
-              options.decode(e.Output),
+              decodeAsOutputDecoder(e.Output),
               TA.fromEither
             );
           })

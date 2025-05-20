@@ -36,7 +36,6 @@
     "fp-ts": "^2.16.9"
   },
   "dependencies": {
-    "@ts-endpoint/react-admin": "workspace:*",
     "@ts-endpoint/resource-client": "workspace:*",
     "@ts-endpoint/core": "workspace:*"
   },

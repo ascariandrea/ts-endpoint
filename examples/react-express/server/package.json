@@ -1,24 +1,26 @@
 {
   "name": "server",
   "version": "0.1.0",
+  "private": true,
   "main": "index.js",
   "author": "Federico Sordillo <federicosordillo@gmail.com>",
   "license": "MIT",
   "type": "module",
   "scripts": {
     "build": "tsc --build",
-    "start": "pnpm build && node dist/index.js",
+    "start": "DEBUG=* node --watch dist/index.js",
     "lint": "eslint src"
   },
   "devDependencies": {
-    "@types/express": "^4.17.8",
+    "@types/express": "^5.0.1",
     "typescript": "^5.8.2"
   },
   "dependencies": {
-    "express": "^4.17.3",
+    "express": "^5.1.0",
     "fp-ts": "^2.8.2",
     "shared": "workspace:*",
     "@ts-endpoint/core": "workspace:*",
-    "@ts-endpoint/express": "workspace:*"
+    "@ts-endpoint/express": "workspace:*",
+    "@ts-endpoint/test": "workspace:*"
   }
 }

@@ -1,7 +1,8 @@
 import {
   IOError,
+  type DecodeCodecFn,
   type EitherDecode,
-  type EitherDecoder,
+  type EndpointDecodeFn,
   type EndpointInstance,
   type EndpointsMapType,
   type MinimalEndpointInstance,
@@ -72,9 +73,11 @@ export const liftFetch = <A, B>(
 
 export const toEndpointRequest =
   <E extends MinimalEndpointInstance>(e: E) =>
-  (client: AxiosInstance, decode: EitherDecoder): EndpointRequest<E> => {
+  (client: AxiosInstance, decode: EndpointDecodeFn<IOError>): EndpointRequest<E> => {
     return (b: TypeOfEndpointInstanceInput<E>) => {
       const url = e.getPath(b?.Params);
+
+      const decodeAsCodecDecodeFn = decode as DecodeCodecFn<any>;
 
       return pipe(
         liftFetch<serializedType<E['Output']>, runtimeType<E['Output']>>(() => {
@@ -91,7 +94,7 @@ export const toEndpointRequest =
               Accept: 'application/json',
             },
           });
-        }, decode(e.Output))
+        }, decodeAsCodecDecodeFn(e.Output))
       );
     };
   };

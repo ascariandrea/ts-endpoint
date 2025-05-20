@@ -16,6 +16,8 @@ const Actor = Schema.Struct({
   updatedAt: Schema.Date,
 }).annotations({ title: 'Actor' });
 
+type Actor = typeof Actor.Type;
+
 const TestEndpoints = {
   Actor: ResourceEndpoints({
     Get: Endpoint({
@@ -29,8 +31,8 @@ const TestEndpoints = {
       getPath: () => `/actors`,
       Input: {
         Query: Schema.Struct({
-          _start: Schema.Number,
-          _end: Schema.Number,
+          _start: Schema.NumberFromString,
+          _end: Schema.NumberFromString,
           ids: Schema.Array(Schema.String),
         }),
       },
@@ -67,6 +69,7 @@ const TestEndpoints = {
     },
   }),
 };
+
 type TestEndpoints = typeof TestEndpoints;
 
-export { TestEndpoints };
+export { Actor, TestEndpoints };

@@ -13,7 +13,7 @@ $ pnpm add @ts-endpoint/express
 
 ### peerDependencies
 
-- "express": "^4"
+- "express": "^5"
 
 ### description
 
