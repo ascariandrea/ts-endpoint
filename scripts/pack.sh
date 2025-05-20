@@ -5,6 +5,8 @@ set -e -x
 destination=${1:-dist}
 relative_destination="../../$destination"
 
+pnpm build:packages
+
 cd ./packages
 
 cd ./core && pnpm pack --pack-destination "$relative_destination" && cd ..

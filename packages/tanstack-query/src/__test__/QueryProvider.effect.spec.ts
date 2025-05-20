@@ -88,13 +88,14 @@ describe('QueryProvider', () => {
     });
 
     expect(Q.Actor.list).toBeDefined();
-    const params = {
-      pagination: { perPage: 1, page: 1 },
-      filter: { ids: ['1'] },
+    const query = {
+      _end: 1,
+      _start: 0,
+      ids: ['1'],
     };
-    const actorKey = Q.Actor.list.getKey(params);
-    expect(actorKey).toEqual(['Actor', params, undefined, false]);
-    const actor = await Q.Actor.list.fetch(params);
+    const actorKey = Q.Actor.list.getKey(undefined, query);
+    expect(actorKey).toEqual(['Actor', undefined, query, false]);
+    const actor = await Q.Actor.list.fetch(undefined, query);
 
     expect(axiosMock.request).toHaveBeenCalledWith({
       url: '/actors',
@@ -103,14 +104,9 @@ describe('QueryProvider', () => {
         Accept: 'application/json',
       },
       params: {
-        filter: {
-          ids: ['1'],
-        },
         ids: ['1'],
-        pagination: {
-          perPage: 1,
-          page: 1,
-        },
+        _end: 1,
+        _start: 0,
       },
       data: undefined,
       responseType: 'json',
