@@ -2,17 +2,16 @@ import { type UseQueryResult } from '@tanstack/react-query';
 import {
   type EndpointOutputType,
   type EndpointParamsType,
-  type EndpointQueryType,
+  type EndpointQueryEncoded,
   type EndpointsMapType,
+  type InferEndpointInstanceParams,
   type InferEndpointParams,
   type IOError,
-  type PartialSerializedType,
-  type serializedType,
-  type InferEndpointInstanceParams,
   type MinimalEndpointInstance,
+  type PartialSerializedType,
   type runtimeType,
+  type serializedType,
 } from '@ts-endpoint/core';
-import { type GetListFnParamsE } from '@ts-endpoint/react-admin';
 import { type API, type EndpointREST } from '@ts-endpoint/resource-client';
 
 export type QueryFnKey<P, Q = undefined> = [string, P, Q | undefined, boolean];
@@ -45,7 +44,11 @@ export interface ResourceQueries<
     PartialSerializedType<InferEndpointParams<G>['query']>,
     EndpointOutputType<G>
   >;
-  list: ResourceQuery<GetListFnParamsE<L>, Partial<EndpointQueryType<L>>, EndpointOutputType<L>>;
+  list: ResourceQuery<
+    EndpointParamsType<L>,
+    Partial<EndpointQueryEncoded<L>>,
+    EndpointOutputType<L>
+  >;
   Custom: CC extends Record<string, MinimalEndpointInstance>
     ? {
         [K in keyof CC]: ResourceQuery<
