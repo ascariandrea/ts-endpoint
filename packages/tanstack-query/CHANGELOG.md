@@ -12,15 +12,12 @@
 ### Bug Fixes
 
 * parametric decode function for endpoint implementations ([9324e71](https://github.com/ascariandrea/ts-endpoint/commit/9324e719ebc0c4b5379f6e1afeda00a08dcd104b))
+* **tanstack-query:** remove react-admin dependency for use query params ([65341d5](https://github.com/ascariandrea/ts-endpoint/commit/65341d5e7e0d02dfc391478bdc9713952a1aaac8))
 
 
 ### Dependencies
 
 * The following workspace dependencies were updated
   * dependencies
+    * @ts-endpoint/resource-client bumped to 0.1.0
     * @ts-endpoint/core bumped to 0.1.0
-
-## Change Log
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.

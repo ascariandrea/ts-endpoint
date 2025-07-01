@@ -19,8 +19,4 @@
 * The following workspace dependencies were updated
   * dependencies
     * @ts-endpoint/core bumped to 0.1.0
-
-## Change Log
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+    * @ts-endpoint/http-client bumped to 0.1.0
