@@ -47,6 +47,7 @@ export interface Endpoint<
         Body?: M extends 'POST' | 'PUT' | 'PATCH' | 'DELETE' ? B : never;
       };
   Output: O;
+  Stream?: boolean;
 }
 
 export type MinimalEndpoint = Omit<
@@ -132,6 +133,7 @@ export type EndpointInstance<E extends MinimalEndpoint> = {
       : (f: (paramName: keyof runtimeType<InferEndpointParams<E>['params']>) => string) => string;
   Method: E['Method'];
   Output: E['Output'];
+  Stream?: E['Stream'];
 } & (E['Input'] extends undefined
   ? {
       Input?: never;
@@ -200,6 +202,7 @@ export function Endpoint<
     },
     Output: e.Output,
     ...(e.Errors ? { Errors: e.Errors } : {}),
+    ...(e.Stream !== undefined ? { Stream: e.Stream } : {}),
     Input: {
       ...(e.Input?.Body ? { Body: e.Input.Body } : {}),
       ...(e.Input?.Headers ? { Headers: e.Input.Headers } : {}),
