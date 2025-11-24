@@ -15,6 +15,7 @@ const streamEndpoint = Endpoint({
   Method: 'GET',
   getPath: ({ id }) => `users/${id}/stream`,
   Output: Schema.Struct({ data: Schema.String }),
+  Stream: true,
 });
 
 const regularEndpoint = Endpoint({
@@ -42,6 +43,10 @@ const registerRouter = GetEndpointSubscriber({ buildDecodeError: buildIOError, d
 const AddEndpoint = registerRouter(router);
 
 describe('Stream endpoint types', () => {
+  test('Verify streamEndpoint has Stream: true', () => {
+    expectTypeOf(streamEndpoint.Stream).toEqualTypeOf<true>();
+  });
+
   test('Should accept HTTPStreamResponse for streaming endpoint', () => {
     const streamData = Readable.from(['chunk1', 'chunk2', 'chunk3']);
 
@@ -60,30 +65,28 @@ describe('Stream endpoint types', () => {
     );
   });
 
-  test('Should accept regular HTTPResponse for streaming endpoint', () => {
-    assertType<void>(
-      AddEndpoint(streamEndpoint, ({ params: { id } }) => () => {
-        assertType<string>(id);
-        return Promise.resolve(E.right({ body: { data: 'test' }, statusCode: 200 }));
-      })
-    );
+  test('Should NOT accept regular HTTPResponse for streaming endpoint', () => {
+    // @ts-expect-error - Stream endpoint requires HTTPStreamResponse, not HTTPResponse
+    AddEndpoint(streamEndpoint, ({ params: { id } }) => () => {
+      assertType<string>(id);
+      return Promise.resolve(E.right({ body: { data: 'test' }, statusCode: 200 }));
+    });
   });
 
-  test('Should accept HTTPStreamResponse for regular endpoint', () => {
+  test('Should NOT accept HTTPStreamResponse for regular endpoint', () => {
     const streamData = Readable.from(['chunk1', 'chunk2']);
 
-    assertType<void>(
-      AddEndpoint(regularEndpoint, ({ params: { id } }) => () => {
-        assertType<string>(id);
+    // @ts-expect-error - Regular endpoint requires HTTPResponse, not HTTPStreamResponse
+    AddEndpoint(regularEndpoint, ({ params: { id } }) => () => {
+      assertType<string>(id);
 
-        const response: HTTPStreamResponse = {
-          stream: streamData,
-          statusCode: 200,
-        };
+      const response: HTTPStreamResponse = {
+        stream: streamData,
+        statusCode: 200,
+      };
 
-        return Promise.resolve(E.right(response));
-      })
-    );
+      return Promise.resolve(E.right(response));
+    });
   });
 
   test('Should accept regular HTTPResponse for regular endpoint', () => {

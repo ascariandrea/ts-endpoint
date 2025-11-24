@@ -22,29 +22,12 @@ const nonStreamEndpoint = Endpoint({
   Stream: false,
 });
 
-const regularEndpoint = Endpoint({
-  Input: {
-    Params: Schema.Struct({ id: Schema.Number }),
-  },
-  Method: 'GET',
-  getPath: ({ id }) => `users/${id.toString()}/data`,
-  Output: Schema.Struct({ data: Schema.String }),
-});
-
 test('Stream property types', () => {
-  // Stream endpoint should have Stream property
-  expectTypeOf(streamEndpoint.Stream).toEqualTypeOf<boolean | undefined>();
+  // Stream endpoint should have Stream = true
+  expectTypeOf(streamEndpoint.Stream).toEqualTypeOf<true>();
 
-  // Non-stream endpoint should have Stream property
-  expectTypeOf(nonStreamEndpoint.Stream).toEqualTypeOf<boolean | undefined>();
-
-  // Regular endpoint should have Stream as optional
-  expectTypeOf(regularEndpoint.Stream).toEqualTypeOf<boolean | undefined>();
-
-  // Runtime checks
-  if (streamEndpoint.Stream !== undefined) {
-    expectTypeOf(streamEndpoint.Stream).toEqualTypeOf<boolean>();
-  }
+  // Non-stream endpoint should have Stream = false
+  expectTypeOf(nonStreamEndpoint.Stream).toEqualTypeOf<false>();
 });
 
 test('Stream endpoint preserves other properties', () => {
