@@ -47,6 +47,7 @@ export interface Endpoint<
         Body?: M extends 'POST' | 'PUT' | 'PATCH' | 'DELETE' ? B : never;
       };
   Output: O;
+  Stream?: boolean;
 }
 
 export type MinimalEndpoint = Omit<
@@ -132,6 +133,7 @@ export type EndpointInstance<E extends MinimalEndpoint> = {
       : (f: (paramName: keyof runtimeType<InferEndpointParams<E>['params']>) => string) => string;
   Method: E['Method'];
   Output: E['Output'];
+  Stream?: E['Stream'];
 } & (E['Input'] extends undefined
   ? {
       Input?: never;
@@ -159,12 +161,15 @@ export type EndpointInstance<E extends MinimalEndpoint> = {
 export function Endpoint<
   M extends HTTPMethod,
   O extends Codec<any, any>,
+  const S extends boolean | undefined = undefined,
   Q extends RecordCodec<any> | undefined = undefined,
   H extends RecordCodec<any> | undefined = undefined,
   B extends Codec<any, any> | undefined = undefined,
   P extends RecordCodec<any> | undefined = undefined,
   E extends EndpointErrors<never, Codec<any, any>> | undefined = undefined,
->(e: Endpoint<M, O, H, Q, B, P, E>): EndpointInstance<Endpoint<M, O, H, Q, B, P, E>> {
+>(e: Endpoint<M, O, H, Q, B, P, E> & (S extends undefined ? {} : { Stream: S })): EndpointInstance<
+  Endpoint<M, O, H, Q, B, P, E>
+> & (S extends undefined ? {} : { Stream: S }) {
   // TODO: check if the headers are valid?
   // const headersWithWhiteSpaces = pipe(
   //   e.Input?.Headers?.props ?? {},
@@ -200,17 +205,20 @@ export function Endpoint<
     },
     Output: e.Output,
     ...(e.Errors ? { Errors: e.Errors } : {}),
+    ...(e.Stream !== undefined ? { Stream: e.Stream } : {}),
     Input: {
       ...(e.Input?.Body ? { Body: e.Input.Body } : {}),
       ...(e.Input?.Headers ? { Headers: e.Input.Headers } : {}),
       ...(e.Input?.Params ? { Params: e.Input.Params } : {}),
       ...(e.Input?.Query ? { Query: e.Input.Query } : {}),
     },
-  } as unknown as EndpointInstance<Endpoint<M, O, H, Q, B, P, E>>;
+  } as unknown as EndpointInstance<Endpoint<M, O, H, Q, B, P, E>> &
+    (S extends undefined ? {} : { Stream: S });
 }
 
 export type MinimalEndpointInstance = MinimalEndpoint & {
   getStaticPath: (f: (i?: any) => string) => string;
+  Stream?: boolean;
 };
 
 export type TypeOfEndpointInstanceInput<E extends MinimalEndpointInstance> = [
