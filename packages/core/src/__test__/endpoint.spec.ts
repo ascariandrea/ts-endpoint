@@ -43,4 +43,45 @@ describe('Endpoint', () => {
       Output: Schema.Struct({ crayons: Schema.Array(Schema.String) }),
     });
   });
+
+  it('creates an endpoint with Stream property set to true', () => {
+    const streamEndpoint = Endpoint({
+      Input: {
+        Params: Schema.Struct({ id: Schema.Number }),
+      },
+      Method: 'GET',
+      getPath: ({ id }) => `users/${id.toString()}/stream`,
+      Output: Schema.Struct({ data: Schema.String }),
+      Stream: true,
+    });
+
+    expect(streamEndpoint.Stream).toBe(true);
+  });
+
+  it('creates an endpoint with Stream property set to false', () => {
+    const nonStreamEndpoint = Endpoint({
+      Input: {
+        Params: Schema.Struct({ id: Schema.Number }),
+      },
+      Method: 'GET',
+      getPath: ({ id }) => `users/${id.toString()}/data`,
+      Output: Schema.Struct({ data: Schema.String }),
+      Stream: false,
+    });
+
+    expect(nonStreamEndpoint.Stream).toBe(false);
+  });
+
+  it('creates an endpoint without Stream property (undefined)', () => {
+    const regularEndpoint = Endpoint({
+      Input: {
+        Params: Schema.Struct({ id: Schema.Number }),
+      },
+      Method: 'GET',
+      getPath: ({ id }) => `users/${id.toString()}/data`,
+      Output: Schema.Struct({ data: Schema.String }),
+    });
+
+    expect(regularEndpoint.Stream).toBeUndefined();
+  });
 });

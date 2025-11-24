@@ -127,7 +127,13 @@ export const GetEndpointSubscriber =
               res.set(httpResponse.headers);
             }
 
-            res.status(httpResponse.statusCode).send(httpResponse.body);
+            // Check if this is a streaming response
+            if ('stream' in httpResponse) {
+              res.status(httpResponse.statusCode);
+              httpResponse.stream.pipe(res);
+            } else {
+              res.status(httpResponse.statusCode).send(httpResponse.body);
+            }
           }
         )
       );
