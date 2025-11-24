@@ -11,11 +11,12 @@
 
 ### Bug Fixes
 
-* extend io-ts codec with 'name' property ([fd24991](https://github.com/ascariandrea/ts-endpoint/commit/fd24991cd38c83206a49b1ce7d998bda3ba8d399))
 * parametric decode function for endpoint implementations ([9324e71](https://github.com/ascariandrea/ts-endpoint/commit/9324e719ebc0c4b5379f6e1afeda00a08dcd104b))
-* **tanstack-query:** remove react-admin dependency for use query params ([65341d5](https://github.com/ascariandrea/ts-endpoint/commit/65341d5e7e0d02dfc391478bdc9713952a1aaac8))
 
-## Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @ts-endpoint/core bumped to 0.1.0
+    * @ts-endpoint/http-client bumped to 0.1.0

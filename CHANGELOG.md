@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.1.0 (2025-11-24)
+
+
+### Miscellaneous Chores
+
+* added AGENTS.md ([15d2f84](https://github.com/ascariandrea/ts-endpoint/commit/15d2f840342e71a12771aa18d6f0cd2b6466d648))
+* added examples to workspace ([#29](https://github.com/ascariandrea/ts-endpoint/issues/29)) ([80ff6f7](https://github.com/ascariandrea/ts-endpoint/commit/80ff6f739ec5d4fa0e3d75cb959aaa16e05c2769))
+* bump node to v22 ([ce1567d](https://github.com/ascariandrea/ts-endpoint/commit/ce1567da7e68720af524853c98c1918dbbdab1d7))
+* defined code quality workflow ([6ad992b](https://github.com/ascariandrea/ts-endpoint/commit/6ad992b7a35238dc369b5cacd84b65e45d5cac46))
+* eslint setup ([#27](https://github.com/ascariandrea/ts-endpoint/issues/27)) ([40c9bc8](https://github.com/ascariandrea/ts-endpoint/commit/40c9bc8c5b3064a934da2b2ef8997fe3a14679b6))
+* migrate to docusaurus 3 ([#28](https://github.com/ascariandrea/ts-endpoint/issues/28)) ([d21e086](https://github.com/ascariandrea/ts-endpoint/commit/d21e0868b1881d6b351878324fdabdd688591da1))
+* run only test changed since last commit on pre-push ([15ab85b](https://github.com/ascariandrea/ts-endpoint/commit/15ab85b6df2bb84e96ce59e7baac2cbadde831b6))
+* set release-please bootstrap commit sha ([ce61e1e](https://github.com/ascariandrea/ts-endpoint/commit/ce61e1e141a6bdfce96be9a08a89a8ccacb614eb))
+* support both express 4 and 5 ([656a244](https://github.com/ascariandrea/ts-endpoint/commit/656a244e890c354ebd377e1a15cb8f19b17d13a6))
+* update all references to old packages ([f57d3df](https://github.com/ascariandrea/ts-endpoint/commit/f57d3dfd94ace1b7748145c281f015f93eb462dd))
+* update commitlint and husky to latest versions ([4411140](https://github.com/ascariandrea/ts-endpoint/commit/4411140ca0198286467cca4c642a214af9ca8647))
+
+
+### Bug Fixes
+
+* parametric decode function for endpoint implementations ([9324e71](https://github.com/ascariandrea/ts-endpoint/commit/9324e719ebc0c4b5379f6e1afeda00a08dcd104b))
+* **tanstack-query:** remove react-admin dependency for use query params ([65341d5](https://github.com/ascariandrea/ts-endpoint/commit/65341d5e7e0d02dfc391478bdc9713952a1aaac8))
+
 ## [2.0.1](https://github.com/ascariandrea/ts-endpoint/compare/root@2.0.0...root@2.0.1) (2025-04-05)
 
 
