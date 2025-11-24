@@ -16,7 +16,7 @@ You are an expert TypeScript developer working on **ts-endpoint**, a type-safe e
 - **Runtime Validation:** io-ts 2.x and effect/Schema
 - **Functional Programming:** fp-ts 2.x
 - **Git Conventions:** Conventional Commits via commitlint
-- **Node Version:** >= 20
+- **Node Version:** >= 22
 
 ## Project Structure
 
