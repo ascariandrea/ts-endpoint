@@ -18,6 +18,7 @@ import * as TA from 'fp-ts/lib/TaskEither.js';
 import { pipe } from 'fp-ts/lib/function.js';
 import { type Controller } from './Controller.js';
 import { type Kind, type URIS } from './HKT.js';
+import { type HTTPResponse, type HTTPStreamResponse } from './HTTPResponse.js';
 
 const getRouterMatcher = <E extends MinimalEndpoint>(
   router: express.Router,
@@ -49,14 +50,27 @@ declare module './HKT.js' {
   }
 }
 
-type EndpointController<E extends MinimalEndpointInstance, M extends URIS = 'IOError'> = Controller<
-  Kind<M, NonNullable<E['Errors']>>,
-  UndefinedOrRuntime<InferEndpointInstanceParams<E>['params']>,
-  UndefinedOrRuntime<InferEndpointInstanceParams<E>['headers']>,
-  UndefinedOrRuntime<InferEndpointInstanceParams<E>['query']>,
-  UndefinedOrRuntime<InferEndpointInstanceParams<E>['body']>,
-  runtimeType<InferEndpointInstanceParams<E>['output']>
->;
+type EndpointController<E extends MinimalEndpointInstance, M extends URIS = 'IOError'> = E extends {
+  Stream: true;
+}
+  ? Controller<
+      Kind<M, NonNullable<E['Errors']>>,
+      UndefinedOrRuntime<InferEndpointInstanceParams<E>['params']>,
+      UndefinedOrRuntime<InferEndpointInstanceParams<E>['headers']>,
+      UndefinedOrRuntime<InferEndpointInstanceParams<E>['query']>,
+      UndefinedOrRuntime<InferEndpointInstanceParams<E>['body']>,
+      runtimeType<InferEndpointInstanceParams<E>['output']>,
+      true
+    >
+  : Controller<
+      Kind<M, NonNullable<E['Errors']>>,
+      UndefinedOrRuntime<InferEndpointInstanceParams<E>['params']>,
+      UndefinedOrRuntime<InferEndpointInstanceParams<E>['headers']>,
+      UndefinedOrRuntime<InferEndpointInstanceParams<E>['query']>,
+      UndefinedOrRuntime<InferEndpointInstanceParams<E>['body']>,
+      runtimeType<InferEndpointInstanceParams<E>['output']>,
+      false | undefined
+    >;
 
 export type AddEndpoint<M extends URIS = 'IOError'> = (
   router: express.Router,
@@ -129,10 +143,12 @@ export const GetEndpointSubscriber =
 
             // Check if this is a streaming response
             if ('stream' in httpResponse) {
-              res.status(httpResponse.statusCode);
-              httpResponse.stream.pipe(res);
+              const streamResponse = httpResponse as HTTPStreamResponse;
+              res.status(streamResponse.statusCode);
+              streamResponse.stream.pipe(res);
             } else {
-              res.status(httpResponse.statusCode).send(httpResponse.body);
+              const regularResponse = httpResponse as HTTPResponse<any>;
+              res.status(regularResponse.statusCode).send(regularResponse.body);
             }
           }
         )

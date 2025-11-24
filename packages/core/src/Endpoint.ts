@@ -161,12 +161,15 @@ export type EndpointInstance<E extends MinimalEndpoint> = {
 export function Endpoint<
   M extends HTTPMethod,
   O extends Codec<any, any>,
+  const S extends boolean | undefined = undefined,
   Q extends RecordCodec<any> | undefined = undefined,
   H extends RecordCodec<any> | undefined = undefined,
   B extends Codec<any, any> | undefined = undefined,
   P extends RecordCodec<any> | undefined = undefined,
   E extends EndpointErrors<never, Codec<any, any>> | undefined = undefined,
->(e: Endpoint<M, O, H, Q, B, P, E>): EndpointInstance<Endpoint<M, O, H, Q, B, P, E>> {
+>(e: Endpoint<M, O, H, Q, B, P, E> & (S extends undefined ? {} : { Stream: S })): EndpointInstance<
+  Endpoint<M, O, H, Q, B, P, E>
+> & (S extends undefined ? {} : { Stream: S }) {
   // TODO: check if the headers are valid?
   // const headersWithWhiteSpaces = pipe(
   //   e.Input?.Headers?.props ?? {},
@@ -209,11 +212,13 @@ export function Endpoint<
       ...(e.Input?.Params ? { Params: e.Input.Params } : {}),
       ...(e.Input?.Query ? { Query: e.Input.Query } : {}),
     },
-  } as unknown as EndpointInstance<Endpoint<M, O, H, Q, B, P, E>>;
+  } as unknown as EndpointInstance<Endpoint<M, O, H, Q, B, P, E>> &
+    (S extends undefined ? {} : { Stream: S });
 }
 
 export type MinimalEndpointInstance = MinimalEndpoint & {
   getStaticPath: (f: (i?: any) => string) => string;
+  Stream?: boolean;
 };
 
 export type TypeOfEndpointInstanceInput<E extends MinimalEndpointInstance> = [
