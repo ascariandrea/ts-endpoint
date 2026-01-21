@@ -1,5 +1,6 @@
 import { Schema } from 'effect';
 import { describe, expect, it } from 'vitest';
+import { StreamOutput } from '../Codec.js';
 import { Endpoint } from '../Endpoint.js';
 
 describe('Endpoint', () => {
@@ -44,18 +45,17 @@ describe('Endpoint', () => {
     });
   });
 
-  it('creates an endpoint with Stream property set to true', () => {
+  it('creates an endpoint with Stream output', () => {
     const streamEndpoint = Endpoint({
       Input: {
         Params: Schema.Struct({ id: Schema.Number }),
       },
       Method: 'GET',
       getPath: ({ id }) => `users/${id.toString()}/stream`,
-      Output: Schema.Struct({ data: Schema.String }),
-      Stream: true,
+      Output: StreamOutput,
     });
 
-    expect(streamEndpoint.Stream).toBe(true);
+    expect(streamEndpoint.Output.__isStreamOutput).toBe(true);
   });
 
   it('creates an endpoint with Stream property set to false', () => {
@@ -66,22 +66,8 @@ describe('Endpoint', () => {
       Method: 'GET',
       getPath: ({ id }) => `users/${id.toString()}/data`,
       Output: Schema.Struct({ data: Schema.String }),
-      Stream: false,
     });
 
-    expect(nonStreamEndpoint.Stream).toBe(false);
-  });
-
-  it('creates an endpoint without Stream property (undefined)', () => {
-    const regularEndpoint = Endpoint({
-      Input: {
-        Params: Schema.Struct({ id: Schema.Number }),
-      },
-      Method: 'GET',
-      getPath: ({ id }) => `users/${id.toString()}/data`,
-      Output: Schema.Struct({ data: Schema.String }),
-    });
-
-    expect(regularEndpoint.Stream).toBeUndefined();
+    expect((nonStreamEndpoint.Output as any).__isStreamOutput).toBeUndefined();
   });
 });

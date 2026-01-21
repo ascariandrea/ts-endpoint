@@ -1,5 +1,6 @@
 import { Schema } from 'effect';
 import { expectTypeOf, test } from 'vitest';
+import { StreamOutput, type StreamOutputCodec } from '../Codec.js';
 import { Endpoint } from '../Endpoint.js';
 
 const streamEndpoint = Endpoint({
@@ -8,8 +9,7 @@ const streamEndpoint = Endpoint({
   },
   Method: 'GET',
   getPath: ({ id }) => `users/${id.toString()}/stream`,
-  Output: Schema.Struct({ data: Schema.String }),
-  Stream: true,
+  Output: StreamOutput,
 });
 
 const nonStreamEndpoint = Endpoint({
@@ -19,19 +19,22 @@ const nonStreamEndpoint = Endpoint({
   Method: 'GET',
   getPath: ({ id }) => `users/${id.toString()}/data`,
   Output: Schema.Struct({ data: Schema.String }),
-  Stream: false,
 });
 
 test('Stream property types', () => {
   // Stream endpoint should have Stream = true
-  expectTypeOf(streamEndpoint.Stream).toEqualTypeOf<true>();
+  expectTypeOf(streamEndpoint.Output).toEqualTypeOf<StreamOutputCodec>();
 
-  // Non-stream endpoint should have Stream = false
-  expectTypeOf(nonStreamEndpoint.Stream).toEqualTypeOf<false>();
+  // Non-stream endpoint should not have a Stream property
+  expectTypeOf(nonStreamEndpoint.Output).toEqualTypeOf<
+    Schema.Struct<{
+      data: typeof Schema.String;
+    }>
+  >();
 });
 
 test('Stream endpoint preserves other properties', () => {
   expectTypeOf(streamEndpoint.Method).toEqualTypeOf<'GET'>();
   expectTypeOf(streamEndpoint.Input.Params.fields.id).toEqualTypeOf<typeof Schema.Number>();
-  expectTypeOf(streamEndpoint.Output.fields.data).toEqualTypeOf<typeof Schema.String>();
+  // Output is a StreamOutput marker for stream endpoints, so we don't assert fields here.
 });

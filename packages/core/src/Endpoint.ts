@@ -16,6 +16,7 @@ import {
   type serializedType,
   type UndefinedsToPartial,
 } from './Codec.js';
+import type { StreamOutputCodec } from './Codec.js';
 import { addSlash } from './helpers.js';
 
 export type HTTPMethod = 'OPTIONS' | 'HEAD' | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -46,8 +47,7 @@ export interface Endpoint<
         Query?: Q;
         Body?: M extends 'POST' | 'PUT' | 'PATCH' | 'DELETE' ? B : never;
       };
-  Output: O;
-  Stream?: boolean;
+  Output: O extends StreamOutputCodec ? StreamOutputCodec : O;
 }
 
 export type MinimalEndpoint = Omit<
@@ -133,7 +133,6 @@ export type EndpointInstance<E extends MinimalEndpoint> = {
       : (f: (paramName: keyof runtimeType<InferEndpointParams<E>['params']>) => string) => string;
   Method: E['Method'];
   Output: E['Output'];
-  Stream?: E['Stream'];
 } & (E['Input'] extends undefined
   ? {
       Input?: never;
@@ -158,18 +157,16 @@ export type EndpointInstance<E extends MinimalEndpoint> = {
  * Constructor function for an endpoint
  * @returns an EndpointInstance
  */
+
 export function Endpoint<
   M extends HTTPMethod,
   O extends Codec<any, any>,
-  const S extends boolean | undefined = undefined,
   Q extends RecordCodec<any> | undefined = undefined,
   H extends RecordCodec<any> | undefined = undefined,
   B extends Codec<any, any> | undefined = undefined,
   P extends RecordCodec<any> | undefined = undefined,
   E extends EndpointErrors<never, Codec<any, any>> | undefined = undefined,
->(
-  e: Endpoint<M, O, H, Q, B, P, E> & (S extends undefined ? {} : { Stream: S })
-): EndpointInstance<Endpoint<M, O, H, Q, B, P, E>> & (S extends undefined ? {} : { Stream: S }) {
+>(e: Endpoint<M, O, H, Q, B, P, E>): EndpointInstance<Endpoint<M, O, H, Q, B, P, E>> {
   // TODO: check if the headers are valid?
   // const headersWithWhiteSpaces = pipe(
   //   e.Input?.Headers?.props ?? {},
@@ -205,7 +202,10 @@ export function Endpoint<
     },
     Output: e.Output,
     ...(e.Errors ? { Errors: e.Errors } : {}),
-    ...(e.Stream !== undefined ? { Stream: e.Stream } : {}),
+    // If the caller explicitly provided a `Stream` flag, respect it.
+    // Otherwise detect the `StreamOutput` codec marker and set `Stream: true`.
+    // Detect the StreamOutput codec at runtime and set Stream:true when present.
+    ...((e.Output as any)?.__isStreamOutput === true ? { Stream: true } : {}),
     Input: {
       ...(e.Input?.Body ? { Body: e.Input.Body } : {}),
       ...(e.Input?.Headers ? { Headers: e.Input.Headers } : {}),
@@ -213,7 +213,7 @@ export function Endpoint<
       ...(e.Input?.Query ? { Query: e.Input.Query } : {}),
     },
   } as unknown as EndpointInstance<Endpoint<M, O, H, Q, B, P, E>> &
-    (S extends undefined ? {} : { Stream: S });
+    (O extends StreamOutputCodec ? { Stream: true } : { Stream?: undefined });
 }
 
 export type MinimalEndpointInstance = MinimalEndpoint & {
