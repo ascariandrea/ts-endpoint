@@ -167,9 +167,9 @@ export function Endpoint<
   B extends Codec<any, any> | undefined = undefined,
   P extends RecordCodec<any> | undefined = undefined,
   E extends EndpointErrors<never, Codec<any, any>> | undefined = undefined,
->(e: Endpoint<M, O, H, Q, B, P, E> & (S extends undefined ? {} : { Stream: S })): EndpointInstance<
-  Endpoint<M, O, H, Q, B, P, E>
-> & (S extends undefined ? {} : { Stream: S }) {
+>(
+  e: Endpoint<M, O, H, Q, B, P, E> & (S extends undefined ? {} : { Stream: S })
+): EndpointInstance<Endpoint<M, O, H, Q, B, P, E>> & (S extends undefined ? {} : { Stream: S }) {
   // TODO: check if the headers are valid?
   // const headersWithWhiteSpaces = pipe(
   //   e.Input?.Headers?.props ?? {},
