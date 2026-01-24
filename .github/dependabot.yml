@@ -1,0 +1,32 @@
+---
+version: 2
+updates:
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directories:
+      - "/"
+      - "/.github/actions/*"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    target-branch: "master"
+
+  # NPM dependencies for all packages
+  - package-ecosystem: "npm"
+    directories:
+      - "/"
+      - "/packages/core"
+      - "/packages/express"
+      - "/packages/http-client"
+      - "/packages/react-admin"
+      - "/packages/resource-client"
+      - "/packages/tanstack-query"
+      - "/packages/test"
+      - "/examples/react-express"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    target-branch: "master"
+    versioning-strategy: increase
+    allow:
+      - dependency-type: "direct"
