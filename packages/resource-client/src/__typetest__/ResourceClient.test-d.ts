@@ -1,11 +1,14 @@
 import { IOError } from '@ts-endpoint/core';
 import { decodeEffect, TestEndpoints } from '@ts-endpoint/test';
+import { type AxiosInstance } from 'axios';
 import * as E from 'fp-ts/lib/Either.js';
 import { assertType, describe, expectTypeOf, test } from 'vitest';
-import { type EndpointRequest, GetResourceClient, toEndpointRequest } from '../ResourceClient.js';
+import { mock } from 'vitest-mock-extended';
+import { GetResourceClient, toEndpointRequest, type EndpointRequest } from '../ResourceClient.js';
 
 describe(GetResourceClient.name, () => {
-  const resourceClient = GetResourceClient({} as any, TestEndpoints, {
+  const axiosMock = mock<AxiosInstance>();
+  const resourceClient = GetResourceClient(axiosMock, TestEndpoints, {
     decode: decodeEffect,
   });
 

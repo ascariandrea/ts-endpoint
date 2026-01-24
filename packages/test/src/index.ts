@@ -8,6 +8,7 @@ import { Schema } from 'effect';
 import * as E from 'fp-ts/lib/Either.js';
 import { pipe } from 'fp-ts/lib/function.js';
 export * from './TestEndpoints/TestEndpointsEffect.js';
+import * as Arb from './arbitraries/index.js';
 
 export const decodeIOTS: EndpointDecodeFn<IOError> =
   (schema: IOTSCodec<any, any>) => (input: unknown) => {
@@ -36,3 +37,5 @@ export const decodeEffect: EndpointDecodeFn<IOError> =
       })
     );
   };
+
+export { Arb };

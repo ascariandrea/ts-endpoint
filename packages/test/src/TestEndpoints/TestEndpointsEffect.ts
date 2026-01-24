@@ -1,22 +1,6 @@
 import { Endpoint, ResourceEndpoints } from '@ts-endpoint/core';
 import { Schema } from 'effect';
-
-const Actor = Schema.Struct({
-  id: Schema.String,
-  name: Schema.String,
-  avatar: Schema.Struct({
-    id: Schema.String,
-    url: Schema.String,
-    createdAt: Schema.Date,
-    updatedAt: Schema.Date,
-  }).annotations({ title: 'Avatar' }),
-  bornOn: Schema.Union(Schema.Null, Schema.Date),
-  diedOn: Schema.Union(Schema.Null, Schema.Date),
-  createdAt: Schema.Date,
-  updatedAt: Schema.Date,
-}).annotations({ title: 'Actor' });
-
-type Actor = typeof Actor.Type;
+import { Actor } from './io/Actor.io.js';
 
 const TestEndpoints = {
   Actor: ResourceEndpoints({
@@ -64,6 +48,15 @@ const TestEndpoints = {
         Method: 'GET',
         getPath: ({ id }) => `/actors/${id}/siblings`,
         Input: { Params: Schema.Struct({ id: Schema.String }) },
+        Output: Schema.Struct({ data: Schema.Array(Actor) }),
+      }),
+      PutSiblings: Endpoint({
+        Method: 'PUT',
+        getPath: ({ id }) => `/actors/${id}/siblings`,
+        Input: {
+          Params: Schema.Struct({ id: Schema.String }),
+          Body: Schema.Struct({ siblingId: Schema.String }),
+        },
         Output: Schema.Struct({ data: Schema.Array(Actor) }),
       }),
     },

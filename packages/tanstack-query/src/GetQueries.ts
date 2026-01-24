@@ -12,6 +12,7 @@ import {
   type PartialSerializedType,
   type TypeOfEndpointInstanceInput,
 } from '@ts-endpoint/core';
+import { throwTE } from '@ts-endpoint/core/lib/utils.js';
 import { type EndpointRequest, type EndpointREST } from '@ts-endpoint/resource-client';
 import * as R from 'fp-ts/lib/Record.js';
 import * as Rec from 'fp-ts/lib/Record.js';
@@ -28,16 +29,6 @@ import {
   type ResourceQueries,
   type ResourceQuery,
 } from './types.js';
-
-export const throwTE = async <E, A>(te: TaskEither<E, A>): Promise<A> => {
-  return te().then((rr) => {
-    if (rr._tag === 'Left') {
-      // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-      return Promise.reject(rr.left);
-    }
-    return Promise.resolve(rr.right);
-  });
-};
 
 export const getDefaultKey =
   (key: string) =>
