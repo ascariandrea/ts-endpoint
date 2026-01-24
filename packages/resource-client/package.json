@@ -38,8 +38,8 @@
     "vitest-mock-extended": "^3.1.0"
   },
   "dependencies": {
-    "@ts-endpoint/core": "workspace:*",
-    "@ts-endpoint/http-client": "workspace:*"
+    "@ts-endpoint/core": "workspace:^",
+    "@ts-endpoint/http-client": "workspace:^"
   },
   "peerDependencies": {
     "axios": "^1",

@@ -5,6 +5,11 @@ on:
     branches:
       - master
 
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -17,4 +22,4 @@ jobs:
       - uses: ./.github/actions/release-please
         id: release
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          npm-token: ${{ secrets.NPM_TOKEN }}

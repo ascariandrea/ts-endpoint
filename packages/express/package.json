@@ -42,6 +42,6 @@
     "fp-ts": "^2.16.9"
   },
   "dependencies": {
-    "@ts-endpoint/core": "workspace:*"
+    "@ts-endpoint/core": "workspace:^"
   }
 }
