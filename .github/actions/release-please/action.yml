@@ -9,6 +9,9 @@ inputs:
   github-token:
     description: "GitHub OAuth Token"
     required: true
+  npm-token:
+    description: "NPM Automation Token for publishing packages"
+    required: true
   prerelease:
     description: "Pre release version"
   node-version:
@@ -49,17 +52,22 @@ runs:
         echo "releases_created=$(echo ${{ steps.release.outputs.releases_created }})" >> $GITHUB_OUTPUT
         echo "pr=$(echo ${{ steps.release.outputs.pr }})" >> $GITHUB_OUTPUT
 
-    - name: "Setup npm registry with github token"
+    - name: "Setup npm registry"
       uses: actions/setup-node@v4
       if: ${{ steps.release.outputs.releases_created == 'true' }}
       with:
         node-version: ${{ inputs.node-version }}
         cache: pnpm
-        registry-url: "https://npm.pkg.github.com"
-      env:
-        NODE_AUTH_TOKEN: ${{ inputs.github-token }}
+        registry-url: "https://registry.npmjs.org"
+
+    - name: "Build packages"
+      if: ${{ steps.release.outputs.releases_created == 'true' }}
+      shell: bash
+      run: pnpm build:packages
 
     - name: "Publish npm packages"
       if: ${{ steps.release.outputs.releases_created == 'true' }}
       shell: bash
       run: pnpm release
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.npm-token }}
