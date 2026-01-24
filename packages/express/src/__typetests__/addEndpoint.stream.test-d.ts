@@ -1,5 +1,6 @@
 import { Readable } from 'stream';
 import { type Codec, Endpoint, type IOError } from '@ts-endpoint/core';
+import { StreamOutput } from '@ts-endpoint/core';
 import { Schema } from 'effect';
 import * as express from 'express';
 import * as E from 'fp-ts/lib/Either.js';
@@ -7,8 +8,6 @@ import { pipe } from 'fp-ts/lib/function.js';
 import { assertType, describe, expectTypeOf, test } from 'vitest';
 import { type HTTPStreamResponse } from '../HTTPResponse.js';
 import { buildIOError, GetEndpointSubscriber } from '../index.js';
-
-import { StreamOutput } from '@ts-endpoint/core';
 
 const streamEndpoint = Endpoint({
   Input: {

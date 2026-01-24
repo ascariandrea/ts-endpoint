@@ -295,9 +295,10 @@ export type EndpointInstanceEncodedParams<E extends MinimalEndpointInstance> = {
 export type InferEndpointInstanceParams<EI> =
   EI extends EndpointInstance<infer E> ? InferEndpointParams<E> : never;
 
-export type EndpointOutputType<L> = InferEndpointInstanceParams<L>['output'] extends StreamOutputCodec<any, any>
-  ? NodeJS.ReadableStream
-  : runtimeType<InferEndpointInstanceParams<L>['output']>;
+export type EndpointOutputType<L> =
+  InferEndpointInstanceParams<L>['output'] extends StreamOutputCodec<any, any>
+    ? NodeJS.ReadableStream
+    : runtimeType<InferEndpointInstanceParams<L>['output']>;
 
 export type EndpointDataOutputType<L, K extends string = 'data'> = L extends MinimalEndpointInstance
   ? InferEndpointInstanceParams<L>['output'] extends Codec<any, any>

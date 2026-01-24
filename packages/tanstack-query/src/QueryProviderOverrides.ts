@@ -76,7 +76,7 @@ export const toOverrideQueries = <
             useQuery({
               queryKey: getKey(p),
               queryFn: ({ queryKey }) => {
-                  return fetch(queryKey[1], queryKey[2] as any, !!queryKey[3]);
+                return fetch(queryKey[1], queryKey[2] as any, !!queryKey[3]);
               },
             }),
         };

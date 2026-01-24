@@ -114,7 +114,9 @@ describe('types', () => {
     type RQ = ResourceQueries<StreamEndpointInstance, NonStreamEndpointInstance, undefined>;
 
     expectTypeOf<RQ['get']['fetch']>().returns.toEqualTypeOf<Promise<NodeJS.ReadableStream>>();
-    expectTypeOf<RQ['list']['fetch']>().returns.toEqualTypeOf<Promise<EndpointOutputType<NonStreamEndpointInstance>>>();
+    expectTypeOf<RQ['list']['fetch']>().returns.toEqualTypeOf<
+      Promise<EndpointOutputType<NonStreamEndpointInstance>>
+    >();
   });
 
   test('QueryProvider maps streams', () => {
@@ -143,7 +145,7 @@ describe('types', () => {
         NonStreamEndpointInstance & MinimalEndpointInstance,
         NonStreamEndpointInstance & MinimalEndpointInstance,
         NonStreamEndpointInstance & MinimalEndpointInstance,
-        {}
+        any
       >;
     };
 
