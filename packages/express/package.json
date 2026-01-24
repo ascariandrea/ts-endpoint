@@ -35,11 +35,11 @@
   "devDependencies": {
     "@ts-endpoint/test": "workspace:*",
     "@types/express": "^5.0.3",
-    "express": "^5.1.0",
     "effect": "^3.14.8",
+    "express": "^5.1.0",
+    "fp-ts": "^2.16.9",
     "io-ts": "^2.2.22",
-    "vitest": "^3.0.9",
-    "fp-ts": "^2.16.9"
+    "vitest": "^4.0.18"
   },
   "dependencies": {
     "@ts-endpoint/core": "workspace:^"

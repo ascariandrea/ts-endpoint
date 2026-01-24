@@ -32,11 +32,11 @@
     "@ts-endpoint/test": "workspace:*",
     "@types/qs": "^6.9.7",
     "effect": "^3.14.8",
-    "io-ts": "^2.2.22",
     "fp-ts": "^2.16.9",
+    "io-ts": "^2.2.22",
     "isomorphic-fetch": "^3.0.0",
     "jsdom": "^26.0.0",
-    "vitest": "^3.0.9"
+    "vitest": "^4.0.18"
   },
   "dependencies": {
     "@ts-endpoint/core": "workspace:^"
