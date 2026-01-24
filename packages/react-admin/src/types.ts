@@ -1,5 +1,5 @@
 import {
-  EndpointDataOutputType,
+  type EndpointDataOutputType,
   type Codec,
   type EndpointInstance,
   type EndpointOutputType,

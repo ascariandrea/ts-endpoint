@@ -39,3 +39,7 @@ export const decodeEffect: EndpointDecodeFn<IOError> =
   };
 
 export { Arb };
+
+// A typed identity decoder for tests that should not perform runtime validation.
+export const decodeIdentity: EndpointDecodeFn<IOError> = (/* schema */) => (i: unknown) =>
+  E.right(i as any);

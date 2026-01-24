@@ -8,6 +8,6 @@ it('BaseError and DecodingError load and construct', () => {
 });
 
 it('IOError maps DecodingError to 600 status', () => {
-  const err = new IOError('failed', { kind: 'DecodingError', errors: ['x'] } as any);
+  const err = new IOError('failed', { kind: 'DecodingError', errors: ['x'] });
   expect(err.status).toBe(600);
 });
