@@ -22,5 +22,4 @@ jobs:
       - uses: ./.github/actions/release-please
         id: release
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           npm-token: ${{ secrets.NPM_TOKEN }}
