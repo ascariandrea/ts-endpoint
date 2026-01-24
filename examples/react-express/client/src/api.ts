@@ -2,7 +2,7 @@ import { IOError, IOTSCodec } from '@ts-endpoint/core';
 import { GetFetchHTTPClient } from '@ts-endpoint/http-client';
 import * as E from 'fp-ts/lib/Either';
 import { pipe } from 'fp-ts/lib/function';
-import { getUser } from 'shared';
+import { getUser, streamUsers } from 'shared';
 
 export const apiClient = GetFetchHTTPClient(
   {
@@ -11,7 +11,7 @@ export const apiClient = GetFetchHTTPClient(
     protocol: 'http',
     port: 3000,
   },
-  { getUser },
+  { getUser, streamUsers },
   {
     decode: (schema: IOTSCodec<any, any>) => (input: unknown) => {
       return pipe(

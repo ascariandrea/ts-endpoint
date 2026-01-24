@@ -1,6 +1,7 @@
 import { Endpoint } from '@ts-endpoint/core';
 import * as t from 'io-ts';
 import { NumberFromString } from 'io-ts-types/lib/NumberFromString.js';
+import { StreamOutput } from '@ts-endpoint/core';
 
 const User = t.strict({
   name: t.string,
@@ -15,6 +16,12 @@ export const getUser = Endpoint({
   Input: {
     Params: t.type({ id: NumberFromString }),
   },
+});
+
+export const streamUsers = Endpoint({
+  Method: 'GET',
+  getPath: () => `users/stream`,
+  Output: StreamOutput(t.string),
 });
 
 

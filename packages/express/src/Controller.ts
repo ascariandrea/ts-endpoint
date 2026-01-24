@@ -1,3 +1,4 @@
+import type * as Express from 'express-serve-static-core';
 import { type TaskEither } from 'fp-ts/lib/TaskEither.js';
 import { type HTTPResponse, type HTTPStreamResponse } from './HTTPResponse.js';
 

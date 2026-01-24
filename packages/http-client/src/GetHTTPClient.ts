@@ -5,6 +5,7 @@ import {
   type MinimalEndpointInstance,
   type runtimeType,
   type TypeOfEndpointInstance,
+  type StreamOutputCodec,
 } from '@ts-endpoint/core';
 import { type Either } from 'fp-ts/lib/Either.js';
 import { type ReaderTaskEither } from 'fp-ts/lib/ReaderTaskEither.js';
@@ -38,7 +39,7 @@ type FetchClientError<E, M extends URIS> =
 export type FetchClient<E extends MinimalEndpointInstance, M extends URIS> = ReaderTaskEither<
   'Input' extends RequiredKeys<E> ? TypeOfEndpointInstance<E>['Input'] : void,
   E['Errors'] extends undefined ? IOError : FetchClientError<E['Errors'], M>,
-  runtimeType<E['Output']>
+  E['Output'] extends StreamOutputCodec<any, any> ? NodeJS.ReadableStream : runtimeType<E['Output']>
 >;
 
 export type HTTPClient<A extends Record<string, MinimalEndpointInstance>, M extends URIS> = {

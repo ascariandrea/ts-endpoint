@@ -8,6 +8,8 @@ import * as E from 'fp-ts/lib/Either.js';
 import { pipe } from 'fp-ts/lib/pipeable.js';
 import * as TA from 'fp-ts/lib/TaskEither.js';
 import { getUser } from 'shared';
+import { streamUsers } from 'shared';
+import { Readable } from 'stream';
 
 const database = [
   { id: 1, name: 'John', surname: 'Doe', age: 22 },
@@ -92,6 +94,16 @@ AddEndpointIOTS(getUser, ({ params: { id } }) => {
       statusCode: 200,
     }))
   );
+});
+
+AddEndpointIOTS(streamUsers, () => {
+  const stream = Readable.from(['chunk1\n', 'chunk2\n', 'chunk3\n']);
+
+  return TA.right({
+    stream,
+    statusCode: 200,
+    headers: { 'Content-Type': 'text/plain' },
+  });
 });
 
 AddEndpointEffect(TestEndpoints.Actor.Get, ({ params: { id } }) => {

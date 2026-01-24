@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import {
   type EndpointParamsType,
-  type EndpointQueryEncoded,
   type EndpointsMapType,
   type IOError,
   type InferEndpointInstanceParams,
   type MinimalEndpointInstance,
   type PartialSerializedType,
+  type EndpointQueryEncoded,
 } from '@ts-endpoint/core';
 import { type API } from '@ts-endpoint/resource-client';
 import * as Rec from 'fp-ts/lib/Record.js';
@@ -76,7 +76,7 @@ export const toOverrideQueries = <
             useQuery({
               queryKey: getKey(p),
               queryFn: ({ queryKey }) => {
-                return fetch(queryKey[1], queryKey[2], !!queryKey[3]);
+                  return fetch(queryKey[1], queryKey[2] as any, !!queryKey[3]);
               },
             }),
         };

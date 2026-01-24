@@ -10,6 +10,7 @@ import {
   type runtimeType,
   type UndefinedOrRuntime,
 } from '@ts-endpoint/core';
+import { type StreamOutputCodec } from '@ts-endpoint/core';
 import { type ParseError } from 'effect/ParseResult';
 import type * as express from 'express';
 import { sequenceS } from 'fp-ts/lib/Apply.js';
@@ -50,27 +51,27 @@ declare module './HKT.js' {
   }
 }
 
-type EndpointController<E extends MinimalEndpointInstance, M extends URIS = 'IOError'> = E extends {
-  Stream: true;
-}
-  ? Controller<
-      Kind<M, NonNullable<E['Errors']>>,
-      UndefinedOrRuntime<InferEndpointInstanceParams<E>['params']>,
-      UndefinedOrRuntime<InferEndpointInstanceParams<E>['headers']>,
-      UndefinedOrRuntime<InferEndpointInstanceParams<E>['query']>,
-      UndefinedOrRuntime<InferEndpointInstanceParams<E>['body']>,
-      runtimeType<InferEndpointInstanceParams<E>['output']>,
-      true
-    >
-  : Controller<
-      Kind<M, NonNullable<E['Errors']>>,
-      UndefinedOrRuntime<InferEndpointInstanceParams<E>['params']>,
-      UndefinedOrRuntime<InferEndpointInstanceParams<E>['headers']>,
-      UndefinedOrRuntime<InferEndpointInstanceParams<E>['query']>,
-      UndefinedOrRuntime<InferEndpointInstanceParams<E>['body']>,
-      runtimeType<InferEndpointInstanceParams<E>['output']>,
-      false | undefined
-    >;
+type EndpointController<E extends MinimalEndpointInstance, M extends URIS = 'IOError'> =
+  // If the endpoint output is a StreamOutputCodec, the controller must return an HTTPStreamResponse
+  E['Output'] extends StreamOutputCodec<any, any>
+    ? Controller<
+        Kind<M, NonNullable<E['Errors']>>,
+        UndefinedOrRuntime<InferEndpointInstanceParams<E>['params']>,
+        UndefinedOrRuntime<InferEndpointInstanceParams<E>['headers']>,
+        UndefinedOrRuntime<InferEndpointInstanceParams<E>['query']>,
+        UndefinedOrRuntime<InferEndpointInstanceParams<E>['body']>,
+        runtimeType<InferEndpointInstanceParams<E>['output']>,
+        true
+      >
+    : Controller<
+        Kind<M, NonNullable<E['Errors']>>,
+        UndefinedOrRuntime<InferEndpointInstanceParams<E>['params']>,
+        UndefinedOrRuntime<InferEndpointInstanceParams<E>['headers']>,
+        UndefinedOrRuntime<InferEndpointInstanceParams<E>['query']>,
+        UndefinedOrRuntime<InferEndpointInstanceParams<E>['body']>,
+        runtimeType<InferEndpointInstanceParams<E>['output']>,
+        false | undefined
+      >;
 
 export type AddEndpoint<M extends URIS = 'IOError'> = (
   router: express.Router,
@@ -96,6 +97,13 @@ interface GetEndpointSubscriberOptions<M extends URIS = 'IOError'> {
   decode: EndpointDecodeFn<Kind<M, unknown>>;
   buildDecodeError: (e: unknown) => Kind<M, unknown>;
 }
+
+const DEFAULT_STREAM_HEADERS_MAP = new Map([
+  ['Content-Type', 'text/event-stream'],
+  ['Cache-Control', 'no-cache'],
+  ['Connection', 'keep-alive'],
+  ['X-Accel-Buffering', 'no'], // Disable nginx buffering
+]);
 
 /**
  * Adds an endpoint to your router.
@@ -131,12 +139,14 @@ export const GetEndpointSubscriber =
         args,
         E.mapLeft((error) => buildDecodeError(error) as Kind<M, NonNullable<E['Errors']>>),
         TA.fromEither,
-        TA.chain((args) => controller(args as any, req, res)),
+        // controller return type can be a conditional (stream vs regular). Cast to any
+        // here to avoid complicated type union propagation through fp-ts helpers.
+        TA.chain((args) => controller(args as any, req, res) as any),
         TA.bimap(
           (e) => {
             return next(e);
           },
-          (httpResponse) => {
+          (httpResponse: any) => {
             if (httpResponse.headers !== undefined) {
               res.set(httpResponse.headers);
             }
@@ -145,6 +155,7 @@ export const GetEndpointSubscriber =
             if ('stream' in httpResponse) {
               const streamResponse = httpResponse as HTTPStreamResponse;
               res.status(streamResponse.statusCode);
+              res.setHeaders(DEFAULT_STREAM_HEADERS_MAP);
               streamResponse.stream.pipe(res);
             } else {
               const regularResponse = httpResponse as HTTPResponse<any>;

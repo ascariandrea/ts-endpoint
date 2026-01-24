@@ -52,7 +52,7 @@ describe('Endpoint', () => {
       },
       Method: 'GET',
       getPath: ({ id }) => `users/${id.toString()}/stream`,
-      Output: StreamOutput,
+      Output: StreamOutput(Schema.String),
     });
 
     expect(streamEndpoint.Output.__isStreamOutput).toBe(true);

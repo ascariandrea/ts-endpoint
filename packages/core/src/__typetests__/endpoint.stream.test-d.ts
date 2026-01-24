@@ -9,7 +9,7 @@ const streamEndpoint = Endpoint({
   },
   Method: 'GET',
   getPath: ({ id }) => `users/${id.toString()}/stream`,
-  Output: StreamOutput,
+  Output: StreamOutput(Schema.Struct({ id: Schema.Number })),
 });
 
 const nonStreamEndpoint = Endpoint({
@@ -23,7 +23,16 @@ const nonStreamEndpoint = Endpoint({
 
 test('Stream property types', () => {
   // Stream endpoint should have Stream = true
-  expectTypeOf(streamEndpoint.Output).toEqualTypeOf<StreamOutputCodec>();
+  expectTypeOf(streamEndpoint.Output).toEqualTypeOf<
+    StreamOutputCodec<
+      {
+        readonly id: number;
+      },
+      {
+        readonly id: number;
+      }
+    >
+  >();
 
   // Non-stream endpoint should not have a Stream property
   expectTypeOf(nonStreamEndpoint.Output).toEqualTypeOf<

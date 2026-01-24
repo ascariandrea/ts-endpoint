@@ -8,14 +8,15 @@ import { assertType, describe, expectTypeOf, test } from 'vitest';
 import { type HTTPStreamResponse } from '../HTTPResponse.js';
 import { buildIOError, GetEndpointSubscriber } from '../index.js';
 
+import { StreamOutput } from '@ts-endpoint/core';
+
 const streamEndpoint = Endpoint({
   Input: {
     Params: Schema.Struct({ id: Schema.UUID }),
   },
   Method: 'GET',
   getPath: ({ id }) => `users/${id}/stream`,
-  Output: Schema.Struct({ data: Schema.String }),
-  Stream: true,
+  Output: StreamOutput(Schema.Struct({ data: Schema.String })),
 });
 
 const regularEndpoint = Endpoint({
@@ -43,9 +44,7 @@ const registerRouter = GetEndpointSubscriber({ buildDecodeError: buildIOError, d
 const AddEndpoint = registerRouter(router);
 
 describe('Stream endpoint types', () => {
-  test('Verify streamEndpoint has Stream: true', () => {
-    expectTypeOf(streamEndpoint.Stream).toEqualTypeOf<true>();
-  });
+  // stream marker is validated indirectly by controller typing tests below
 
   test('Should accept HTTPStreamResponse for streaming endpoint', () => {
     const streamData = Readable.from(['chunk1', 'chunk2', 'chunk3']);
