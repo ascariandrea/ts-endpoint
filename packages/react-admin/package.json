@@ -38,7 +38,7 @@
     "@ts-endpoint/test": "workspace:*"
   },
   "dependencies": {
-    "@ts-endpoint/core": "workspace:*"
+    "@ts-endpoint/core": "workspace:^"
   },
   "peerDependencies": {
     "axios": "^1",

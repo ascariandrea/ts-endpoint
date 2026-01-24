@@ -187,7 +187,7 @@ importers:
   packages/express:
     dependencies:
       '@ts-endpoint/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
     devDependencies:
       '@ts-endpoint/test':
@@ -215,7 +215,7 @@ importers:
   packages/http-client:
     dependencies:
       '@ts-endpoint/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
     devDependencies:
       '@ts-endpoint/test':
@@ -246,7 +246,7 @@ importers:
   packages/react-admin:
     dependencies:
       '@ts-endpoint/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
     devDependencies:
       '@ts-endpoint/test':
@@ -274,10 +274,10 @@ importers:
   packages/resource-client:
     dependencies:
       '@ts-endpoint/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@ts-endpoint/http-client':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../http-client
     devDependencies:
       '@ts-endpoint/test':
@@ -305,10 +305,10 @@ importers:
   packages/tanstack-query:
     dependencies:
       '@ts-endpoint/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@ts-endpoint/resource-client':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../resource-client
     devDependencies:
       '@ts-endpoint/test':
@@ -7343,6 +7343,7 @@ packages:
   whatwg-encoding@3.1.1:
     resolution: {integrity: sha512-6qN4hJdMwfYBtE3YBTTHhoeuUrDBPZmbQaxWAqSALV/MeEnR5z1xd8UKud2RAkFoPkmB+hli1TZSnyi84xz1vQ==}
     engines: {node: '>=18'}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-fetch@3.6.20:
     resolution: {integrity: sha512-EqhiFU6daOA8kpjOWTL0olhVOF3i7OrFzSYiGsEMB8GcXS+RrzauAERX65xMeNWVqxA6HXH2m69Z9LaKKdisfg==}

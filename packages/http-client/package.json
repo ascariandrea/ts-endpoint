@@ -39,7 +39,7 @@
     "vitest": "^3.0.9"
   },
   "dependencies": {
-    "@ts-endpoint/core": "workspace:*"
+    "@ts-endpoint/core": "workspace:^"
   },
   "peerDependencies": {
     "fp-ts": "^2"
