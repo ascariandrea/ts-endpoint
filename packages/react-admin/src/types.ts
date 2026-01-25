@@ -49,11 +49,17 @@ export type GetListFn<L, O = undefined> = (
   params: GetListFnParams<L, O>
 ) => TE.TaskEither<IOError, EndpointOutputType<L>>;
 
-type CreateFn<C> = (params: CreateFnParams<C>) => TE.TaskEither<IOError, EndpointDataOutputType<C>>;
+export type CreateFn<C> = (
+  params: CreateFnParams<C>
+) => TE.TaskEither<IOError, EndpointDataOutputType<C>>;
 
-type EditFn<C> = (params: EditFnParams<C>) => TE.TaskEither<IOError, EndpointDataOutputType<C>>;
+export type EditFn<C> = (
+  params: EditFnParams<C>
+) => TE.TaskEither<IOError, EndpointDataOutputType<C>>;
 
-type DeleteFn<C> = (params: DeleteParams<any>) => TE.TaskEither<IOError, EndpointDataOutputType<C>>;
+export type DeleteFn<C> = (
+  params: DeleteParams<any>
+) => TE.TaskEither<IOError, EndpointDataOutputType<C>>;
 
 type CustomEndpointParams<C> = (InferEndpointInstanceParams<C>['headers'] extends Codec<any>
   ? {
