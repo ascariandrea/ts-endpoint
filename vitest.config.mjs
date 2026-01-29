@@ -2,6 +2,7 @@ import { coverageConfigDefaults, defineConfig } from "vitest/config";
 
 const config = defineConfig({
   test: {
+    projects: ["packages/*/vitest.config.mjs"],
     globals: true,
     watch: false,
     coverage: {
@@ -19,6 +20,10 @@ const config = defineConfig({
         "website/**",
         "test/**",
         "**/src/index.ts"
+        ,"**/src/Codec.ts"
+        ,"packages/express/src/Controller.ts"
+        ,"packages/express/src/HTTPResponse.ts"
+        ,"packages/tanstack-query/src/QueryProviderOverrides.ts"
       ],
       thresholds: {
         lines: 80,

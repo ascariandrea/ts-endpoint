@@ -1,4 +1,5 @@
 import {
+  type EndpointDataOutputType,
   type Codec,
   type EndpointInstance,
   type EndpointOutputType,
@@ -35,22 +36,10 @@ export type CreateFnParams<C> = InferEndpointParams<C>['body'] extends undefined
 export type EditFnParams<C> = Partial<runtimeType<InferEndpointParams<C>['body']>> &
   runtimeType<InferEndpointParams<C>['params']>;
 
-export type EndpointDataOutputType<L> = L extends MinimalEndpointInstance
-  ? InferEndpointInstanceParams<L>['output'] extends Codec<any, any>
-    ? runtimeType<InferEndpointInstanceParams<L>['output']>['data'] extends unknown[]
-      ? runtimeType<InferEndpointInstanceParams<L>['output']>
-      : runtimeType<InferEndpointInstanceParams<L>['output']>['data']
-    : never
-  : InferEndpointParams<L>['output'] extends Codec<any, any>
-    ? runtimeType<InferEndpointParams<L>['output']>['data'] extends unknown[]
-      ? runtimeType<InferEndpointParams<L>['output']>
-      : runtimeType<InferEndpointParams<L>['output']>['data']
-    : never;
-
 export type GetFn<G> = (
   params: EndpointParamsType<G>,
   query?: PartialSerializedType<InferEndpointInstanceParams<G>['query']>
-) => TE.TaskEither<IOError, EndpointDataOutputType<G>>;
+) => TE.TaskEither<IOError, EndpointDataOutputType<G, 'data'>>;
 
 type GetListFnParams<L, O = undefined> = O extends undefined
   ? Omit<GetListParams, 'filter'> & { filter: Partial<EndpointQueryType<L>> }
@@ -60,11 +49,17 @@ export type GetListFn<L, O = undefined> = (
   params: GetListFnParams<L, O>
 ) => TE.TaskEither<IOError, EndpointOutputType<L>>;
 
-type CreateFn<C> = (params: CreateFnParams<C>) => TE.TaskEither<IOError, EndpointDataOutputType<C>>;
+export type CreateFn<C> = (
+  params: CreateFnParams<C>
+) => TE.TaskEither<IOError, EndpointDataOutputType<C>>;
 
-type EditFn<C> = (params: EditFnParams<C>) => TE.TaskEither<IOError, EndpointDataOutputType<C>>;
+export type EditFn<C> = (
+  params: EditFnParams<C>
+) => TE.TaskEither<IOError, EndpointDataOutputType<C>>;
 
-type DeleteFn<C> = (params: DeleteParams<any>) => TE.TaskEither<IOError, EndpointDataOutputType<C>>;
+export type DeleteFn<C> = (
+  params: DeleteParams<any>
+) => TE.TaskEither<IOError, EndpointDataOutputType<C>>;
 
 type CustomEndpointParams<C> = (InferEndpointInstanceParams<C>['headers'] extends Codec<any>
   ? {

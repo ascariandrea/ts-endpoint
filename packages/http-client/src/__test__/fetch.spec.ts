@@ -27,6 +27,10 @@ const noPortOptions: HTTPClientConfig = {
   host: 'test',
 };
 
+function getLeft<T = unknown>(r: unknown) {
+  return (r as { left: T }).left;
+}
+
 const endpoints = {
   noInputEndpoint: Endpoint({
     Method: 'GET',
@@ -340,9 +344,16 @@ describe('GetFetchHTTPClient', () => {
     })();
 
     expect(isLeft(patchResponse)).toBe(true);
-    expect((patchResponse as any).left.details.kind).toBe('DecodingError');
-    expect((patchResponse as any).left.status).toBe(parseInt(DecodeErrorStatus));
-    expect((patchResponse as any).left.details.status).toBe(DecodeErrorStatus);
+    expect(
+      getLeft<{ details: { kind: string; status?: string }; status?: number }>(patchResponse)
+        .details.kind
+    ).toBe('DecodingError');
+    expect(getLeft<{ details: { status?: string }; status?: number }>(patchResponse).status).toBe(
+      parseInt(DecodeErrorStatus)
+    );
+    expect(getLeft<{ details: { status?: string } }>(patchResponse).details.status).toBe(
+      DecodeErrorStatus
+    );
 
     globalThis.fetch = vi.fn().mockReturnValueOnce(lazyWrongBodyResponse());
     const getResponse = await noPortFetchClient.getEndpoint({
@@ -351,9 +362,15 @@ describe('GetFetchHTTPClient', () => {
     })();
 
     expect(isLeft(getResponse)).toBe(true);
-    expect((getResponse as any).left.details.kind).toBe('DecodingError');
-    expect((getResponse as any).left.details.status).toBe(DecodeErrorStatus);
-    expect((getResponse as any).left.status).toBe(parseInt(DecodeErrorStatus));
+    expect(getLeft<{ details: { kind: string; status?: string } }>(getResponse).details.kind).toBe(
+      'DecodingError'
+    );
+    expect(getLeft<{ details: { status?: string } }>(getResponse).details.status).toBe(
+      DecodeErrorStatus
+    );
+    expect(getLeft<{ details: { status?: string }; status?: number }>(getResponse).status).toBe(
+      parseInt(DecodeErrorStatus)
+    );
   });
 
   it('returns the correct IOError when decoding a server KnownError', async () => {
@@ -364,8 +381,8 @@ describe('GetFetchHTTPClient', () => {
     })();
 
     expect(isLeft(patchResponse)).toBe(true);
-    expect((patchResponse as any).left.details.kind).toBe('ServerError');
-    expect((patchResponse as any).left.status).toBe(500);
+    expect(getLeft<{ details: { kind: string } }>(patchResponse).details.kind).toBe('ServerError');
+    expect(getLeft<{ status?: number }>(patchResponse).status).toBe(500);
 
     globalThis.fetch = vi.fn().mockReturnValueOnce(lazyWrongKnownErrorResponse());
     const wrongKnownErrorResponse = await noPortFetchClient.knownErrorEndpoint({
@@ -374,8 +391,12 @@ describe('GetFetchHTTPClient', () => {
     })();
 
     expect(isLeft(wrongKnownErrorResponse)).toBe(true);
-    expect((wrongKnownErrorResponse as any).left.details.kind).toBe('DecodingError');
-    expect((wrongKnownErrorResponse as any).left.status).toBe(parseInt(DecodeErrorStatus));
+    expect(getLeft<{ details: { kind: string } }>(wrongKnownErrorResponse).details.kind).toBe(
+      'DecodingError'
+    );
+    expect(getLeft<{ status?: number }>(wrongKnownErrorResponse).status).toBe(
+      parseInt(DecodeErrorStatus)
+    );
 
     globalThis.fetch = vi.fn().mockReturnValueOnce(lazyCorrectKnownErrorResponse());
     const correctKnownErrorResponse = await noPortFetchClient.knownErrorEndpoint({
@@ -384,8 +405,8 @@ describe('GetFetchHTTPClient', () => {
     })();
 
     expect(isLeft(correctKnownErrorResponse)).toBe(true);
-    expect((correctKnownErrorResponse as any).left.status).toBe(401);
-    expect((correctKnownErrorResponse as any).left.details).toEqual({
+    expect(getLeft<{ status?: number }>(correctKnownErrorResponse).status).toBe(401);
+    expect(getLeft<{ details: unknown }>(correctKnownErrorResponse).details).toEqual({
       kind: 'KnownError',
       status: '401',
       body: { foo: 'baz' },
@@ -400,8 +421,8 @@ describe('GetFetchHTTPClient', () => {
     })();
 
     expect(isLeft(patchResponse)).toBe(true);
-    expect((patchResponse as any).left.details.kind).toBe('ServerError');
-    expect((patchResponse as any).left.status).toBe(500);
+    expect(getLeft<{ details: { kind: string } }>(patchResponse).details.kind).toBe('ServerError');
+    expect(getLeft<{ status?: number }>(patchResponse).status).toBe(500);
 
     globalThis.fetch = vi.fn().mockReturnValueOnce(lazyServerErrorResponse());
     const getResponse = await noPortFetchClient.getEndpoint({
@@ -410,8 +431,8 @@ describe('GetFetchHTTPClient', () => {
     })();
 
     expect(isLeft(getResponse)).toBe(true);
-    expect((getResponse as any).left.details.kind).toBe('ServerError');
-    expect((getResponse as any).left.status).toBe(500);
+    expect(getLeft<{ details: { kind: string } }>(getResponse).details.kind).toBe('ServerError');
+    expect(getLeft<{ status?: number }>(getResponse).status).toBe(500);
   });
 
   it('returns the correct IOError when there is a client error', async () => {
@@ -422,8 +443,8 @@ describe('GetFetchHTTPClient', () => {
     })();
 
     expect(isLeft(getResponse)).toBe(true);
-    expect((getResponse as any).left.details.kind).toBe('ClientError');
-    expect((getResponse as any).left.status).toBe(404);
+    expect(getLeft<{ details: { kind: string } }>(getResponse).details.kind).toBe('ClientError');
+    expect(getLeft<{ status?: number }>(getResponse).status).toBe(404);
   });
   it('returns the correct IOError when there is a network error', async () => {
     globalThis.fetch = vi.fn().mockReturnValueOnce(lazyNetworkErrorRequest());
@@ -433,9 +454,15 @@ describe('GetFetchHTTPClient', () => {
     })();
 
     expect(isLeft(getResponse)).toBe(true);
-    expect((getResponse as any).left.details.kind).toBe('NetworkError');
-    expect((getResponse as any).left.details.status).toBe(NetworkErrorStatus);
-    expect((getResponse as any).left.status).toBe(parseInt(NetworkErrorStatus));
+    expect(getLeft<{ details: { kind: string; status?: string } }>(getResponse).details.kind).toBe(
+      'NetworkError'
+    );
+    expect(getLeft<{ details: { status?: string } }>(getResponse).details.status).toBe(
+      NetworkErrorStatus
+    );
+    expect(getLeft<{ details: { status?: string }; status?: number }>(getResponse).status).toBe(
+      parseInt(NetworkErrorStatus)
+    );
   });
 
   it('returns the response body in the ClientError meta', async () => {
@@ -445,7 +472,9 @@ describe('GetFetchHTTPClient', () => {
       Query: { color: 'blue' },
     })();
 
-    expect((getResponse as any).left.details.meta).toEqual({ foo: 'baz' });
+    expect(getLeft<{ details: { meta: unknown } }>(getResponse).details.meta).toEqual({
+      foo: 'baz',
+    });
   });
 
   it('returns the response body in the ServerError meta', async () => {
@@ -455,7 +484,9 @@ describe('GetFetchHTTPClient', () => {
       Query: { color: 'blue' },
     })();
 
-    expect((getResponse as any).left.details.meta).toEqual({ foo: 'baz' });
+    expect(getLeft<{ details: { meta: unknown } }>(getResponse).details.meta).toEqual({
+      foo: 'baz',
+    });
   });
 
   it('returns a ServerError when the response is not a json', async () => {
@@ -465,7 +496,9 @@ describe('GetFetchHTTPClient', () => {
       Query: { color: 'blue' },
     })();
 
-    expect((getResponse as any).left.details.meta).toEqual({ message: 'response is not a json.' });
+    expect(getLeft<{ details: { meta: unknown } }>(getResponse).details.meta).toEqual({
+      message: 'response is not a json.',
+    });
   });
 
   it('returns the modified error when using handleError', async () => {
@@ -475,7 +508,7 @@ describe('GetFetchHTTPClient', () => {
       Query: { color: 'blue' },
     })();
 
-    expect((getResponse as any).left).toEqual(HandledError);
+    expect(getLeft(getResponse)).toEqual(HandledError);
   });
 
   it('POST calls returning undefined work as expected', async () => {
@@ -506,7 +539,7 @@ describe('GetFetchHTTPClient', () => {
     })();
 
     expect(getResponse._tag).toEqual('Left');
-    expect((getResponse as any).left.details.kind).toEqual('ServerError');
+    expect(getLeft<{ details: { kind: string } }>(getResponse).details.kind).toEqual('ServerError');
   });
 
   it('DOES NOT FAIL with non-JSON responses and ignoreNonJSONResponse option', async () => {

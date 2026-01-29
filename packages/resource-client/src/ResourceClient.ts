@@ -18,8 +18,12 @@ import * as R from 'fp-ts/lib/Record.js';
 import * as TE from 'fp-ts/lib/TaskEither.js';
 import { pipe } from 'fp-ts/lib/function.js';
 
+type FlattenBodyInput<T> = T extends { Body: { params: infer P } }
+  ? Omit<T, 'Body'> & { Body: P }
+  : never;
+
 export type EndpointRequest<E extends MinimalEndpointInstance> = (
-  input: TypeOfEndpointInstanceInput<E>
+  input: TypeOfEndpointInstanceInput<E> | FlattenBodyInput<TypeOfEndpointInstanceInput<E>>
 ) => TE.TaskEither<IOError, runtimeType<E['Output']>>;
 
 export type EndpointREST<
@@ -74,7 +78,9 @@ export const liftFetch = <A, B>(
 export const toEndpointRequest =
   <E extends MinimalEndpointInstance>(e: E) =>
   (client: AxiosInstance, decode: EndpointDecodeFn<IOError>): EndpointRequest<E> => {
-    return (b: TypeOfEndpointInstanceInput<E>) => {
+    return (
+      b: TypeOfEndpointInstanceInput<E> | FlattenBodyInput<TypeOfEndpointInstanceInput<E>>
+    ) => {
       const url = e.getPath(b?.Params);
 
       const decodeAsCodecDecodeFn = decode as DecodeCodecFn<any>;

@@ -266,6 +266,18 @@ export type InferEndpointInstanceParams<EI> =
 
 export type EndpointOutputType<L> = runtimeType<InferEndpointInstanceParams<L>['output']>;
 
+export type EndpointDataOutputType<L, K extends string = 'data'> = L extends MinimalEndpointInstance
+  ? InferEndpointInstanceParams<L>['output'] extends Codec<any, any>
+    ? runtimeType<InferEndpointInstanceParams<L>['output']>[K] extends unknown[]
+      ? runtimeType<InferEndpointInstanceParams<L>['output']>
+      : runtimeType<InferEndpointInstanceParams<L>['output']>[K]
+    : never
+  : InferEndpointParams<L>['output'] extends Codec<any, any>
+    ? runtimeType<InferEndpointParams<L>['output']>[K] extends unknown[]
+      ? runtimeType<InferEndpointParams<L>['output']>
+      : runtimeType<InferEndpointParams<L>['output']>[K]
+    : never;
+
 export type EndpointQueryType<G> = InferEndpointInstanceParams<G>['query'] extends undefined
   ? undefined
   : G extends MinimalEndpointInstance

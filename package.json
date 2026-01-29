@@ -25,6 +25,7 @@
     "test:spec": "vitest spec",
     "test:typecheck": "vitest --typecheck.enabled=true",
     "test": "vitest",
+    "test:cov": "vitest --coverage --coverage.report=text-summary",
     "lint": "pnpm --filter '@ts-endpoint/*' -r run lint",
     "release": "pnpm publish -r --no-git-checks",
     "release:dry-run": "pnpm release --dry-run"
