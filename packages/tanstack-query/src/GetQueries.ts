@@ -14,7 +14,6 @@ import {
 } from '@ts-endpoint/core';
 import { throwTE } from '@ts-endpoint/core/lib/utils.js';
 import { type EndpointRequest, type EndpointREST } from '@ts-endpoint/resource-client';
-import * as R from 'fp-ts/lib/Record.js';
 import * as Rec from 'fp-ts/lib/Record.js';
 import { type TaskEither } from 'fp-ts/lib/TaskEither.js';
 import { pipe } from 'fp-ts/lib/function.js';
@@ -57,7 +56,8 @@ export const fetchQuery =
   <P, Q, R>(fetch: (p: P, q?: Q) => TaskEither<IOError, R>) =>
   async (params: any, query?: any, discrete?: boolean): Promise<R> => {
     if (discrete) {
-      if (R.isEmpty(params.filter) || (params.filter?.ids && params.filter?.ids.length === 0)) {
+      const ids = params?.filter?.ids;
+      if (!ids || ids.length === 0) {
         return emptyQuery();
       }
     }
