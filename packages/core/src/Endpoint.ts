@@ -230,10 +230,11 @@ export type MinimalEndpointInstance = MinimalEndpoint & {
  * client.ActorEdit({ Body: body, Params: { id: '1' } });
  * ```
  */
-export type BodyInput<E extends MinimalEndpointInstance> =
-  E['Input'] extends { Body: Codec<any, any> }
-    ? Partial<serializedType<NonNullable<E['Input']['Body']>>>
-    : never;
+export type BodyInput<E extends MinimalEndpointInstance> = E['Input'] extends {
+  Body: Codec<any, any>;
+}
+  ? Partial<serializedType<NonNullable<E['Input']['Body']>>>
+  : never;
 
 export type TypeOfEndpointInstanceInput<E extends MinimalEndpointInstance> = [
   RequiredKeys<E['Input']>,

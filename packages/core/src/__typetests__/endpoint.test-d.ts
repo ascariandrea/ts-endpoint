@@ -103,9 +103,7 @@ test('Endpoint', () => {
   expectTypeOf(endpointWithoutInput.getPath).parameter(0).toEqualTypeOf<undefined>();
 
   // BodyInput gives the plain Partial of the encoded type, safe to use without casts.
-  expectTypeOf<BodyInput<typeof endpointWithBody>>().toMatchObjectType<
-    Partial<{ id: number }>
-  >();
+  expectTypeOf<BodyInput<typeof endpointWithBody>>().toMatchObjectType<Partial<{ id: number }>>();
 
   // BodyInput returns `never` when the endpoint has no Body
   expectTypeOf<BodyInput<typeof endpointInstance>>().toEqualTypeOf<never>();
