@@ -34,7 +34,7 @@ describe('GetResourceClient (consolidated)', () => {
       decode: decodeIdentity,
     });
 
-    const now = new Date();
+    const now = new Date().toISOString();
     const actor3 = {
       id: '3',
       name: 'actor 3',
