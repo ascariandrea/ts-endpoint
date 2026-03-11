@@ -4,5 +4,5 @@
     "tsBuildInfoFile": "lib/.build.tsbuildinfo"
   },
   "include": ["src"],
-  "exclude": ["node_modules", "**/*.spec.*", "**/*.test-d.*", "**/*.samples.ts"]
+  "exclude": ["node_modules", "**/__test__/**", "**/*.spec.*", "**/*.test-d.*", "**/*.samples.ts"]
 }
