@@ -213,6 +213,28 @@ export type MinimalEndpointInstance = MinimalEndpoint & {
   getStaticPath: (f: (i?: any) => string) => string;
 };
 
+/**
+ * Helper type for constructing the Body payload when calling an endpoint whose
+ * Body schema is wrapped in a `filter` (e.g. `nonEmptyRecordFromType`).
+ *
+ * TypeScript cannot statically prove that an object literal satisfies a branded
+ * filter constraint, so `TypeOfEndpointInstanceInput` can be hard to satisfy
+ * without a cast in those cases. `BodyInput<E>` gives the plain partial encoded
+ * type of the Body field, stripping any filter/brand wrappers.
+ *
+ * @example
+ * ```typescript
+ * import { type BodyInput } from '@ts-endpoint/core';
+ *
+ * const body: BodyInput<typeof ActorEdit> = { name: 'Alice' };
+ * client.ActorEdit({ Body: body, Params: { id: '1' } });
+ * ```
+ */
+export type BodyInput<E extends MinimalEndpointInstance> =
+  E['Input'] extends { Body: Codec<any, any> }
+    ? Partial<serializedType<NonNullable<E['Input']['Body']>>>
+    : never;
+
 export type TypeOfEndpointInstanceInput<E extends MinimalEndpointInstance> = [
   RequiredKeys<E['Input']>,
 ] extends [never]

@@ -1,6 +1,6 @@
 import * as t from 'io-ts';
 import { expectTypeOf, test } from 'vitest';
-import { Endpoint } from '../Endpoint.js';
+import { Endpoint, type BodyInput } from '../Endpoint.js';
 
 const endpointInstance = Endpoint({
   Input: {
@@ -101,4 +101,12 @@ test('Endpoint', () => {
   expectTypeOf(endpointWithoutParam.getPath).parameter(0).toEqualTypeOf<undefined>();
 
   expectTypeOf(endpointWithoutInput.getPath).parameter(0).toEqualTypeOf<undefined>();
+
+  // BodyInput gives the plain Partial of the encoded type, safe to use without casts.
+  expectTypeOf<BodyInput<typeof endpointWithBody>>().toMatchObjectType<
+    Partial<{ id: number }>
+  >();
+
+  // BodyInput returns `never` when the endpoint has no Body
+  expectTypeOf<BodyInput<typeof endpointInstance>>().toEqualTypeOf<never>();
 });

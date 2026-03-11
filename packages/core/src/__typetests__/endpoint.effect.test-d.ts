@@ -1,6 +1,6 @@
 import { Schema } from 'effect';
 import { assertType, expectTypeOf, test } from 'vitest';
-import { Endpoint, type EndpointInstanceEncodedParams } from '../Endpoint.js';
+import { Endpoint, type BodyInput, type EndpointInstanceEncodedParams } from '../Endpoint.js';
 
 const endpointInstance = Endpoint({
   Input: {
@@ -62,6 +62,17 @@ const endpointWithBody = Endpoint({
   Input: { Body: Schema.Struct({ id: Schema.Number }) },
 });
 
+const endpointWithFilteredBody = Endpoint({
+  Method: 'PATCH',
+  getPath: () => `users/update`,
+  Output: Schema.Struct({ ok: Schema.Boolean }),
+  Input: {
+    Body: Schema.Struct({ name: Schema.String, age: Schema.Number }).pipe(
+      Schema.filter((s) => s.name.length > 0)
+    ),
+  },
+});
+
 test('Should match the types', () => {
   expectTypeOf(endpointInstance.Input.Params.fields.id).toEqualTypeOf<typeof Schema.String>();
 
@@ -110,4 +121,17 @@ test('Should match the types', () => {
   assertType<EndpointInstanceEncodedParams<typeof endpointWithBody>['Input']['Body']>({
     id: 1,
   });
+
+  // BodyInput strips filter/brand wrappers from Body, giving a plain Partial of the serialized type.
+  // This allows callers to construct the payload without a cast even when the server uses a
+  // filter-constrained schema (e.g. nonEmptyRecordFromType).
+  assertType<BodyInput<typeof endpointWithFilteredBody>>({ name: 'Alice' });
+  assertType<BodyInput<typeof endpointWithFilteredBody>>({ age: 30 });
+  assertType<BodyInput<typeof endpointWithFilteredBody>>({});
+  expectTypeOf<BodyInput<typeof endpointWithFilteredBody>>().toMatchObjectType<
+    Partial<{ readonly name: string; readonly age: number }>
+  >();
+
+  // BodyInput returns `never` when the endpoint has no Body
+  expectTypeOf<BodyInput<typeof endpointInstance>>().toEqualTypeOf<never>();
 });
