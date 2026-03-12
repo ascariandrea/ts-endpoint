@@ -34,19 +34,20 @@ describe('GetResourceClient (consolidated)', () => {
       decode: decodeIdentity,
     });
 
+    const now = new Date().toISOString();
     const actor3 = {
       id: '3',
       name: 'actor 3',
       avatar: {
         id: 'a3',
         url: 'u3',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: now,
+        updatedAt: now,
       },
       bornOn: null,
       diedOn: null,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: now,
+      updatedAt: now,
     };
 
     axiosMock.request.mockResolvedValue({ data: { data: actor3 } });
@@ -105,19 +106,20 @@ describe('GetResourceClient (consolidated)', () => {
     axiosMock.request.mockResolvedValue({ data: { data: { id: '1' } } });
     await expect(throwTE(api2.Actor.Get({ Params: { id: '1' } }))).rejects.toBeInstanceOf(IOError);
 
+    const now2 = new Date();
     const actor1 = {
       id: '1',
       name: 'actor 1',
       avatar: {
         id: 'a1',
         url: 'u1',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: now2,
+        updatedAt: now2,
       },
       bornOn: null,
       diedOn: null,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: now2,
+      updatedAt: now2,
     };
     axiosMock.request.mockResolvedValue({ data: { data: actor1 } });
     await throwTE(api.Actor.Get({ Params: { id: '1' } }));

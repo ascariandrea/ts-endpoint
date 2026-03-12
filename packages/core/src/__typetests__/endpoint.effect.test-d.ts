@@ -1,6 +1,12 @@
 import { Schema } from 'effect';
+import { type Option } from 'effect/Option';
 import { assertType, expectTypeOf, test } from 'vitest';
-import { Endpoint, type EndpointInstanceEncodedParams } from '../Endpoint.js';
+import {
+  Endpoint,
+  type BodyInput,
+  type EndpointInstanceEncodedParams,
+  type TypeOfEndpointInstanceInput,
+} from '../Endpoint.js';
 
 const endpointInstance = Endpoint({
   Input: {
@@ -62,6 +68,37 @@ const endpointWithBody = Endpoint({
   Input: { Body: Schema.Struct({ id: Schema.Number }) },
 });
 
+const endpointWithFilteredBody = Endpoint({
+  Method: 'PATCH',
+  getPath: () => `users/update`,
+  Output: Schema.Struct({ ok: Schema.Boolean }),
+  Input: {
+    Body: Schema.Struct({ name: Schema.String, age: Schema.Number }).pipe(
+      Schema.filter((s) => s.name.length > 0)
+    ),
+  },
+});
+
+/**
+ * Mimics lies-exposed EditGroupBody: a PUT endpoint whose Body fields are
+ * wrapped in OptionFromNullishOr (Schema.OptionFromNullishOr / OptionFromNullishToNull).
+ * TypeOfEndpointInstanceInput should expose the *encoded* (wire) types —
+ * i.e. `string | null | undefined`, NOT `Option<string>`.
+ */
+const endpointWithOptionBody = Endpoint({
+  Method: 'PUT',
+  getPath: ({ id }) => `groups/${id}`,
+  Output: Schema.Struct({ ok: Schema.Boolean }),
+  Input: {
+    Params: Schema.Struct({ id: Schema.String }),
+    Body: Schema.Struct({
+      name: Schema.OptionFromNullishOr(Schema.String, null),
+      color: Schema.OptionFromNullishOr(Schema.String, null),
+      startDate: Schema.OptionFromNullishOr(Schema.Date, null),
+    }),
+  },
+});
+
 test('Should match the types', () => {
   expectTypeOf(endpointInstance.Input.Params.fields.id).toEqualTypeOf<typeof Schema.String>();
 
@@ -110,4 +147,35 @@ test('Should match the types', () => {
   assertType<EndpointInstanceEncodedParams<typeof endpointWithBody>['Input']['Body']>({
     id: 1,
   });
+
+  // BodyInput strips filter/brand wrappers from Body, giving a plain Partial of the serialized type.
+  // This allows callers to construct the payload without a cast even when the server uses a
+  // filter-constrained schema (e.g. nonEmptyRecordFromType).
+  assertType<BodyInput<typeof endpointWithFilteredBody>>({ name: 'Alice' });
+  assertType<BodyInput<typeof endpointWithFilteredBody>>({ age: 30 });
+  assertType<BodyInput<typeof endpointWithFilteredBody>>({});
+  expectTypeOf<BodyInput<typeof endpointWithFilteredBody>>().toMatchObjectType<
+    Partial<{ readonly name: string; readonly age: number }>
+  >();
+
+  // BodyInput returns `never` when the endpoint has no Body
+  expectTypeOf<BodyInput<typeof endpointInstance>>().toEqualTypeOf<never>();
+
+  // --- lies-exposed scenario ---
+  // Body with OptionFromNullishOr fields: TypeOfEndpointInstanceInput must give the
+  // *encoded* (wire) form — `string | null | undefined` — NOT `Option<string>`.
+  // This is the exact pattern that was broken before the fix.
+  type EditInput = TypeOfEndpointInstanceInput<typeof endpointWithOptionBody>;
+  expectTypeOf<EditInput['Body']['name']>().toEqualTypeOf<string | null | undefined>();
+  expectTypeOf<EditInput['Body']['color']>().toEqualTypeOf<string | null | undefined>();
+  // Schema.Date encodes to string on the wire
+  expectTypeOf<EditInput['Body']['startDate']>().toEqualTypeOf<string | null | undefined>();
+
+  // A plain object with encoded values must be assignable without a cast
+  assertType<EditInput>({
+    Params: { id: '1' },
+    Body: { name: 'Alice', color: null, startDate: undefined },
+  });
+  // Option<string> must NOT be assignable (that was the bug)
+  expectTypeOf<EditInput['Body']['name']>().not.toEqualTypeOf<Option<string>>();
 });
