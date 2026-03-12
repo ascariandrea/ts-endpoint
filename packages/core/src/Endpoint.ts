@@ -248,9 +248,7 @@ export type TypeOfEndpointInstanceInput<E extends MinimalEndpointInstance> = [
   ? void
   : {
       [K in keyof NonNullable<E['Input']>]: NonNullable<E['Input']>[K] extends Codec<any, any>
-        ? K extends 'Query'
-          ? UndefinedsToPartial<serializedType<NonNullable<E['Input']>[K]>>
-          : UndefinedsToPartial<runtimeType<NonNullable<E['Input']>[K]>>
+        ? UndefinedsToPartial<serializedType<NonNullable<E['Input']>[K]>>
         : never;
     };
 
