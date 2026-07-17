@@ -38,7 +38,8 @@
     "@ts-endpoint/test": "workspace:*"
   },
   "dependencies": {
-    "@ts-endpoint/core": "workspace:^"
+    "@ts-endpoint/core": "workspace:^",
+    "@ts-endpoint/resource-client": "workspace:^"
   },
   "peerDependencies": {
     "axios": "^1",

@@ -1,5 +1,5 @@
+import { toIOError } from '@ts-endpoint/resource-client';
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
-import * as E from 'fp-ts/lib/Either.js';
 import * as Task from 'fp-ts/lib/Task.js';
 import * as TE from 'fp-ts/lib/TaskEither.js';
 import { pipe } from 'fp-ts/lib/function.js';
@@ -45,7 +45,7 @@ export interface APIRESTClient {
 
 const liftClientRequest = <T>(promiseL: () => Promise<AxiosResponse<T>>): Task.Task<T> => {
   return pipe(
-    TE.tryCatch(promiseL, E.toError),
+    TE.tryCatch(promiseL, toIOError),
     TE.map((r) => r.data),
     TE.fold(
       (e) => () => {
