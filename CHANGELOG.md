@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.1.0 (2026-07-17)
+
+
+### Miscellaneous Chores
+
+* added AGENTS.md ([15d2f84](https://github.com/ascariandrea/ts-endpoint/commit/15d2f840342e71a12771aa18d6f0cd2b6466d648))
+* added examples to workspace ([#29](https://github.com/ascariandrea/ts-endpoint/issues/29)) ([80ff6f7](https://github.com/ascariandrea/ts-endpoint/commit/80ff6f739ec5d4fa0e3d75cb959aaa16e05c2769))
+* added missing spec and type tests ([#35](https://github.com/ascariandrea/ts-endpoint/issues/35)) ([6ec0586](https://github.com/ascariandrea/ts-endpoint/commit/6ec05863f411f8e144fae7ec0d3a899840d7f4b4))
+* bump all packages to v0.1.0 for initial release ([7444b20](https://github.com/ascariandrea/ts-endpoint/commit/7444b2097deba3f97b8bd856802974b7f47ec17c))
+* bump node to v22 ([ce1567d](https://github.com/ascariandrea/ts-endpoint/commit/ce1567da7e68720af524853c98c1918dbbdab1d7))
+* bump vitest from 3.1.1 to 4.0.18 ([#34](https://github.com/ascariandrea/ts-endpoint/issues/34)) ([b17d3e5](https://github.com/ascariandrea/ts-endpoint/commit/b17d3e531c60b32f8edeebee7bccec90413287e4))
+* defined code quality workflow ([6ad992b](https://github.com/ascariandrea/ts-endpoint/commit/6ad992b7a35238dc369b5cacd84b65e45d5cac46))
+* eslint setup ([#27](https://github.com/ascariandrea/ts-endpoint/issues/27)) ([40c9bc8](https://github.com/ascariandrea/ts-endpoint/commit/40c9bc8c5b3064a934da2b2ef8997fe3a14679b6))
+* migrate to docusaurus 3 ([#28](https://github.com/ascariandrea/ts-endpoint/issues/28)) ([d21e086](https://github.com/ascariandrea/ts-endpoint/commit/d21e0868b1881d6b351878324fdabdd688591da1))
+* run only test changed since last commit on pre-push ([15ab85b](https://github.com/ascariandrea/ts-endpoint/commit/15ab85b6df2bb84e96ce59e7baac2cbadde831b6))
+* set 0.0.0 baseline for initial 0.1.0 release ([293b492](https://github.com/ascariandrea/ts-endpoint/commit/293b492d050be344cec3ace1b654254b8192374e))
+* set release-please bootstrap commit sha ([ce61e1e](https://github.com/ascariandrea/ts-endpoint/commit/ce61e1e141a6bdfce96be9a08a89a8ccacb614eb))
+* setup dependabot for both npm and actions ecosystems ([#33](https://github.com/ascariandrea/ts-endpoint/issues/33)) ([a8679b8](https://github.com/ascariandrea/ts-endpoint/commit/a8679b823ee8a3129d2dc178bdd31b9fcccfe6c3))
+* setup publish on NPM on release ([#32](https://github.com/ascariandrea/ts-endpoint/issues/32)) ([7c9ab1f](https://github.com/ascariandrea/ts-endpoint/commit/7c9ab1fa43e3559f31fb3a71d9861a7952840491))
+* support both express 4 and 5 ([656a244](https://github.com/ascariandrea/ts-endpoint/commit/656a244e890c354ebd377e1a15cb8f19b17d13a6))
+* update all references to old packages ([f57d3df](https://github.com/ascariandrea/ts-endpoint/commit/f57d3dfd94ace1b7748145c281f015f93eb462dd))
+* update commitlint and husky to latest versions ([4411140](https://github.com/ascariandrea/ts-endpoint/commit/4411140ca0198286467cca4c642a214af9ca8647))
+
+
+### Bug Fixes
+
+* parametric decode function for endpoint implementations ([9324e71](https://github.com/ascariandrea/ts-endpoint/commit/9324e719ebc0c4b5379f6e1afeda00a08dcd104b))
+* preserve axios response status in error handling ([#39](https://github.com/ascariandrea/ts-endpoint/issues/39)) ([2834969](https://github.com/ascariandrea/ts-endpoint/commit/2834969ce9a375471c7e231f7680fd4564617dbe))
+* **tanstack-query:** remove react-admin dependency for use query params ([65341d5](https://github.com/ascariandrea/ts-endpoint/commit/65341d5e7e0d02dfc391478bdc9713952a1aaac8))
+
 ## [1.0.0](https://github.com/ascariandrea/ts-endpoint/compare/root@1.0.0) (2026-07-17)
 
 ### Features
