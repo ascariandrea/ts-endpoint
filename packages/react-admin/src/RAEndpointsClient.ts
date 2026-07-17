@@ -34,7 +34,7 @@ const toError = (e: unknown): IOError => {
   if (isAxiosError(e)) {
     return new IOError(e.message, {
       kind: 'ClientError',
-      status: e.response?.statusText ?? '500',
+      status: e.response?.status != null ? String(e.response.status) : '500',
       meta: e.response?.data,
     });
   }

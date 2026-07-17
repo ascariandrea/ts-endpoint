@@ -13,6 +13,7 @@ import {
 } from '@ts-endpoint/core';
 import { type GetHTTPClientOptions } from '@ts-endpoint/http-client';
 import type { AxiosInstance, AxiosResponse } from 'axios';
+import { isAxiosError } from 'axios';
 import * as A from 'fp-ts/lib/Array.js';
 import * as R from 'fp-ts/lib/Record.js';
 import * as TE from 'fp-ts/lib/TaskEither.js';
@@ -68,7 +69,33 @@ export const liftFetch = <A, B>(
   return pipe(
     TE.tryCatch(
       lp,
-      (e) => new IOError('Error lifting fetch', { kind: 'NetworkError', status: '500', meta: e })
+      (e) => {
+        if (isAxiosError(e)) {
+          return new IOError(e.message, {
+            kind: 'ClientError',
+            status: e.response?.status != null ? String(e.response.status) : '500',
+            meta: e.response?.data,
+          });
+        }
+
+        if (e instanceof IOError) {
+          return e;
+        }
+
+        if (e instanceof Error) {
+          return new IOError(e.message, {
+            kind: 'ClientError',
+            status: '500',
+            meta: e,
+          });
+        }
+
+        return new IOError('Unknown error', {
+          kind: 'ClientError',
+          status: '500',
+          meta: e,
+        });
+      }
     ),
     TE.map((d) => d.data),
     TE.chainEitherKW(decode)
