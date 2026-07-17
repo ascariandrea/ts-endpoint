@@ -15,3 +15,5 @@ coverage
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+ts-endpoint.code-workspace
