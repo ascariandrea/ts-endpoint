@@ -47,7 +47,7 @@ export interface Endpoint<
         Query?: Q;
         Body?: M extends 'POST' | 'PUT' | 'PATCH' | 'DELETE' ? B : never;
       };
-  Output: O extends StreamOutputCodec<infer A, infer B> ? StreamOutputCodec<A, B> : O;
+  Output: O;
 }
 
 export type MinimalEndpoint = Omit<

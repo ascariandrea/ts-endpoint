@@ -147,18 +147,27 @@ export const GetEndpointSubscriber =
             return next(e);
           },
           (httpResponse: any) => {
-            if (httpResponse.headers !== undefined) {
-              res.set(httpResponse.headers);
-            }
-
-            // Check if this is a streaming response
+            // Set default stream headers first so user headers can override them
             if ('stream' in httpResponse) {
               const streamResponse = httpResponse as HTTPStreamResponse;
               res.status(streamResponse.statusCode);
-              res.setHeaders(DEFAULT_STREAM_HEADERS_MAP);
+              for (const [key, value] of DEFAULT_STREAM_HEADERS_MAP) {
+                res.set(key, value);
+              }
+              if (streamResponse.headers !== undefined) {
+                res.set(streamResponse.headers);
+              }
               streamResponse.stream.pipe(res);
+              streamResponse.stream.on('error', (err) => {
+                if (!res.headersSent) {
+                  res.status(500).send(String(err));
+                }
+              });
             } else {
               const regularResponse = httpResponse as HTTPResponse<any>;
+              if (regularResponse.headers !== undefined) {
+                res.set(regularResponse.headers);
+              }
               res.status(regularResponse.statusCode).send(regularResponse.body);
             }
           }
