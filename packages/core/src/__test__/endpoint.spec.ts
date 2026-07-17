@@ -1,5 +1,6 @@
 import { Schema } from 'effect';
 import { describe, expect, it } from 'vitest';
+import { StreamOutput } from '../Codec.js';
 import { Endpoint } from '../Endpoint.js';
 
 describe('Endpoint', () => {
@@ -42,5 +43,31 @@ describe('Endpoint', () => {
       getPath: () => `users/crayons`,
       Output: Schema.Struct({ crayons: Schema.Array(Schema.String) }),
     });
+  });
+
+  it('creates an endpoint with Stream output', () => {
+    const streamEndpoint = Endpoint({
+      Input: {
+        Params: Schema.Struct({ id: Schema.Number }),
+      },
+      Method: 'GET',
+      getPath: ({ id }) => `users/${id.toString()}/stream`,
+      Output: StreamOutput(Schema.String),
+    });
+
+    expect(streamEndpoint.Output.__isStreamOutput).toBe(true);
+  });
+
+  it('creates an endpoint with Stream property set to false', () => {
+    const nonStreamEndpoint = Endpoint({
+      Input: {
+        Params: Schema.Struct({ id: Schema.Number }),
+      },
+      Method: 'GET',
+      getPath: ({ id }) => `users/${id.toString()}/data`,
+      Output: Schema.Struct({ data: Schema.String }),
+    });
+
+    expect((nonStreamEndpoint.Output as any).__isStreamOutput).toBeUndefined();
   });
 });

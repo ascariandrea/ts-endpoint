@@ -3,13 +3,13 @@ import {
   type EndpointInstance,
   type EndpointOutputType,
   type EndpointParamsType,
-  type EndpointQueryEncoded,
   type EndpointsMapType,
   type InferEndpointParams,
   type IOError,
   type MinimalEndpoint,
   type MinimalEndpointInstance,
   type PartialSerializedType,
+  type serializedType,
   type TypeOfEndpointInstanceInput,
 } from '@ts-endpoint/core';
 import { throwTE } from '@ts-endpoint/core/lib/utils.js';
@@ -75,6 +75,7 @@ const toGetResourceQuery = <G extends MinimalEndpointInstance>(
 ): ResourceQuery<
   EndpointParamsType<G>,
   PartialSerializedType<InferEndpointParams<G>['query']>,
+  PartialSerializedType<InferEndpointParams<G>['query']>,
   EndpointOutputType<G>
 > => {
   const getKey = override?.getKey ?? getDefaultKey(key);
@@ -88,7 +89,12 @@ const toGetResourceQuery = <G extends MinimalEndpointInstance>(
   return {
     getKey,
     fetch,
-    useQuery: (p, q, d, prefix) => {
+    useQuery: (
+      p: EndpointParamsType<G>,
+      q?: PartialSerializedType<InferEndpointParams<G>['query']>,
+      d?: boolean,
+      prefix?: string
+    ) => {
       const qKey = getKey(p, q, d, prefix);
       return useQuery({
         queryKey: qKey,
@@ -101,33 +107,41 @@ const toGetResourceQuery = <G extends MinimalEndpointInstance>(
 export const toGetListResourceQuery = <L extends MinimalEndpointInstance>(
   getListFn: EndpointRequest<L>,
   key: string,
-  override?: GetQueryOverride<EndpointParamsType<L>, Partial<EndpointQueryEncoded<L>>>
+  override?: GetQueryOverride<EndpointParamsType<L>, any>
 ): ResourceQuery<
   EndpointParamsType<L>,
-  Partial<EndpointQueryEncoded<L>>,
+  any,
+  Partial<serializedType<InferEndpointParams<L>['query']>>,
   EndpointOutputType<L>
 > => {
   const getKey: GetKeyFn<
     EndpointParamsType<L>,
-    Partial<EndpointQueryEncoded<L>>
+    Partial<serializedType<InferEndpointParams<L>['query']>>
   > = override?.getKey ?? getDefaultKey(key);
 
   const fetch: QueryPromiseFunction<
     EndpointParamsType<L>,
-    Partial<EndpointQueryEncoded<L>>,
+    Partial<serializedType<InferEndpointParams<L>['query']>>,
     EndpointOutputType<L>
-  > = fetchQuery<EndpointParamsType<L>, Partial<EndpointQueryEncoded<L>>, EndpointOutputType<L>>(
-    (p, q) => {
-      return getListFn({
-        Params: p,
-        Query: q,
-      } as TypeOfEndpointInstanceInput<L>);
-    }
-  );
+  > = fetchQuery<
+    EndpointParamsType<L>,
+    Partial<serializedType<InferEndpointParams<L>['query']>>,
+    EndpointOutputType<L>
+  >((p, q) => {
+    return getListFn({
+      Params: p,
+      Query: q,
+    } as TypeOfEndpointInstanceInput<L>);
+  });
   return {
     getKey,
     fetch,
-    useQuery: (p, q, d, prefix) => {
+    useQuery: (
+      p: EndpointParamsType<L>,
+      q?: Partial<serializedType<InferEndpointParams<L>['query']>>,
+      d?: boolean,
+      prefix?: string
+    ) => {
       const qKey = getKey(p, q, d, prefix);
 
       return useQuery({

@@ -103,6 +103,7 @@ export interface ActorSiblingsOverrideQueries {
     GetSiblings: ResourceQuery<
       EndpointParamsType<typeof TestEndpoints.Actor.Custom.GetSiblings>,
       undefined,
+      undefined,
       EndpointOutputType<typeof TestEndpoints.Actor.List>
     >;
   };

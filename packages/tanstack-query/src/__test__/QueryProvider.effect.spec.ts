@@ -89,8 +89,8 @@ describe('QueryProvider', () => {
 
     expect(Q.Actor.list).toBeDefined();
     const query = {
-      _end: 1,
-      _start: 0,
+      _end: '1',
+      _start: '0',
       ids: ['1'],
     };
     const actorKey = Q.Actor.list.getKey(undefined, query);
@@ -105,8 +105,8 @@ describe('QueryProvider', () => {
       },
       params: {
         ids: ['1'],
-        _end: 1,
-        _start: 0,
+        _end: '1',
+        _start: '0',
       },
       data: undefined,
       responseType: 'json',
@@ -116,6 +116,19 @@ describe('QueryProvider', () => {
       data: actorList.map(toExpectedActor),
       total: 2,
     });
+  });
+
+  it('accepts serialized query params for list', async () => {
+    const actorList: any[] = [];
+    axiosMock.request.mockResolvedValue({ data: { data: actorList, total: 0 } });
+
+    // passing encoded (string) values instead of runtime numbers should be allowed
+    const q = { _end: '1', _start: '0', ids: ['1'] };
+
+    const res = await Q.Actor.list.fetch(undefined, q as any);
+
+    expect(axiosMock.request).toHaveBeenCalled();
+    expect(res).toMatchObject({ data: actorList, total: 0 });
   });
 
   it('should have Actor Custom Query', async () => {

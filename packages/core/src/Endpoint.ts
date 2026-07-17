@@ -16,6 +16,7 @@ import {
   type serializedType,
   type UndefinedsToPartial,
 } from './Codec.js';
+import type { StreamOutputCodec } from './Codec.js';
 import { addSlash } from './helpers.js';
 
 export type HTTPMethod = 'OPTIONS' | 'HEAD' | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -156,6 +157,7 @@ export type EndpointInstance<E extends MinimalEndpoint> = {
  * Constructor function for an endpoint
  * @returns an EndpointInstance
  */
+
 export function Endpoint<
   M extends HTTPMethod,
   O extends Codec<any, any>,
@@ -200,6 +202,10 @@ export function Endpoint<
     },
     Output: e.Output,
     ...(e.Errors ? { Errors: e.Errors } : {}),
+    // If the caller explicitly provided a `Stream` flag, respect it.
+    // Otherwise detect the `StreamOutput` codec marker and set `Stream: true`.
+    // Detect the StreamOutput codec at runtime and set Stream:true when present.
+    ...((e.Output as any)?.__isStreamOutput === true ? { Stream: true } : {}),
     Input: {
       ...(e.Input?.Body ? { Body: e.Input.Body } : {}),
       ...(e.Input?.Headers ? { Headers: e.Input.Headers } : {}),
@@ -251,12 +257,12 @@ export type TypeOfEndpointInstance<E extends MinimalEndpointInstance> = {
   getStaticPath: E['getStaticPath'];
   Method: E['Method'];
   Input: TypeOfEndpointInstanceInput<E>;
-  Output: serializedType<E['Output']>;
+  Output: runtimeType<E['Output']>;
   Errors: {
     [K in keyof NonNullable<E['Errors']>]: NonNullable<E['Errors']>[K] extends RecordCodec<any>
       ? RecordCodecSerialized<NonNullable<E['Errors']>[K]>
       : NonNullable<E['Errors']>[K] extends Codec<any, any>
-        ? serializedType<NonNullable<E['Errors']>[K]>
+        ? runtimeType<NonNullable<E['Errors']>[K]>
         : never;
   };
 };
@@ -287,7 +293,10 @@ export type EndpointInstanceEncodedParams<E extends MinimalEndpointInstance> = {
 export type InferEndpointInstanceParams<EI> =
   EI extends EndpointInstance<infer E> ? InferEndpointParams<E> : never;
 
-export type EndpointOutputType<L> = runtimeType<InferEndpointInstanceParams<L>['output']>;
+export type EndpointOutputType<L> =
+  InferEndpointInstanceParams<L>['output'] extends StreamOutputCodec<any, any>
+    ? NodeJS.ReadableStream
+    : runtimeType<InferEndpointInstanceParams<L>['output']>;
 
 export type EndpointDataOutputType<L, K extends string = 'data'> = L extends MinimalEndpointInstance
   ? InferEndpointInstanceParams<L>['output'] extends Codec<any, any>
@@ -314,8 +323,8 @@ export type EndpointParamsType<G> = G extends MinimalEndpointInstance
   : never;
 
 export type EndpointQueryEncoded<L> = L extends MinimalEndpointInstance
-  ? runtimeType<InferEndpointInstanceParams<L>['query']>
-  : runtimeType<InferEndpointParams<L>['query']>;
+  ? serializedType<InferEndpointInstanceParams<L>['query']>
+  : serializedType<InferEndpointParams<L>['query']>;
 
 type DecodeUnknown<C, E> = (e: unknown, overrideOptions?: any) => Either<E, EncodedType<C>>;
 

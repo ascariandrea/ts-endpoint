@@ -32,7 +32,7 @@ export interface ValidationError {
 // Codec
 // -------------------------------------------------------------------------------------
 
-export type EffectCodec<A, B = A, R = never> = {
+export type EffectCodec<A, B = A, R = any> = {
   Type: A;
   Encoded: B;
   Context: R;
@@ -47,7 +47,23 @@ export interface IOTSCodec<A, B> {
   name: string;
 }
 
-export type Codec<A, B = A, R = never> = EffectCodec<A, B, R> | IOTSCodec<A, B>;
+export type Codec<A, B = A, R = any> = EffectCodec<A, B, R> | IOTSCodec<A, B>;
+
+// A special codec that marks an endpoint output as a streaming response.
+// Runtime-wise it behaves as a passthrough codec for unknown data, but
+// carries a marker property so the `Endpoint` constructor can detect
+// streaming outputs and set the `Stream` flag accordingly.
+export const StreamOutput = <A, B = A>(
+  codec: Codec<A, B>
+): Codec<A, B> & { __isStreamOutput: true } => {
+  return {
+    ...codec,
+    name: 'StreamOutput',
+    __isStreamOutput: true,
+  };
+};
+
+export type StreamOutputCodec<A, B = A> = Codec<A, B> & { __isStreamOutput: true };
 
 export type InferCodec<C> =
   C extends IOTSRecordCodec<infer A, infer B>

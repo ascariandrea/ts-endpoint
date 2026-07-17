@@ -23,7 +23,7 @@ type PatchedQueryProvider<
     ? {
         Custom: {
           [KK in keyof CC]: CC[KK] extends CustomQueryOverride<ES, infer P, infer Q, infer O>
-            ? ResourceQuery<P, Q, O>
+            ? ResourceQuery<P, unknown, Q, O>
             : GetQueryProviderImplAt<ES, K, KK>;
         };
       }

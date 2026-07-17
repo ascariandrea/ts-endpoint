@@ -14,6 +14,9 @@ const App: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
   const [validationError, setValidationError] = React.useState<O.Option<string>>(O.none);
   const [response, setResponse] = React.useState<O.Option<APIResult>>(O.none);
+  const [streaming, setStreaming] = React.useState(false);
+  const [streamChunks, setStreamChunks] = React.useState<string[]>([]);
+  const streamAbortRef = React.useRef<AbortController | null>(null);
 
   return (
     <div
@@ -77,7 +80,7 @@ const App: React.FC = () => {
       <div style={{ height: '100%' }}>
         <h3 style={{ textAlign: 'center' }}>Responses:</h3>
         <div>
-          {pipe(
+        {pipe(
             response,
             O.fold(
               () => <span>there is no data to show yet!</span>,
@@ -121,6 +124,87 @@ const App: React.FC = () => {
             (ID) => <TanstackQueryOutput id={ID} />
           )
         )}
+        <div style={{ marginTop: 30 }}>
+          <h3>Stream demo</h3>
+          <div style={{ marginBottom: 8 }}>
+            <button
+              disabled={streaming}
+              onClick={async () => {
+                setStreamChunks([]);
+                setStreaming(true);
+                const controller = new AbortController();
+                streamAbortRef.current = controller;
+
+                try {
+                  const result = await apiClient.streamUsers()();
+                  if (E.isLeft(result)) {
+                    // handle error by stopping stream
+                    setStreaming(false);
+                    streamAbortRef.current = null;
+                    return;
+                  }
+
+                  const stream = result.right as any;
+
+                  // Web ReadableStream
+                  if (stream && typeof stream.getReader === 'function') {
+                    const reader = stream.getReader();
+                    const decoder = new TextDecoder();
+
+                    // eslint-disable-next-line no-constant-condition
+                    while (true) {
+                      const { done, value } = await reader.read();
+                      if (done) break;
+                      if (value) {
+                        const chunk = decoder.decode(value, { stream: true });
+                        setStreamChunks((c) => [...c, chunk]);
+                      }
+                    }
+                  } else if (stream && typeof stream[Symbol.asyncIterator] === 'function') {
+                    // Async-iterable (Node stream with async iterator)
+                    const decoder = new TextDecoder();
+                    for await (const chunk of stream) {
+                      const s = typeof chunk === 'string' ? chunk : decoder.decode(chunk, { stream: true });
+                      setStreamChunks((c) => [...c, s]);
+                    }
+                  } else if (stream && typeof stream.on === 'function') {
+                    // Node-style stream events
+                    const decoder = new TextDecoder();
+                    await new Promise<void>((resolve) => {
+                      stream.on('data', (chunk: any) => {
+                        const s = typeof chunk === 'string' ? chunk : decoder.decode(chunk, { stream: true });
+                        setStreamChunks((c) => [...c, s]);
+                      });
+                      stream.on('end', () => resolve());
+                      stream.on('close', () => resolve());
+                    });
+                  }
+                } catch (e) {
+                  // abort or network error
+                } finally {
+                  setStreaming(false);
+                  streamAbortRef.current = null;
+                }
+              }}
+            >
+              {streaming ? 'streaming...' : 'Start stream demo'}
+            </button>
+
+            <button
+              style={{ marginLeft: 8 }}
+              disabled={!streaming}
+              onClick={() => {
+                streamAbortRef.current?.abort();
+              }}
+            >
+              Stop
+            </button>
+          </div>
+
+          <div style={{ whiteSpace: 'pre-wrap', border: '1px solid #ddd', padding: 8 }}>
+            {streamChunks.length === 0 ? <em>No stream data yet</em> : streamChunks.join('')}
+          </div>
+        </div>
       </div>
     </div>
   );

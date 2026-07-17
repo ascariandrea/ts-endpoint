@@ -2,7 +2,6 @@ import { type UseQueryResult } from '@tanstack/react-query';
 import {
   type EndpointOutputType,
   type EndpointParamsType,
-  type EndpointQueryEncoded,
   type EndpointsMapType,
   type InferEndpointInstanceParams,
   type InferEndpointParams,
@@ -28,10 +27,10 @@ export type QueryPromiseFunction<P, Q, A> = (
   discrete?: boolean
 ) => Promise<A>;
 
-export interface ResourceQuery<P, Q, A> {
-  getKey: GetKeyFn<P, Q>;
-  fetch: QueryPromiseFunction<P, Q, A>;
-  useQuery: (p: P, q?: Q, discrete?: boolean, prefix?: string) => UseQueryResult<A, IOError>;
+export interface ResourceQuery<P, QK, QF, A> {
+  getKey: GetKeyFn<P, QK>;
+  fetch: QueryPromiseFunction<P, QF, A>;
+  useQuery: (p: P, q?: QF, discrete?: boolean, prefix?: string) => UseQueryResult<A, IOError>;
 }
 
 export interface ResourceQueries<
@@ -42,11 +41,13 @@ export interface ResourceQueries<
   get: ResourceQuery<
     EndpointParamsType<G>,
     PartialSerializedType<InferEndpointParams<G>['query']>,
+    PartialSerializedType<InferEndpointParams<G>['query']>,
     EndpointOutputType<G>
   >;
   list: ResourceQuery<
     EndpointParamsType<L>,
-    Partial<EndpointQueryEncoded<L>>,
+    any,
+    Partial<serializedType<InferEndpointParams<L>['query']>>,
     EndpointOutputType<L>
   >;
   Custom: CC extends Record<string, MinimalEndpointInstance>
@@ -55,6 +56,7 @@ export interface ResourceQueries<
           runtimeType<InferEndpointInstanceParams<CC[K]>['params']> extends never
             ? undefined
             : runtimeType<InferEndpointInstanceParams<CC[K]>['params']>,
+          Partial<serializedType<InferEndpointInstanceParams<CC[K]>['query']>>,
           Partial<serializedType<InferEndpointInstanceParams<CC[K]>['query']>>,
           EndpointOutputType<CC[K]>
         >;
