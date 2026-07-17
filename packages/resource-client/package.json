@@ -1,6 +1,6 @@
 {
   "name": "@ts-endpoint/resource-client",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Axios client from structured resource endpoints.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

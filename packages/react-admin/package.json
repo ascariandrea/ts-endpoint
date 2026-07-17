@@ -1,6 +1,6 @@
 {
   "name": "@ts-endpoint/react-admin",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Simple endpoint definition for fullstack safety.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

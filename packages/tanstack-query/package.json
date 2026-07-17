@@ -1,6 +1,6 @@
 {
   "name": "@ts-endpoint/tanstack-query",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Derive Tanstask Query definitions from Endpoints.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

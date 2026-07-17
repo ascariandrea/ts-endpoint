@@ -1,6 +1,6 @@
 {
   "name": "@ts-endpoint/express",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Adds typesafe endpoints to your express app.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
