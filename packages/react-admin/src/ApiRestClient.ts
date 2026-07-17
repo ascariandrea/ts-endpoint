@@ -1,5 +1,5 @@
-import axios, { isAxiosError, type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
-import { IOError } from '@ts-endpoint/core';
+import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
+import { toIOError } from '@ts-endpoint/resource-client';
 import * as Task from 'fp-ts/lib/Task.js';
 import * as TE from 'fp-ts/lib/TaskEither.js';
 import { pipe } from 'fp-ts/lib/function.js';
@@ -42,34 +42,6 @@ export interface APIRESTClient {
   ) => Promise<RA.DeleteResult<R>>;
   deleteMany: (resource: string, params: RA.DeleteManyParams) => Promise<RA.DeleteManyResult>;
 }
-
-const toIOError = (e: unknown): IOError => {
-  if (isAxiosError(e)) {
-    return new IOError(e.message, {
-      kind: 'ClientError',
-      status: e.response?.status != null ? String(e.response.status) : '500',
-      meta: e.response?.data,
-    });
-  }
-
-  if (e instanceof IOError) {
-    return e;
-  }
-
-  if (e instanceof Error) {
-    return new IOError(e.message, {
-      kind: 'ClientError',
-      status: '500',
-      meta: e,
-    });
-  }
-
-  return new IOError('Unknown error', {
-    kind: 'ClientError',
-    status: '500',
-    meta: e,
-  });
-};
 
 const liftClientRequest = <T>(promiseL: () => Promise<AxiosResponse<T>>): Task.Task<T> => {
   return pipe(

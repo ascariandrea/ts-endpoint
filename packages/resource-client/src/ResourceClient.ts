@@ -62,41 +62,40 @@ export type API<Endpoints extends EndpointsMapType> = {
     : never;
 };
 
+export const toIOError = (e: unknown): IOError => {
+  if (isAxiosError(e)) {
+    return new IOError(e.message, {
+      kind: 'ClientError',
+      status: e.response?.status != null ? String(e.response.status) : '500',
+      meta: e.response?.data,
+    });
+  }
+
+  if (e instanceof IOError) {
+    return e;
+  }
+
+  if (e instanceof Error) {
+    return new IOError(e.message, {
+      kind: 'ClientError',
+      status: '500',
+      meta: e,
+    });
+  }
+
+  return new IOError('Unknown error', {
+    kind: 'ClientError',
+    status: '500',
+    meta: e,
+  });
+};
+
 export const liftFetch = <A, B>(
   lp: () => Promise<AxiosResponse<A>>,
   decode: EitherDecode<B, IOError>
 ): TE.TaskEither<IOError, B> => {
   return pipe(
-    TE.tryCatch(
-      lp,
-      (e) => {
-        if (isAxiosError(e)) {
-          return new IOError(e.message, {
-            kind: 'ClientError',
-            status: e.response?.status != null ? String(e.response.status) : '500',
-            meta: e.response?.data,
-          });
-        }
-
-        if (e instanceof IOError) {
-          return e;
-        }
-
-        if (e instanceof Error) {
-          return new IOError(e.message, {
-            kind: 'ClientError',
-            status: '500',
-            meta: e,
-          });
-        }
-
-        return new IOError('Unknown error', {
-          kind: 'ClientError',
-          status: '500',
-          meta: e,
-        });
-      }
-    ),
+    TE.tryCatch(lp, toIOError),
     TE.map((d) => d.data),
     TE.chainEitherKW(decode)
   );
