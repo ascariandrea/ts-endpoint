@@ -17,3 +17,4 @@ coverage
 !.yarn/versions
 
 ts-endpoint.code-workspace
+.codegraph/
